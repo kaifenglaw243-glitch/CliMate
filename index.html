@@ -1,42 +1,4167 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  CSS
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MedMY O&G — Malaysian Clinical Companion</title>
+
+<style>
+:root{
+  --bg:#f6f7fb;
+  --card:#fff;
+  --text:#18202a;
+  --muted:#667085;
+  --line:#e5e7eb;
+  --accent:#2563eb;
+  --danger:#dc2626;
+  --ok:#15803d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+button,input{font:inherit}
+.top{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:12px 14px
+}
+.brand{font-weight:800;font-size:20px}
+.sub{color:var(--muted);font-size:12px}
+.search{
+  margin-top:10px;
+  display:flex;
+  gap:8px
+}
+.search input{
+  flex:1;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 13px;
+  background:#fff
+}
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:14px
+}
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:4px 0 12px
+}
+.tab{
+  white-space:nowrap;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:999px;
+  padding:8px 12px;
+  cursor:pointer
+}
+.tab.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent)
+}
+.hero{
+  background:linear-gradient(135deg,#111827,#334155);
+  color:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:14px
+}
+.hero h1{
+  margin:0 0 5px;
+  font-size:26px
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:12px
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  cursor:pointer;
+  transition:.15s
+}
+.card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 24px #00000010
+}
+.tag{
+  display:inline-block;
+  font-size:11px;
+  background:#eef2ff;
+  color:#3730a3;
+  border-radius:999px;
+  padding:4px 8px;
+  margin-bottom:8px
+}
+.card h3{
+  font-size:16px;
+  margin:2px 0 6px
+}
+.muted{color:var(--muted)}
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin:10px 0
+}
+.btn{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  padding:8px 11px;
+  cursor:pointer
+}
+.topic{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px
+}
+.topic h1{margin-top:0}
+.section{
+  border-top:1px solid var(--line);
+  padding:14px 0
+}
+.section h3{
+  margin:0 0 7px
+}
+.why{color:#475467}
+.flow{
+  background:#f8fafc;
+  border-left:4px solid var(--accent);
+  padding:12px;
+  border-radius:8px
+}
+.pearl{
+  background:#fff7ed;
+  border-left:4px solid #f97316;
+  padding:12px;
+  border-radius:8px
+}
+.warn{
+  background:#fef2f2;
+  border-left:4px solid var(--danger);
+  padding:12px;
+  border-radius:8px
+}
+.ref{
+  font-size:12px;
+  color:var(--muted)
+}
+.bottom{
+  position:sticky;
+  bottom:0;
+  background:#fff;
+  border-top:1px solid var(--line);
+  padding:8px;
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:20px
+}
+.stat{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px
+}
+.stat div{
+  background:#ffffff14;
+  padding:10px;
+  border-radius:10px
+}
+.stat b{
+  display:block;
+  font-size:18px
+}
+.two{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px
+}
+.badge{
+  display:inline-block;
+  padding:3px 7px;
+  border-radius:999px;
+  font-size:11px;
+  margin-right:4px
+}
+.badge.red{
+  background:#fee2e2;
+  color:#991b1b
+}
+.badge.green{
+  background:#dcfce7;
+  color:#166534
+}
+.badge.blue{
+  background:#dbeafe;
+  color:#1e40af
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:10px 0
+}
+th,td{
+  border:1px solid var(--line);
+  padding:9px;
+  text-align:left;
+  vertical-align:top
+}
+th{
+  background:#f8fafc
+}
+.progress{
+  background:#e5e7eb;
+  height:7px;
+  border-radius:99px;
+  overflow:hidden
+}
+.progress>span{
+  display:block;
+  height:100%;
+  background:var(--accent)
+}
+@media(max-width:700px){
+  .two{grid-template-columns:1fr}
+  .stat{grid-template-columns:1fr 1fr}
+}
+@media(min-width:800px){
+  .bottom{display:none}
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#eef2f7;
+  --muted:#a8b0bd;
+  --line:#273244
+}
+body.dark .top,
+body.dark .card,
+body.dark .btn,
+body.dark .tab,
+body.dark .search input,
+body.dark .bottom,
+body.dark .topic{
+  background:#111827
+}
+body.dark .flow{background:#0f172a}
+body.dark th{background:#0f172a}
+</style>
 </head>
 
 <body>
-  MedMY interface
-  ↓
-  Home
-  Study
-  On-call
-  Clerking
-  MCQ
-  Saved
-  Malaysian CPG
 
-  ↓
+<header class="top">
+  <div class="wrap" style="padding:0">
 
-  O&G Topics
-  ├── Pre-eclampsia
-  ├── FGR
-  ├── PPROM & Preterm Labour
-  ├── PPH
-  ├── GDM
-  ├── CTG
-  ├── Induction of Labour
-  ├── Breech & ECV
-  ├── Anaemia
-  └── APH
+    <div class="brand">MedMY — O&G</div>
 
-  ↓
+    <div class="sub">
+      Malaysian Clinical Companion • Medical Student → Clinical Student → HO → MO
+    </div>
 
-  JavaScript
-  ├── Search
-  ├── Save topic
-  ├── Dark mode
-  ├── MCQ
-  ├── Clerking
-  └── Navigation
+    <div class="search">
+      <input
+        id="q"
+        placeholder="Search O&G topic, e.g. FGR, PPH, Bishop..."
+        oninput="search(this.value)"
+      >
+
+      <button class="btn" onclick="toggleDark()">☾</button>
+    </div>
+
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="app"></div>
+</main>
+
+<div class="bottom">
+  Educational reference only • Current Malaysian hospital CPG/SOP and senior clinician advice supersede this site.
+</div>
+
+<script>
+
+/* =========================================================
+   MEDMY O&G DATA
+   ========================================================= */
+
+const topics = [
+
+/* =========================================================
+   NORMAL PREGNANCY
+   ========================================================= */
+
+{
+ id:"physiological-changes-in-pregnancy",
+ cat:"Normal pregnancy",
+ title:"Physiological changes in pregnancy",
+ definition:"Normal physiological adaptation of maternal systems to support fetal growth and prepare for labour and lactation.",
+ investigations:"History, BP, weight/BMI, abdominal examination, fetal assessment and routine screening according to gestation.",
+ management:"Understand normal changes so that pathological findings are recognised early."
+},
+
+{
+ id:"antenatal-care-schedule",
+ cat:"Normal pregnancy",
+ title:"Antenatal care schedule",
+ definition:"Structured maternal and fetal surveillance throughout pregnancy.",
+ investigations:"Booking investigations, repeat assessments according to gestation, maternal BP, urine assessment, fetal growth and screening.",
+ management:"Follow the Malaysian antenatal schedule and identify women requiring specialist or high-risk care."
+},
+
+{
+ id:"booking-history-and-examination",
+ cat:"Normal pregnancy",
+ title:"Booking history and examination",
+ definition:"Initial comprehensive maternal, obstetric and social assessment at booking.",
+ investigations:"FBC, blood group/Rhesus, infection screening and other tests according to risk and local protocol.",
+ management:"Establish baseline maternal health, pregnancy risk and appropriate antenatal pathway."
+},
+
+{
+ id:"dating-pregnancy-and-edd",
+ cat:"Normal pregnancy",
+ title:"Dating pregnancy and EDD",
+ definition:"Estimation of gestational age and expected date of delivery using menstrual history and ultrasound dating.",
+ investigations:"LMP reliability and ultrasound dating when appropriate.",
+ management:"Use a consistent established EDD for antenatal planning, growth surveillance and delivery timing."
+},
+
+{
+ id:"routine-antenatal-investigations",
+ cat:"Normal pregnancy",
+ title:"Routine antenatal investigations",
+ definition:"Baseline and gestation-specific investigations intended to identify maternal disease, infection and fetal risk.",
+ investigations:"FBC, blood group/Rhesus, urine testing and infection screening, with targeted investigations based on risk.",
+ management:"Interpret abnormalities and arrange repeat testing or referral where required."
+},
+
+{
+ id:"routine-supplements-and-vaccines",
+ cat:"Normal pregnancy",
+ title:"Routine supplements and vaccines",
+ definition:"Preventive maternal interventions during pregnancy.",
+ investigations:"Assess diet, deficiency risk, vaccination status and medical conditions.",
+ management:"Provide recommended supplements and vaccines according to current Malaysian policy and individual risk."
+},
+
+{
+ id:"antenatal-danger-signs",
+ cat:"Normal pregnancy",
+ title:"Antenatal danger signs",
+ definition:"Symptoms or signs during pregnancy that warrant urgent assessment.",
+ investigations:"Maternal observations, abdominal examination, urine, blood tests, fetal assessment and imaging according to the presentation.",
+ management:"Urgent review for bleeding, severe pain, severe headache/visual symptoms, fever, dyspnoea, reduced fetal movement or fluid leakage."
+},
+
+{
+ id:"fetal-movement-assessment",
+ cat:"Normal pregnancy",
+ title:"Fetal movement assessment",
+ definition:"Assessment of perceived fetal activity to identify possible fetal compromise.",
+ investigations:"History of baseline movement pattern, maternal assessment, CTG and ultrasound depending on gestation and risk.",
+ management:"Reduced fetal movements require prompt assessment according to gestation and local protocol."
+},
+
+{
+ id:"fundal-height-and-fetal-growth",
+ cat:"Normal pregnancy",
+ title:"Fundal height and fetal growth",
+ definition:"Serial assessment of uterine size as a screening tool for fetal growth and amniotic fluid abnormalities.",
+ investigations:"Symphysis-fundal height, maternal factors and ultrasound when growth abnormality is suspected.",
+ management:"Abnormal trend or discrepancy should prompt further fetal growth assessment."
+},
+
+{
+ id:"antenatal-screening",
+ cat:"Normal pregnancy",
+ title:"Antenatal screening",
+ definition:"Screening for maternal disease, infection and fetal abnormalities during pregnancy.",
+ investigations:"Maternal blood tests, ultrasound screening and additional testing based on risk.",
+ management:"Counsel regarding screening limitations and follow abnormal results systematically."
+},
+
+{
+ id:"hyperemesis-gravidarum",
+ cat:"Normal pregnancy",
+ title:"Hyperemesis gravidarum",
+ definition:"Severe nausea and vomiting in pregnancy associated with dehydration, electrolyte disturbance and weight loss.",
+ investigations:"Hydration status, electrolytes, renal function, urine ketones where appropriate, LFTs and exclusion of alternative causes.",
+ management:"Rehydrate, correct electrolytes, give antiemetics, thiamine when indicated and manage nutritional complications."
+},
+
+/* =========================================================
+   ANAEMIA
+   ========================================================= */
+
+{
+ id:"anaemia-in-pregnancy",
+ cat:"Anaemia",
+ title:"Anaemia in pregnancy",
+ definition:"Reduced maternal haemoglobin during pregnancy with iron deficiency being a common cause.",
+ investigations:"FBC and red-cell indices; ferritin when iron deficiency is uncertain; blood film and haemoglobinopathy testing when indicated.",
+ management:"Treat the underlying cause, provide iron replacement when indicated, monitor response and assess delivery/transfusion risk."
+},
+
+{
+ id:"iron-deficiency-anaemia",
+ cat:"Anaemia",
+ title:"Iron deficiency anaemia",
+ definition:"Anaemia caused by inadequate iron availability for haemoglobin production.",
+ investigations:"Low Hb, microcytosis/hypochromia, ferritin and other iron studies when required.",
+ management:"Oral iron is commonly first-line; IV iron may be appropriate when rapid correction is needed or oral therapy is unsuitable."
+},
+
+{
+ id:"thalassaemia-haemoglobinopathy",
+ cat:"Anaemia",
+ title:"Thalassaemia and haemoglobinopathy",
+ definition:"Inherited disorders affecting haemoglobin synthesis and red-cell structure.",
+ investigations:"FBC, indices, blood film and haemoglobin analysis; partner assessment where appropriate.",
+ management:"Differentiate trait from significant disease and coordinate antenatal, genetic and fetal assessment."
+},
+
+{
+ id:"folate-b12-deficiency",
+ cat:"Anaemia",
+ title:"Folate and vitamin B12 deficiency",
+ definition:"Megaloblastic anaemia due to impaired DNA synthesis.",
+ investigations:"FBC, MCV, blood film, serum B12/folate and associated investigations when indicated.",
+ management:"Replace the deficient vitamin and identify the cause."
+},
+
+{
+ id:"iv-iron-in-pregnancy",
+ cat:"Anaemia",
+ title:"IV iron in pregnancy",
+ definition:"Parenteral iron used when oral iron is unsuitable, poorly tolerated, ineffective or insufficient for the required correction.",
+ investigations:"Confirm iron deficiency and assess gestational age, Hb severity and need for rapid correction.",
+ management:"Use an appropriate IV iron preparation according to current local protocol and monitor for adverse reactions."
+},
+
+{
+ id:"transfusion-for-anaemia-in-pregnancy",
+ cat:"Anaemia",
+ title:"Transfusion for anaemia in pregnancy",
+ definition:"Blood transfusion used when anaemia is severe or symptomatic or when there is significant clinical risk.",
+ investigations:"FBC, clinical symptoms, haemodynamic status and blood group/crossmatch.",
+ management:"Base transfusion on clinical status and severity rather than Hb alone."
+},
+
+/* =========================================================
+   HYPERTENSION
+   ========================================================= */
+
+{
+ id:"chronic-hypertension-in-pregnancy",
+ cat:"Hypertension",
+ title:"Chronic hypertension in pregnancy",
+ definition:"Hypertension that predates pregnancy or is identified before the threshold for gestational hypertension is reached.",
+ investigations:"Baseline BP, renal function, urine protein assessment and evaluation for end-organ disease.",
+ management:"Risk stratification, appropriate antihypertensive therapy, aspirin when indicated and fetal surveillance."
+},
+
+{
+ id:"gestational-hypertension",
+ cat:"Hypertension",
+ title:"Gestational hypertension",
+ definition:"New hypertension arising after the mid-pregnancy period without proteinuria or maternal organ dysfunction attributable to pre-eclampsia.",
+ investigations:"BP, urine protein, FBC, renal function, liver enzymes and fetal assessment.",
+ management:"Monitor closely for progression to pre-eclampsia and plan delivery according to gestation and maternal/fetal status."
+},
+
+{
+ id:"pre-eclampsia",
+ cat:"Hypertension",
+ title:"Pre-eclampsia",
+ definition:"New hypertension in pregnancy associated with proteinuria and/or maternal organ dysfunction and/or uteroplacental dysfunction.",
+ investigations:"BP, urine protein, FBC/platelets, renal function, LFTs, symptom review, fetal growth, CTG and Doppler/ultrasound where indicated.",
+ management:"Assess severity, control hypertension, prevent/treat seizures when indicated, monitor maternal/fetal condition and plan delivery."
+},
+
+{
+ id:"severe-pre-eclampsia",
+ cat:"Hypertension",
+ title:"Severe pre-eclampsia",
+ definition:"Pre-eclampsia with severe maternal or fetal features requiring urgent senior assessment and often hospital management.",
+ investigations:"Serial observations, neurological symptoms/signs, urine protein, blood counts, renal/liver function, fetal surveillance and fluid balance.",
+ management:"Stabilise mother, control severe BP, use MgSO4 when indicated, assess timing of delivery and involve senior O&G/MFM."
+},
+
+{
+ id:"eclampsia",
+ cat:"Hypertension",
+ title:"Eclampsia",
+ definition:"Generalised tonic-clonic seizure associated with pre-eclampsia, after exclusion of other causes.",
+ investigations:"ABCDE, glucose, BP, neurological assessment, FBC, renal/liver function, coagulation if indicated and fetal assessment.",
+ management:"Airway protection, MgSO4 seizure treatment/prevention, BP control and delivery after maternal stabilisation."
+},
+
+{
+ id:"hellp-syndrome",
+ cat:"Hypertension",
+ title:"HELLP syndrome",
+ definition:"Haemolysis, elevated liver enzymes and low platelets associated with severe hypertensive disease of pregnancy.",
+ investigations:"FBC/platelets, blood film, bilirubin/LDH as indicated, AST/ALT, renal function and coagulation.",
+ management:"Maternal stabilisation, MgSO4 when indicated, correction of complications and delivery planning."
+},
+
+{
+ id:"superimposed-pre-eclampsia",
+ cat:"Hypertension",
+ title:"Superimposed pre-eclampsia",
+ definition:"Development of pre-eclampsia in a woman with chronic hypertension.",
+ investigations:"Compare baseline and current BP, proteinuria, renal/liver function, platelet count and symptoms.",
+ management:"Assess for maternal organ dysfunction and fetal compromise; manage similarly to pre-eclampsia according to severity."
+},
+
+{
+ id:"labetalol-in-pregnancy",
+ cat:"Hypertension",
+ title:"Labetalol in pregnancy",
+ definition:"Common antihypertensive option for hypertension during pregnancy when appropriate.",
+ investigations:"BP, heart rate, asthma history and maternal/fetal status.",
+ management:"Use according to the current Malaysian hospital protocol and severity of hypertension."
+},
+
+{
+ id:"nifedipine-in-pregnancy",
+ cat:"Hypertension",
+ title:"Nifedipine in pregnancy",
+ definition:"Calcium-channel blocker used for pregnancy-associated hypertension.",
+ investigations:"BP, pulse, symptoms and overall maternal/fetal status.",
+ management:"Commonly useful for acute or chronic blood-pressure control depending on protocol."
+},
+
+{
+ id:"methyldopa-in-pregnancy",
+ cat:"Hypertension",
+ title:"Methyldopa in pregnancy",
+ definition:"Central alpha-2 agonist that may be used for chronic blood-pressure control in pregnancy.",
+ investigations:"BP, sedation-related symptoms and liver function when clinically indicated.",
+ management:"Use according to current local protocol; treatment choice depends on severity and maternal comorbidities."
+},
+
+{
+ id:"magnesium-sulfate",
+ cat:"Hypertension",
+ title:"Magnesium sulfate",
+ definition:"Medication used for prevention and treatment of eclamptic seizures and for fetal neuroprotection in selected very preterm births.",
+ investigations:"Clinical indication, reflexes, respiratory rate, urine output and renal function where appropriate.",
+ management:"Use the local loading and maintenance regimen; monitor for toxicity including loss of reflexes and respiratory depression."
+},
+
+/* =========================================================
+   DIABETES
+   ========================================================= */
+
+{
+ id:"gestational-diabetes",
+ cat:"Diabetes",
+ title:"Gestational diabetes mellitus",
+ definition:"Glucose intolerance first recognised during pregnancy.",
+ investigations:"OGTT according to Malaysian criteria, capillary glucose monitoring and fetal growth assessment.",
+ management:"Medical nutrition therapy and physical activity, followed by pharmacotherapy when targets are not achieved."
+},
+
+{
+ id:"pregestational-type1-diabetes",
+ cat:"Diabetes",
+ title:"Pregestational type 1 diabetes",
+ definition:"Type 1 diabetes present before conception.",
+ investigations:"HbA1c, glucose, renal function, retinal assessment and fetal assessment according to risk.",
+ management:"Tight glucose control, insulin optimisation, complication screening and coordinated maternal-fetal care."
+},
+
+{
+ id:"pregestational-type2-diabetes",
+ cat:"Diabetes",
+ title:"Pregestational type 2 diabetes",
+ definition:"Type 2 diabetes present before pregnancy.",
+ investigations:"Baseline glycaemic control, renal and retinal status, medications and fetal assessment.",
+ management:"Optimise glycaemic control, review medications and coordinate antenatal care."
+},
+
+{
+ id:"oral-glucose-tolerance-test",
+ cat:"Diabetes",
+ title:"OGTT in pregnancy",
+ definition:"Glucose challenge used to diagnose gestational diabetes.",
+ investigations:"Fasting and post-glucose plasma glucose according to the local diagnostic protocol.",
+ management:"Interpret using Malaysian criteria and proceed to counselling and treatment when diagnostic thresholds are met."
+},
+
+{
+ id:"medical-nutrition-therapy-gdm",
+ cat:"Diabetes",
+ title:"Medical nutrition therapy in GDM",
+ definition:"Dietary intervention forming the initial treatment for many women with GDM.",
+ investigations:"Self-monitored glucose trends, weight and fetal growth.",
+ management:"Individualised meal planning, appropriate activity and review of glucose targets."
+},
+
+{
+ id:"metformin-in-gdm",
+ cat:"Diabetes",
+ title:"Metformin in GDM",
+ definition:"Oral glucose-lowering therapy used in selected pregnant women when lifestyle measures are insufficient or insulin is not accepted/appropriate.",
+ investigations:"Glucose trends, renal function and clinical suitability.",
+ management:"Use according to current Malaysian CPG and specialist advice."
+},
+
+{
+ id:"insulin-in-gdm",
+ cat:"Diabetes",
+ title:"Insulin in GDM",
+ definition:"Insulin is used when glycaemic targets are not achieved with lifestyle and/or oral therapy or when clinically indicated.",
+ investigations:"Fasting and postprandial glucose patterns and fetal growth.",
+ management:"Select regimen based on glucose pattern and local protocol; educate regarding hypoglycaemia."
+},
+
+{
+ id:"intrapartum-glucose-management",
+ cat:"Diabetes",
+ title:"Intrapartum glucose management",
+ definition:"Maintenance of maternal glucose within the desired range during labour and delivery.",
+ investigations:"Regular capillary glucose monitoring.",
+ management:"Follow local intrapartum glucose/insulin protocol and avoid maternal hypoglycaemia."
+},
+
+{
+ id:"neonatal-complications-of-diabetes",
+ cat:"Diabetes",
+ title:"Neonatal complications of maternal diabetes",
+ definition:"Neonatal problems caused by maternal hyperglycaemia and altered fetal insulin physiology.",
+ investigations:"Fetal growth assessment and neonatal glucose monitoring after birth.",
+ management:"Anticipate hypoglycaemia, macrosomia, birth trauma and respiratory/metabolic complications."
+},
+
+/* =========================================================
+   MATERNAL MEDICAL
+   ========================================================= */
+
+{
+ id:"heart-disease-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Heart disease in pregnancy",
+ definition:"Pregnancy places increased volume and cardiac workload on the maternal cardiovascular system.",
+ investigations:"History, examination, ECG, echocardiography and specialist assessment as indicated.",
+ management:"Risk stratify, optimise cardiac disease and plan antenatal and delivery care with multidisciplinary input."
+},
+
+{
+ id:"mitral-stenosis-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Mitral stenosis in pregnancy",
+ definition:"Obstructive mitral valve disease that may worsen with increased plasma volume and heart rate.",
+ investigations:"Clinical assessment, ECG and echocardiography.",
+ management:"Avoid tachycardia and fluid overload, manage pulmonary congestion and involve cardiology/high-risk obstetric care."
+},
+
+{
+ id:"congenital-heart-disease-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Congenital heart disease in pregnancy",
+ definition:"Structural heart disease present from birth that may affect maternal haemodynamic adaptation.",
+ investigations:"Echocardiography, ECG and specialist risk assessment.",
+ management:"Individualise according to lesion, ventricular function, pulmonary pressure and symptoms."
+},
+
+{
+ id:"venous-thromboembolism-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Venous thromboembolism in pregnancy",
+ definition:"Deep-vein thrombosis and pulmonary embolism occurring during pregnancy or postpartum.",
+ investigations:"Clinical assessment and compression ultrasound/definitive imaging as indicated.",
+ management:"Treat suspected VTE urgently with anticoagulation according to current local protocol while balancing bleeding risk."
+},
+
+{
+ id:"pulmonary-embolism-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Pulmonary embolism in pregnancy",
+ definition:"Acute pulmonary arterial obstruction, most commonly from venous thromboembolism.",
+ investigations:"ABCDE, ECG, oxygenation and imaging according to clinical probability.",
+ management:"Urgent senior review and anticoagulation when clinically indicated; treat instability immediately."
+},
+
+{
+ id:"ckd-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Chronic kidney disease in pregnancy",
+ definition:"Pre-existing renal impairment associated with higher maternal and fetal risk.",
+ investigations:"Renal function, urine protein, BP, electrolytes and fetal growth surveillance.",
+ management:"Multidisciplinary renal-obstetric care, medication review and surveillance for hypertension/pre-eclampsia and fetal growth restriction."
+},
+
+{
+ id:"thyroid-disease-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Thyroid disease in pregnancy",
+ definition:"Hypothyroidism or hyperthyroidism affecting maternal and fetal health.",
+ investigations:"TSH and free T4 with disease-specific testing.",
+ management:"Optimise thyroid status with pregnancy-appropriate therapy and monitor throughout pregnancy."
+},
+
+{
+ id:"asthma-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Asthma in pregnancy",
+ definition:"Asthma requiring continued control during pregnancy to maintain maternal oxygenation and avoid fetal hypoxia.",
+ investigations:"Clinical severity, peak flow/spirometry where appropriate and assessment for exacerbation.",
+ management:"Continue effective inhaled therapy, treat exacerbations promptly and avoid undertreatment."
+},
+
+{
+ id:"epilepsy-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Epilepsy in pregnancy",
+ definition:"Pre-existing seizure disorder requiring medication and pregnancy planning.",
+ investigations:"Seizure history, medication levels where relevant and fetal assessment.",
+ management:"Avoid abrupt antiepileptic withdrawal; optimise safe therapy and provide folate and multidisciplinary care."
+},
+
+{
+ id:"sle-and-autoimmune-disease",
+ cat:"Maternal medical",
+ title:"SLE and autoimmune disease in pregnancy",
+ definition:"Autoimmune disease can affect maternal organs, pregnancy outcomes and fetal wellbeing.",
+ investigations:"Disease activity, renal function, urine protein, antibodies and fetal surveillance.",
+ management:"Aim for disease quiescence, continue appropriate therapy and monitor for hypertensive/placental complications."
+},
+
+{
+ id:"obesity-in-pregnancy",
+ cat:"Maternal medical",
+ title:"Obesity in pregnancy",
+ definition:"High BMI associated with increased obstetric, anaesthetic, thromboembolic and fetal risks.",
+ investigations:"BMI, BP, diabetes screening and antenatal fetal assessment.",
+ management:"Weight-sensitive counselling, appropriate screening, thromboprophylaxis and anaesthetic planning."
+},
+
+/* =========================================================
+   FETAL GROWTH
+   ========================================================= */
+
+{
+ id:"fetal-growth-restriction",
+ cat:"Fetal growth",
+ title:"Fetal growth restriction",
+ definition:"A fetus that has failed to achieve its genetically determined growth potential and is at increased risk of adverse outcome.",
+ investigations:"Serial ultrasound biometry, amniotic fluid, umbilical artery Doppler, MCA/CPR and ductus venosus in selected severe cases.",
+ management:"Interpret growth together with Doppler and clinical context; intensify surveillance and time delivery according to gestation and severity."
+},
+
+{
+ id:"sga-vs-fgr",
+ cat:"Fetal growth",
+ title:"SGA vs FGR",
+ definition:"SGA describes size, while FGR implies pathological failure to reach growth potential.",
+ investigations:"Estimated fetal weight, abdominal circumference, growth trajectory, Doppler and maternal risk factors.",
+ management:"Do not label every small fetus as FGR; assess whether there is evidence of placental dysfunction."
+},
+
+{
+ id:"delphi-fgr-criteria",
+ cat:"Fetal growth",
+ title:"Delphi consensus criteria for FGR",
+ definition:"Consensus-based framework combining fetal size and evidence of placental dysfunction or abnormal Doppler.",
+ investigations:"Fetal biometry, gestational age, maternal risk factors, Doppler and growth trajectory.",
+ management:"Use the clinical framework alongside local Malaysian guidance and senior specialist interpretation."
+},
+
+{
+ id:"umbilical-artery-doppler",
+ cat:"Fetal growth",
+ title:"Umbilical artery Doppler",
+ definition:"Assesses placental resistance and is central to surveillance of suspected FGR.",
+ investigations:"PI, RI, systolic/diastolic flow and presence of absent/reversed end-diastolic flow.",
+ management:"Abnormal resistance indicates placental dysfunction and may change surveillance and delivery timing."
+},
+
+{
+ id:"middle-cerebral-artery-doppler",
+ cat:"Fetal growth",
+ title:"Middle cerebral artery Doppler",
+ definition:"Assesses fetal cerebral blood-flow adaptation.",
+ investigations:"MCA peak systolic velocity and impedance according to the clinical question.",
+ management:"Interpret with gestation and other Doppler findings; important particularly in suspected fetal anaemia and selected FGR assessment."
+},
+
+{
+ id:"cerebroplacental-ratio",
+ cat:"Fetal growth",
+ title:"Cerebroplacental ratio",
+ definition:"Ratio integrating cerebral and placental Doppler information.",
+ investigations:"MCA and umbilical artery indices.",
+ management:"Low CPR may support concern for placental insufficiency but should not be interpreted in isolation."
+},
+
+{
+ id:"ductus-venosus-doppler",
+ cat:"Fetal growth",
+ title:"Ductus venosus Doppler",
+ definition:"Venous Doppler used in selected severe early FGR cases to assess fetal cardiovascular compromise.",
+ investigations:"DV waveform and a-wave.",
+ management:"Abnormal venous Doppler is a high-risk finding requiring specialist interpretation."
+},
+
+{
+ id:"fgr-surveillance",
+ cat:"Fetal growth",
+ title:"FGR surveillance",
+ definition:"Combined maternal, fetal, ultrasound and Doppler monitoring to detect deterioration.",
+ investigations:"Growth scans, liquor, UA Doppler, CTG, BPP and selected venous Dopplers.",
+ management:"Frequency depends on severity, gestation and Doppler status."
+},
+
+{
+ id:"fgr-timing-of-delivery",
+ cat:"Fetal growth",
+ title:"FGR timing of delivery",
+ definition:"Delivery timing is a balance between prematurity and ongoing hypoxic injury.",
+ investigations:"Gestational age, CTG, Doppler, fetal growth and maternal condition.",
+ management:"Normal Doppler may permit later delivery; absent/reversed EDF or pathological surveillance may require earlier delivery with senior input."
+},
+
+{
+ id:"fgr-mode-of-delivery",
+ cat:"Fetal growth",
+ title:"FGR mode of delivery",
+ definition:"Mode depends on gestation, fetal condition, presentation, Doppler abnormalities and obstetric factors.",
+ investigations:"CTG, Doppler, presentation, cervical status and overall delivery risk.",
+ management:"Vaginal birth may be appropriate in selected stable pregnancies; severe Doppler abnormalities or fetal compromise may favour caesarean."
+},
+
+{
+ id:"macrosomia",
+ cat:"Fetal growth",
+ title:"Macrosomia",
+ definition:"Excessive fetal size, often associated with diabetes and increased risk of shoulder dystocia.",
+ investigations:"Serial ultrasound and maternal risk assessment.",
+ management:"Counsel regarding uncertainty of estimated fetal weight and consider delivery plan according to estimated size and maternal factors."
+},
+
+{
+ id:"lga",
+ cat:"Fetal growth",
+ title:"Large for gestational age fetus",
+ definition:"Fetal size above the expected range for gestational age.",
+ investigations:"Ultrasound biometry and maternal diabetes assessment.",
+ management:"Assess cause, recurrence risk, diabetes and birth trauma risk."
+},
+
+/* =========================================================
+   PRETERM
+   ========================================================= */
+
+{
+ id:"pprom",
+ cat:"Preterm birth",
+ title:"PPROM",
+ definition:"Preterm prelabour rupture of membranes before onset of labour and before term.",
+ investigations:"History, sterile speculum examination where indicated, fetal assessment, infection assessment and ultrasound as required.",
+ management:"Assess gestation and infection/fetal status; use antibiotics, corticosteroids, MgSO4 neuroprotection and delivery planning according to Malaysian guidance."
+},
+
+{
+ id:"preterm-labour",
+ cat:"Preterm birth",
+ title:"Preterm labour",
+ definition:"Regular uterine contractions associated with cervical change before 37 weeks.",
+ investigations:"History, contractions, cervical assessment, fetal assessment, infection screen and tests according to local pathway.",
+ management:"Antenatal corticosteroids, MgSO4 for neuroprotection at appropriate gestation, tocolysis where appropriate and manage the cause."
+},
+
+{
+ id:"tocolysis",
+ cat:"Preterm birth",
+ title:"Tocolysis",
+ definition:"Temporary suppression of uterine contractions to gain time for corticosteroids, maternal transfer or other interventions.",
+ investigations:"Assess contraindications such as infection, significant bleeding or fetal compromise.",
+ management:"Use only when benefit outweighs risk and according to the local protocol."
+},
+
+{
+ id:"antenatal-corticosteroids",
+ cat:"Preterm birth",
+ title:"Antenatal corticosteroids",
+ definition:"Corticosteroids given antenatally to reduce neonatal respiratory and other prematurity-related complications.",
+ investigations:"Gestational age, likelihood of preterm birth and infection/diabetes considerations.",
+ management:"Malaysian specialist hospital regimen commonly uses IM dexamethasone 6 mg BD for 2 days according to the relevant guideline."
+},
+
+{
+ id:"magnesium-sulfate-fetal-neuroprotection",
+ cat:"Preterm birth",
+ title:"MgSO4 for fetal neuroprotection",
+ definition:"MgSO4 given when very preterm birth is imminent to reduce the risk of cerebral palsy.",
+ investigations:"Gestational age, likelihood of delivery and maternal contraindications.",
+ management:"Use according to the Malaysian preterm birth protocol; monitor maternal toxicity and renal function."
+},
+
+{
+ id:"chorioamnionitis",
+ cat:"Preterm birth",
+ title:"Chorioamnionitis",
+ definition:"Intra-amniotic infection associated with maternal and fetal inflammatory response.",
+ investigations:"Maternal temperature, pulse, uterine tenderness, fetal tachycardia, WBC/CRP where appropriate and clinical assessment.",
+ management:"Broad-spectrum antibiotics and delivery planning after stabilisation; do not delay necessary delivery for prolonged observation."
+},
+
+{
+ id:"short-cervix-in-pregnancy",
+ cat:"Preterm birth",
+ title:"Short cervix",
+ definition:"Reduced cervical length associated with increased risk of spontaneous preterm birth.",
+ investigations:"Transvaginal cervical length in appropriate women.",
+ management:"Risk-based use of progesterone or cerclage according to history, cervical findings and local protocol."
+},
+
+{
+ id:"progesterone-for-preterm-birth-prevention",
+ cat:"Preterm birth",
+ title:"Progesterone for preterm birth prevention",
+ definition:"Progesterone may reduce spontaneous preterm birth risk in selected women.",
+ investigations:"Previous spontaneous preterm birth and/or short cervical length.",
+ management:"Use only in appropriate women according to current local guidance."
+},
+
+{
+ id:"cervical-cerclage",
+ cat:"Preterm birth",
+ title:"Cervical cerclage",
+ definition:"Surgical placement of cervical sutures to reduce the risk of pregnancy loss/preterm birth in selected women.",
+ investigations:"Obstetric history, cervical length and exclusion of labour/infection.",
+ management:"Indicated selectively; assess timing, type and removal according to obstetric circumstances."
+},
+
+/* =========================================================
+   PROLONGED PREGNANCY
+   ========================================================= */
+
+{
+ id:"prolonged-pregnancy",
+ cat:"Prolonged pregnancy",
+ title:"Prolonged pregnancy",
+ definition:"Pregnancy continuing beyond the expected term.",
+ investigations:"Dating confirmation, maternal/fetal wellbeing and amniotic fluid assessment.",
+ management:"Discuss surveillance and induction according to gestational age and local policy."
+},
+
+{
+ id:"postdates-pregnancy",
+ cat:"Prolonged pregnancy",
+ title:"Postdates pregnancy",
+ definition:"Pregnancy extending beyond term with increasing placental and fetal risks.",
+ investigations:"Fetal wellbeing assessment, liquor and placental function as appropriate.",
+ management:"Plan delivery based on gestational age and maternal/fetal status."
+},
+
+{
+ id:"membrane-sweep",
+ cat:"Prolonged pregnancy",
+ title:"Membrane sweep",
+ definition:"Digital separation of membranes from the lower uterine segment to stimulate labour.",
+ investigations:"Assess placenta location, bleeding, cervical findings and suitability.",
+ management:"Counsel regarding discomfort and spotting and document consent."
+},
+
+/* =========================================================
+   APH
+   ========================================================= */
+
+{
+ id:"antepartum-haemorrhage",
+ cat:"APH",
+ title:"Antepartum haemorrhage",
+ definition:"Bleeding from the genital tract after fetal viability and before delivery.",
+ investigations:"Maternal ABCDE, observations, FBC, group/crossmatch, fetal assessment and ultrasound; digital vaginal examination is avoided until placenta praevia is excluded.",
+ management:"Resuscitate if unstable and determine whether placenta praevia, abruption, vasa praevia or local causes are responsible."
+},
+
+{
+ id:"placenta-praevia",
+ cat:"APH",
+ title:"Placenta praevia",
+ definition:"Placenta implanted near or over the internal cervical os.",
+ investigations:"Ultrasound localisation of placenta; assess bleeding and fetal condition.",
+ management:"Avoid digital PV examination until praevia has been excluded; plan delivery according to placental location and bleeding history."
+},
+
+{
+ id:"placental-abruption",
+ cat:"APH",
+ title:"Placental abruption",
+ definition:"Premature separation of a normally sited placenta before birth.",
+ investigations:"Clinical diagnosis supported by maternal/fetal assessment, FBC, coagulation and ultrasound where appropriate.",
+ management:"Maternal resuscitation, fetal assessment, correction of coagulopathy and urgent delivery when indicated."
+},
+
+{
+ id:"vasa-praevia",
+ cat:"APH",
+ title:"Vasa praevia",
+ definition:"Fetal vessels traverse the membranes near the internal cervical os and are vulnerable to rupture.",
+ investigations:"Transvaginal ultrasound with colour Doppler in suspected cases.",
+ management:"Antenatal recognition permits planned caesarean before membrane rupture; acute bleeding with fetal compromise requires emergency delivery."
+},
+
+{
+ id:"local-causes-of-aph",
+ cat:"APH",
+ title:"Local causes of APH",
+ definition:"Cervical, vaginal or vulval pathology causing bleeding during pregnancy.",
+ investigations:"Speculum examination when safe and placental causes have been considered.",
+ management:"Treat the underlying lesion and ensure significant obstetric causes are excluded."
+},
+
+/* =========================================================
+   LABOUR
+   ========================================================= */
+
+{
+ id:"onset-of-labour",
+ cat:"Labour",
+ title:"Onset of labour",
+ definition:"Transition from pregnancy to coordinated uterine contractions causing cervical effacement and dilatation.",
+ investigations:"Contraction pattern and cervical findings.",
+ management:"Differentiate true labour from Braxton Hicks and other causes of abdominal pain."
+},
+
+{
+ id:"true-vs-false-labour",
+ cat:"Labour",
+ title:"True vs false labour",
+ definition:"True labour causes progressive cervical change; false labour does not.",
+ investigations:"History of contraction frequency, duration, intensity and cervical examination where indicated.",
+ management:"Supportive management for false labour; establish labour if progressive cervical change occurs."
+},
+
+{
+ id:"stages-of-labour",
+ cat:"Labour",
+ title:"Stages of labour",
+ definition:"Labour is classically divided into first, second and third stages.",
+ investigations:"Cervical dilatation, descent, contractions and fetal wellbeing.",
+ management:"Monitor maternal and fetal progress with appropriate charting and intervene when abnormal progress or compromise occurs."
+},
+
+{
+ id:"mechanism-of-labour",
+ cat:"Labour",
+ title:"Mechanism of labour",
+ definition:"Sequence of fetal movements allowing passage through the maternal pelvis.",
+ investigations:"Abdominal and vaginal examination to determine presentation, position, station and rotation.",
+ management:"Recognise normal mechanisms and identify malposition or obstruction."
+},
+
+{
+ id:"pelvic-anatomy-and-diameters",
+ cat:"Labour",
+ title:"Pelvic anatomy and obstetric diameters",
+ definition:"Maternal bony pelvis determines the dimensions available for fetal passage.",
+ investigations:"Clinical assessment of pelvic adequacy and fetal head position.",
+ management:"Understand pelvic inlet, cavity and outlet and how fetal head diameters relate."
+},
+
+{
+ id:"fetal-lie-presentation-position",
+ cat:"Labour",
+ title:"Fetal lie, presentation and position",
+ definition:"Description of fetal longitudinal/transverse lie, presenting part and relationship of fetal denominator to maternal pelvis.",
+ investigations:"Leopold manoeuvres and vaginal examination when appropriate.",
+ management:"Determine whether vaginal birth is suitable and identify malpresentation."
+},
+
+{
+ id:"roa-loa-occiput-position",
+ cat:"Labour",
+ title:"ROA, LOA and other occiput positions",
+ definition:"Fetal occipital position relative to maternal pelvis.",
+ investigations:"Abdominal and vaginal assessment of sutures and fontanelles.",
+ management:"Most anterior positions favour vaginal birth; persistent posterior/transverse positions may cause prolonged or obstructed labour."
+},
+
+{
+ id:"engagement",
+ cat:"Labour",
+ title:"Engagement",
+ definition:"Engagement occurs when the widest diameter of the presenting part has passed the pelvic inlet.",
+ investigations:"Five-fifths palpable abdominally and station on vaginal examination.",
+ management:"Interpret in relation to parity, gestation and labour progress."
+},
+
+{
+ id:"descent",
+ cat:"Labour",
+ title:"Descent",
+ definition:"Downward movement of the presenting part through the maternal pelvis.",
+ investigations:"Serial station and abdominal head palpation.",
+ management:"Failure of descent may suggest malposition, CPD or inadequate uterine action."
+},
+
+{
+ id:"station",
+ cat:"Labour",
+ title:"Station",
+ definition:"Vertical level of the presenting part relative to the ischial spines.",
+ investigations:"Vaginal examination.",
+ management:"Use station to assess descent and suitability for assisted vaginal delivery."
+},
+
+{
+ id:"cervical-dilatation-and-effacement",
+ cat:"Labour",
+ title:"Cervical dilatation and effacement",
+ definition:"Progressive thinning and opening of the cervix during labour.",
+ investigations:"Serial cervical examinations when clinically indicated.",
+ management:"Assess alongside contractions, fetal descent and overall labour progress."
+},
+
+{
+ id:"partogram",
+ cat:"Labour",
+ title:"Partogram",
+ definition:"Chart used to document labour progress and identify abnormal patterns.",
+ investigations:"Cervical dilatation, descent, contractions, maternal observations and fetal wellbeing.",
+ management:"Use local partogram thresholds and combine with clinical assessment rather than relying on one parameter."
+},
+
+/* =========================================================
+   ABNORMAL LABOUR
+   ========================================================= */
+
+{
+ id:"prolonged-latent-phase",
+ cat:"Abnormal labour",
+ title:"Prolonged latent phase",
+ definition:"Abnormally long early labour before established active labour.",
+ investigations:"Confirm true labour, cervical status and exclude secondary causes.",
+ management:"Support, analgesia, hydration and reassessment; avoid unnecessary intervention based on duration alone."
+},
+
+{
+ id:"prolonged-active-phase",
+ cat:"Abnormal labour",
+ title:"Prolonged active phase",
+ definition:"Slow cervical dilatation during active labour.",
+ investigations:"Cervical progress, contraction adequacy, fetal position and maternal/fetal status.",
+ management:"Identify cause such as inadequate uterine activity, malposition or CPD and intervene accordingly."
+},
+
+{
+ id:"primary-dysfunctional-labour",
+ cat:"Abnormal labour",
+ title:"Primary dysfunctional labour",
+ definition:"Slow progress from early established labour commonly associated with abnormal uterine activity.",
+ investigations:"Contraction frequency, strength, cervical dilatation and fetal position.",
+ management:"Correct reversible factors and consider augmentation only when appropriate."
+},
+
+{
+ id:"secondary-arrest",
+ cat:"Abnormal labour",
+ title:"Secondary arrest",
+ definition:"Cervical dilatation stops after labour had been progressing.",
+ investigations:"Repeat cervical assessment, contractions, fetal position and evidence of obstruction.",
+ management:"Assess for CPD, malposition and inadequate contractions; senior review is needed when progress fails."
+},
+
+{
+ id:"failure-to-progress",
+ cat:"Abnormal labour",
+ title:"Failure to progress",
+ definition:"Inadequate cervical dilatation or fetal descent despite ongoing labour.",
+ investigations:"Maternal/fetal condition, contractions, cervix, station and position.",
+ management:"Find the cause before intervention: powers, passenger or passage."
+},
+
+{
+ id:"failed-induction",
+ cat:"Abnormal labour",
+ title:"Failed induction",
+ definition:"Induction that does not result in established labour or vaginal delivery despite appropriate attempts.",
+ investigations:"Indication for induction, Bishop score, cervical change, contractions and maternal/fetal status.",
+ management:"Senior assessment to decide further ripening, augmentation, continued observation or caesarean."
+},
+
+{
+ id:"cephalopelvic-disproportion",
+ cat:"Abnormal labour",
+ title:"Cephalopelvic disproportion",
+ definition:"Mismatch between fetal presenting part and maternal pelvis preventing normal descent.",
+ investigations:"Clinical labour progress, station, moulding, caput, position and overall birth mechanics.",
+ management:"Avoid diagnosing solely from one parameter; assess the whole labour and consider operative delivery when indicated."
+},
+
+{
+ id:"malposition",
+ cat:"Abnormal labour",
+ title:"Malposition",
+ definition:"Abnormal orientation of the fetal head, commonly occiput posterior or transverse.",
+ investigations:"Abdominal and vaginal examination plus ultrasound when needed.",
+ management:"Expectant rotation, manual rotation, assisted vaginal delivery or caesarean depending on clinical circumstances."
+},
+
+{
+ id:"malpresentation",
+ cat:"Abnormal labour",
+ title:"Malpresentation",
+ definition:"Presenting part other than the vertex.",
+ investigations:"Abdominal examination and ultrasound.",
+ management:"Management depends on type, gestation, labour status and fetal/maternal condition."
+},
+
+/* =========================================================
+   OPERATIVE DELIVERY
+   ========================================================= */
+
+{
+ id:"vacuum-assisted-delivery",
+ cat:"Operative delivery",
+ title:"Vacuum-assisted vaginal delivery",
+ definition:"Operative vaginal delivery using a vacuum cup to assist fetal head delivery.",
+ investigations:"Confirm full dilation, ruptured membranes, engaged head, known position and absence of contraindications.",
+ management:"Obtain consent, ensure suitable operator and backup, apply correctly and stop if criteria for abandonment are reached."
+},
+
+{
+ id:"forceps-assisted-delivery",
+ cat:"Operative delivery",
+ title:"Forceps-assisted vaginal delivery",
+ definition:"Operative vaginal delivery using forceps applied to the fetal head.",
+ investigations:"Confirm prerequisites, fetal position, station, cervical dilation and indication.",
+ management:"Use only when prerequisites are met and operator is trained; consider theatre backup and neonatal review."
+},
+
+{
+ id:"caesarean-section",
+ cat:"Operative delivery",
+ title:"Caesarean section",
+ definition:"Surgical delivery through abdominal and uterine incisions.",
+ investigations:"Clarify indication, gestation, maternal/fetal condition, placenta location and relevant anaesthetic/operative risks.",
+ management:"Choose emergency or elective category according to urgency; counsel regarding maternal and neonatal risks."
+},
+
+{
+ id:"indications-for-caesarean",
+ cat:"Operative delivery",
+ title:"Indications for caesarean delivery",
+ definition:"Clinical circumstances where caesarean provides greater benefit than vaginal birth.",
+ investigations:"Maternal and fetal status, labour progress, presentation and placental factors.",
+ management:"Common indications include obstructed labour, placenta praevia, selected breech, fetal compromise and previous uterine surgery depending on circumstances."
+},
+
+{
+ id:"contraindications-to-operative-vaginal-delivery",
+ cat:"Operative delivery",
+ title:"Contraindications to operative vaginal delivery",
+ definition:"Situations where vacuum or forceps should not be attempted.",
+ investigations:"Assess gestation, cervical dilation, membrane status, head station/position and fetal condition.",
+ management:"Proceed to caesarean or alternative management when prerequisites are absent."
+},
+
+{
+ id:"operative-vaginal-delivery-complications",
+ cat:"Operative delivery",
+ title:"Complications of operative vaginal delivery",
+ definition:"Maternal and neonatal trauma related to vacuum or forceps.",
+ investigations:"Post-delivery maternal examination and neonatal assessment.",
+ management:"Monitor for PPH, perineal injury, cephalohaematoma, facial injury and other complications."
+},
+
+/* =========================================================
+   BREECH
+   ========================================================= */
+
+{
+ id:"breech-presentation",
+ cat:"Breech",
+ title:"Breech presentation",
+ definition:"Fetus presents buttocks or feet rather than the head.",
+ investigations:"Ultrasound to confirm presentation, fetal size, placenta and associated abnormalities.",
+ management:"Offer ECV where suitable; mode of delivery depends on breech type, gestation, fetal and maternal factors."
+},
+
+{
+ id:"breech-types",
+ cat:"Breech",
+ title:"Types of breech",
+ definition:"Frank, complete and footling breech are common descriptive categories.",
+ investigations:"Ultrasound assessment of fetal legs and presenting part.",
+ management:"Footling presentation often carries higher cord prolapse risk; delivery planning should be individualised."
+},
+
+{
+ id:"external-cephalic-version",
+ cat:"Breech",
+ title:"External cephalic version",
+ definition:"Manual transabdominal rotation of breech fetus to cephalic presentation.",
+ investigations:"Confirm breech, gestation, placenta, liquor, fetal wellbeing and exclude contraindications.",
+ management:"Offer to appropriate women near term according to local protocol, with fetal monitoring and emergency delivery capability."
+},
+
+{
+ id:"vaginal-breech-delivery",
+ cat:"Breech",
+ title:"Vaginal breech delivery",
+ definition:"Planned vaginal birth of a breech fetus in carefully selected circumstances.",
+ investigations:"Breech type, estimated fetal weight, head flexion, maternal pelvis, operator skill and fetal wellbeing.",
+ management:"Requires strict criteria and experienced staff; caesarean is chosen when criteria are not met."
+},
+
+{
+ id:"caesarean-for-breech",
+ cat:"Breech",
+ title:"Caesarean delivery for breech",
+ definition:"Surgical delivery chosen when planned vaginal breech birth is unsuitable or unsafe.",
+ investigations:"Presentation, gestation, fetal condition and maternal factors.",
+ management:"Often preferred when breech criteria for vaginal birth are not satisfied."
+},
+
+/* =========================================================
+   OBSTETRIC EMERGENCIES
+   ========================================================= */
+
+{
+ id:"shoulder-dystocia",
+ cat:"Obstetric emergencies",
+ title:"Shoulder dystocia",
+ definition:"Failure of delivery of the fetal shoulders after delivery of the head requiring additional manoeuvres.",
+ investigations:"Clinical diagnosis; no investigation should delay emergency management.",
+ management:"Call for help, McRoberts manoeuvre, suprapubic pressure, internal rotational manoeuvres and delivery of posterior arm according to emergency sequence."
+},
+
+{
+ id:"cord-prolapse",
+ cat:"Obstetric emergencies",
+ title:"Cord prolapse",
+ definition:"Umbilical cord descends through or alongside the cervix ahead of the presenting part after membrane rupture.",
+ investigations:"Immediate vaginal examination and continuous fetal assessment.",
+ management:"Call for help, relieve cord compression by elevating presenting part, position mother appropriately and expedite delivery."
+},
+
+{
+ id:"uterine-rupture",
+ cat:"Obstetric emergencies",
+ title:"Uterine rupture",
+ definition:"Full-thickness disruption of the uterine wall, often associated with previous uterine scar.",
+ investigations:"Clinical diagnosis supported by maternal instability, abnormal CTG, pain and intraperitoneal bleeding.",
+ management:"Immediate resuscitation and emergency laparotomy with definitive surgical management."
+},
+
+{
+ id:"uterine-inversion",
+ cat:"Obstetric emergencies",
+ title:"Uterine inversion",
+ definition:"Uterine fundus turns inside out and may protrude through the cervix or vagina after delivery.",
+ investigations:"Clinical diagnosis with shock that may be disproportionate to visible blood loss.",
+ management:"Call for help, resuscitate and urgently replace uterus; avoid unnecessary cord traction."
+},
+
+{
+ id:"amniotic-fluid-embolism",
+ cat:"Obstetric emergencies",
+ title:"Amniotic fluid embolism",
+ definition:"Rare catastrophic maternal syndrome characterised by sudden cardiorespiratory compromise and coagulopathy.",
+ investigations:"Immediate ABCDE, blood gases, FBC, coagulation, ECG, imaging according to clinical situation.",
+ management:"Aggressive resuscitation, haemodynamic/respiratory support and treatment of DIC/haemorrhage."
+},
+
+{
+ id:"maternal-collapse",
+ cat:"Obstetric emergencies",
+ title:"Maternal collapse",
+ definition:"Acute severe maternal deterioration requiring immediate resuscitation and identification of reversible causes.",
+ investigations:"ABCDE, glucose, ECG, blood tests and directed investigation.",
+ management:"Resuscitate first, call multidisciplinary team and identify obstetric/non-obstetric causes in parallel."
+},
+
+{
+ id:"massive-obstetric-haemorrhage",
+ cat:"Obstetric emergencies",
+ title:"Massive obstetric haemorrhage",
+ definition:"Severe obstetric bleeding associated with hypovolaemia, coagulopathy and maternal collapse.",
+ investigations:"ABCDE, serial FBC, coagulation/fibrinogen, group and crossmatch and bedside assessment.",
+ management:"Activate major haemorrhage protocol, transfuse appropriately, stop the bleeding source and involve senior obstetric/anaesthetic/surgical teams."
+},
+
+/* =========================================================
+   PPH
+   ========================================================= */
+
+{
+ id:"primary-pph",
+ cat:"PPH",
+ title:"Primary postpartum haemorrhage",
+ definition:"Significant excessive blood loss after birth occurring in the early postpartum period.",
+ investigations:"Quantify blood loss, observations, uterine tone and cause; FBC, coagulation and crossmatch when significant.",
+ management:"Resuscitation plus identification and treatment of the 4 Ts: Tone, Trauma, Tissue and Thrombin."
+},
+
+{
+ id:"secondary-pph",
+ cat:"PPH",
+ title:"Secondary postpartum haemorrhage",
+ definition:"Abnormal postpartum bleeding occurring after the immediate postpartum period.",
+ investigations:"History, pelvic assessment, FBC and ultrasound when retained products or other pathology are suspected.",
+ management:"Assess for retained tissue, infection and genital tract pathology; antibiotics and evacuation may be required depending on cause."
+},
+
+{
+ id:"four-ts-pph",
+ cat:"PPH",
+ title:"4 Ts of PPH",
+ definition:"Tone, Trauma, Tissue and Thrombin provide a rapid framework for identifying PPH causes.",
+ investigations:"Assess uterine tone, genital tract trauma, retained placenta/products and coagulopathy.",
+ management:"Treat the cause while resuscitation proceeds."
+},
+
+{
+ id:"uterotonics",
+ cat:"PPH",
+ title:"Uterotonics in PPH",
+ definition:"Medications used to contract the uterus in uterine atony.",
+ investigations:"Assess uterine tone, contraindications and blood pressure/clinical status.",
+ management:"Use the appropriate uterotonic sequence according to local PPH protocol and contraindications."
+},
+
+{
+ id:"tranexamic-acid-pph",
+ cat:"PPH",
+ title:"Tranexamic acid in PPH",
+ definition:"Antifibrinolytic that reduces death due to bleeding when given early in significant postpartum haemorrhage.",
+ investigations:"Clinical diagnosis of PPH and assessment for thrombotic contraindications.",
+ management:"Give promptly as part of the PPH treatment pathway according to current local protocol."
+},
+
+{
+ id:"balloon-tamponade",
+ cat:"PPH",
+ title:"Balloon tamponade",
+ definition:"Intrauterine mechanical pressure used to control ongoing uterine bleeding.",
+ investigations:"Ensure retained placenta/major trauma requiring surgery have been addressed.",
+ management:"Useful for refractory uterine atony when conservative treatment fails and appropriate expertise is available."
+},
+
+{
+ id:"compression-sutures",
+ cat:"PPH",
+ title:"Compression sutures",
+ definition:"Surgical techniques that compress the uterus to control severe atonic haemorrhage.",
+ investigations:"Persistent bleeding despite medical treatment.",
+ management:"Consider before hysterectomy where fertility-preserving surgery remains appropriate and expertise is available."
+},
+
+{
+ id:"peripartum-hysterectomy",
+ cat:"PPH",
+ title:"Peripartum hysterectomy",
+ definition:"Emergency hysterectomy used to control life-threatening obstetric haemorrhage.",
+ investigations:"Persistent severe bleeding, abnormal placentation, uterine rupture or failure of conservative measures.",
+ management:"Life-saving definitive procedure when haemorrhage cannot otherwise be controlled."
+},
+
+/* =========================================================
+   MULTIPLE PREGNANCY
+   ========================================================= */
+
+{
+ id:"twin-pregnancy",
+ cat:"Multiple pregnancy",
+ title:"Twin pregnancy",
+ definition:"Pregnancy involving two fetuses with increased maternal and fetal risks.",
+ investigations:"Early ultrasound to determine chorionicity/amnionicity and serial fetal assessment.",
+ management:"Antenatal care should be tailored to chorionicity and associated complications."
+},
+
+{
+ id:"chorionicity-and-amnionicity",
+ cat:"Multiple pregnancy",
+ title:"Chorionicity and amnionicity",
+ definition:"Classification of twins by number of placentas and amniotic sacs.",
+ investigations:"First-trimester ultrasound is best for determination.",
+ management:"Chorionicity drives surveillance schedule and risk of twin-specific complications."
+},
+
+{
+ id:"dcda-twins",
+ cat:"Multiple pregnancy",
+ title:"DCDA twins",
+ definition:"Dichorionic diamniotic twin pregnancy with two placentas and two amniotic sacs.",
+ investigations:"Ultrasound identification of lambda sign and separate sacs where relevant.",
+ management:"Generally lower twin-specific risk than monochorionic twins but still requires enhanced surveillance."
+},
+
+{
+ id:"mcda-twins",
+ cat:"Multiple pregnancy",
+ title:"MCDA twins",
+ definition:"Monochorionic diamniotic twins sharing a placenta but with separate amniotic sacs.",
+ investigations:"Regular ultrasound surveillance for twin complications.",
+ management:"Requires close surveillance for TTTS and growth discordance."
+},
+
+{
+ id:"mcma-twins",
+ cat:"Multiple pregnancy",
+ title:"MCMA twins",
+ definition:"Monochorionic monoamniotic twins sharing both placenta and amniotic cavity.",
+ investigations:"Frequent specialist ultrasound and fetal monitoring.",
+ management:"High-risk pregnancy requiring specialist care due to cord entanglement and fetal mortality risk."
+},
+
+{
+ id:"ttts",
+ cat:"Multiple pregnancy",
+ title:"Twin-to-twin transfusion syndrome",
+ definition:"Complication of monochorionic twins caused by unbalanced placental vascular connections.",
+ investigations:"Serial ultrasound assessment of liquor, bladder, growth and Doppler.",
+ management:"Urgent fetal medicine referral; treatment may include fetoscopic laser therapy in appropriate stages."
+},
+
+{
+ id:"taps",
+ cat:"Multiple pregnancy",
+ title:"Twin anaemia-polycythaemia sequence",
+ definition:"Chronic unequal red-cell transfusion between monochorionic twins without classic TTTS features.",
+ investigations:"MCA Doppler in both twins.",
+ management:"Specialist fetal medicine management."
+},
+
+{
+ id:"trap-sequence",
+ cat:"Multiple pregnancy",
+ title:"TRAP sequence",
+ definition:"Twin reversed arterial perfusion sequence with acardiac twin perfused by a pump twin.",
+ investigations:"Ultrasound and Doppler.",
+ management:"Specialist fetal medicine assessment; intervention may be required to protect the pump twin."
+},
+
+{
+ id:"delivery-of-twins",
+ cat:"Multiple pregnancy",
+ title:"Delivery of twin pregnancy",
+ definition:"Timing and mode of twin birth depend on chorionicity, gestation, presentation and maternal/fetal condition.",
+ investigations:"Presentation of each twin, growth, Doppler and maternal complications.",
+ management:"Plan delivery with an experienced obstetric team and prepare for complications including malpresentation and postpartum haemorrhage."
+},
+
+/* =========================================================
+   RH
+   ========================================================= */
+
+{
+ id:"rhesus-negative-pregnancy",
+ cat:"Rhesus",
+ title:"Rhesus-negative pregnancy",
+ definition:"Pregnancy in a woman who lacks the RhD antigen and may become sensitised after exposure to RhD-positive fetal red cells.",
+ investigations:"Maternal blood group and antibody screening.",
+ management:"Prevent sensitisation with anti-D according to gestational and event-based indications."
+},
+
+{
+ id:"anti-d-prophylaxis",
+ cat:"Rhesus",
+ title:"Anti-D prophylaxis",
+ definition:"Passive anti-D immunoglobulin used to prevent maternal RhD alloimmunisation.",
+ investigations:"Maternal blood group and antibody screen; assess sensitising events and fetomaternal haemorrhage risk.",
+ management:"Administer according to current Malaysian protocol and after appropriate sensitising events."
+},
+
+{
+ id:"rhesus-sensitisation",
+ cat:"Rhesus",
+ title:"Rhesus sensitisation",
+ definition:"Maternal formation of anti-D antibodies capable of crossing the placenta and causing fetal haemolysis.",
+ investigations:"Antibody identification/titre and fetal assessment including MCA Doppler when indicated.",
+ management:"Specialist surveillance and fetal treatment/delivery planning depending on severity."
+},
+
+{
+ id:"fetal-anaemia-from-rhesus-disease",
+ cat:"Rhesus",
+ title:"Fetal anaemia from Rhesus disease",
+ definition:"Fetal haemolytic anaemia caused by maternal red-cell antibodies.",
+ investigations:"MCA peak systolic velocity and specialist fetal assessment.",
+ management:"Fetal medicine referral; intrauterine transfusion may be required in severe disease."
+},
+
+/* =========================================================
+   INFECTION
+   ========================================================= */
+
+{
+ id:"uti-in-pregnancy",
+ cat:"Infection",
+ title:"Urinary tract infection in pregnancy",
+ definition:"Bacterial urinary infection occurring during pregnancy.",
+ investigations:"Urinalysis and urine culture before or during treatment when appropriate.",
+ management:"Pregnancy-safe antibiotics according to local antimicrobial guidance and culture result; ensure follow-up."
+},
+
+{
+ id:"pyelonephritis-in-pregnancy",
+ cat:"Infection",
+ title:"Pyelonephritis in pregnancy",
+ definition:"Upper urinary tract infection that can cause maternal sepsis and preterm labour.",
+ investigations:"Urine culture, FBC, renal function, blood cultures when septic and fetal assessment.",
+ management:"Hospital-based antibiotics and supportive care are commonly required."
+},
+
+{
+ id:"chlamydia-in-pregnancy",
+ cat:"Infection",
+ title:"Chlamydia in pregnancy",
+ definition:"Sexually transmitted infection caused by Chlamydia trachomatis.",
+ investigations:"NAAT from appropriate genital/urine specimen.",
+ management:"Treat with pregnancy-appropriate antibiotics and manage partner notification and retesting according to local STI protocol."
+},
+
+{
+ id:"gonorrhoea-in-pregnancy",
+ cat:"Infection",
+ title:"Gonorrhoea in pregnancy",
+ definition:"Neisseria gonorrhoeae sexually transmitted infection.",
+ investigations:"NAAT/culture as appropriate.",
+ management:"Pregnancy-safe antimicrobial treatment and partner management according to current STI guidance."
+},
+
+{
+ id:"trichomoniasis",
+ cat:"Infection",
+ title:"Trichomoniasis",
+ definition:"Sexually transmitted infection caused by Trichomonas vaginalis.",
+ investigations:"Microscopy/NAAT depending on local service.",
+ management:"Treat with appropriate nitroimidazole therapy and treat sexual partners."
+},
+
+{
+ id:"bacterial-vaginosis",
+ cat:"Infection",
+ title:"Bacterial vaginosis",
+ definition:"Vaginal dysbiosis characterised by reduced lactobacilli and increased anaerobic organisms.",
+ investigations:"Clinical features, discharge assessment and testing where available.",
+ management:"Treat symptomatic women according to local protocol."
+},
+
+{
+ id:"vulvovaginal-candidiasis",
+ cat:"Infection",
+ title:"Vulvovaginal candidiasis",
+ definition:"Candida vulvovaginal infection causing itching, soreness and characteristic discharge.",
+ investigations:"Clinical examination and microscopy/testing when uncertain.",
+ management:"Pregnancy treatment generally favours topical azole therapy according to local protocol."
+},
+
+{
+ id:"syphilis-in-pregnancy",
+ cat:"Infection",
+ title:"Syphilis in pregnancy",
+ definition:"Treponemal sexually transmitted infection associated with miscarriage, stillbirth and congenital syphilis.",
+ investigations:"Serology and stage assessment.",
+ management:"Penicillin remains the standard treatment; ensure partner management and fetal assessment."
+},
+
+{
+ id:"hiv-in-pregnancy",
+ cat:"Infection",
+ title:"HIV in pregnancy",
+ definition:"Maternal HIV infection with potential vertical transmission.",
+ investigations:"HIV testing, viral load, CD4 count and antenatal screening.",
+ management:"Antiretroviral therapy, viral-load based delivery planning and neonatal prevention strategy."
+},
+
+{
+ id:"gbs-in-pregnancy",
+ cat:"Infection",
+ title:"Group B Streptococcus in pregnancy",
+ definition:"Maternal colonisation with Streptococcus agalactiae that may cause early neonatal infection.",
+ investigations:"Testing according to local policy and clinical risk.",
+ management:"Intrapartum antibiotic prophylaxis when indicated."
+},
+
+{
+ id:"varicella-in-pregnancy",
+ cat:"Infection",
+ title:"Varicella in pregnancy",
+ definition:"Primary maternal infection with varicella-zoster virus.",
+ investigations:"Exposure history, serology where appropriate and clinical assessment.",
+ management:"Assess maternal severity and gestation-specific fetal/neonatal risk; use specialist infection/obstetric advice."
+},
+
+{
+ id:"cmv-in-pregnancy",
+ cat:"Infection",
+ title:"Cytomegalovirus in pregnancy",
+ definition:"Maternal CMV infection with possible fetal congenital infection.",
+ investigations:"Serology and ultrasound surveillance in selected cases.",
+ management:"Specialist counselling and fetal surveillance when maternal primary infection is suspected."
+},
+
+{
+ id:"toxoplasmosis-in-pregnancy",
+ cat:"Infection",
+ title:"Toxoplasmosis in pregnancy",
+ definition:"Parasitic infection that can cause congenital fetal disease.",
+ investigations:"Serology and specialist fetal assessment when indicated.",
+ management:"Referral to specialist maternal-fetal medicine/infectious disease services."
+},
+
+/* =========================================================
+   FLUID / PROM
+   ========================================================= */
+
+{
+ id:"reduced-fetal-movements",
+ cat:"Fluid & fetal assessment",
+ title:"Reduced fetal movements",
+ definition:"Maternal perception that fetal activity has reduced from the usual pattern.",
+ investigations:"Prompt fetal heart assessment, CTG where appropriate and ultrasound if indicated.",
+ management:"Never dismiss reduced movements; assess promptly and escalate according to gestation and fetal condition."
+},
+
+{
+ id:"oligohydramnios",
+ cat:"Fluid & fetal assessment",
+ title:"Oligohydramnios",
+ definition:"Reduced amniotic fluid volume.",
+ investigations:"Ultrasound assessment of liquor and fetal growth/anatomy.",
+ management:"Search for membrane rupture, placental insufficiency, fetal renal abnormalities and post-term pregnancy."
+},
+
+{
+ id:"polyhydramnios",
+ cat:"Fluid & fetal assessment",
+ title:"Polyhydramnios",
+ definition:"Excessive amniotic fluid volume.",
+ investigations:"Ultrasound, diabetes assessment and fetal structural review.",
+ management:"Treat underlying cause and assess risks including malpresentation, cord prolapse and postpartum haemorrhage."
+},
+
+{
+ id:"premature-rupture-of-membranes",
+ cat:"Fluid & fetal assessment",
+ title:"Premature rupture of membranes",
+ definition:"Rupture of membranes before labour.",
+ investigations:"History and sterile speculum assessment; avoid unnecessary digital examination.",
+ management:"Management depends on gestation and infection/fetal status."
+},
+
+/* =========================================================
+   FETAL ANOMALY
+   ========================================================= */
+
+{
+ id:"antenatal-anomaly-screening",
+ cat:"Fetal anomaly",
+ title:"Antenatal anomaly screening",
+ definition:"Systematic screening for fetal structural and chromosomal abnormalities.",
+ investigations:"First/second trimester ultrasound and maternal screening according to available service.",
+ management:"Offer counselling and diagnostic pathways when screening is abnormal."
+},
+
+{
+ id:"nipt",
+ cat:"Fetal anomaly",
+ title:"Non-invasive prenatal testing",
+ definition:"Maternal blood screening using cell-free fetal DNA to estimate risk of common chromosomal abnormalities.",
+ investigations:"Maternal blood sample with appropriate pre-test counselling.",
+ management:"A high-risk screening result requires confirmatory diagnostic testing."
+},
+
+{
+ id:"down-syndrome",
+ cat:"Fetal anomaly",
+ title:"Down syndrome",
+ definition:"Trisomy 21 causing characteristic phenotype, developmental differences and associated congenital/medical conditions.",
+ investigations:"Screening followed by diagnostic testing when indicated.",
+ management:"Multidisciplinary counselling and postnatal preparation based on confirmed diagnosis and associated abnormalities."
+},
+
+{
+ id:"neural-tube-defects",
+ cat:"Fetal anomaly",
+ title:"Neural tube defects",
+ definition:"Congenital malformations resulting from failure of neural tube closure.",
+ investigations:"Maternal screening and detailed fetal ultrasound.",
+ management:"Counsel regarding diagnosis, prognosis and specialist fetal medicine options."
+},
+
+/* =========================================================
+   INDUCTION OF LABOUR
+   ========================================================= */
+
+{
+ id:"induction-of-labour",
+ cat:"Induction of labour",
+ title:"Induction of labour",
+ definition:"Artificial initiation of labour before spontaneous onset when continuation of pregnancy is less beneficial than delivery.",
+ investigations:"Confirm indication, gestation, fetal position and Bishop score.",
+ management:"Use membrane sweep, cervical ripening, amniotomy and/or oxytocin according to cervical status and Malaysian guideline."
+},
+
+{
+ id:"indications-for-induction",
+ cat:"Induction of labour",
+ title:"Indications for induction",
+ definition:"Maternal or fetal conditions where planned delivery is safer or more beneficial than waiting for spontaneous labour.",
+ investigations:"Gestational age, maternal disease, fetal wellbeing and cervical readiness.",
+ management:"Common indications include prolonged pregnancy, some hypertensive disorders, diabetes and selected fetal conditions."
+},
+
+{
+ id:"bishop-score",
+ cat:"Induction of labour",
+ title:"Bishop score",
+ definition:"Cervical scoring system used to assess readiness for induction.",
+ investigations:"Dilatation, effacement/length, station, consistency and position.",
+ management:"Low scores generally favour cervical ripening; favourable cervix may permit amniotomy/oxytocin."
+},
+
+{
+ id:"prostaglandin-cervical-ripening",
+ cat:"Induction of labour",
+ title:"Prostaglandin cervical ripening",
+ definition:"Pharmacological cervical ripening before induction of labour.",
+ investigations:"Check fetal presentation, CTG and contraindications.",
+ management:"Use according to local induction protocol and monitor for uterine hyperstimulation."
+},
+
+{
+ id:"balloon-cervical-ripening",
+ cat:"Induction of labour",
+ title:"Balloon cervical ripening",
+ definition:"Mechanical cervical ripening using a balloon catheter.",
+ investigations:"Assess Bishop score, fetal presentation and membranes.",
+ management:"Useful in selected situations, including some women where prostaglandins are less desirable."
+},
+
+{
+ id:"artificial-rupture-of-membranes",
+ cat:"Induction of labour",
+ title:"Artificial rupture of membranes",
+ definition:"Intentional rupture of membranes to stimulate or augment labour.",
+ investigations:"Confirm engagement/presentation and exclude vasa praevia or other contraindications.",
+ management:"Usually combined with oxytocin when appropriate."
+},
+
+{
+ id:"oxytocin-augmentation",
+ cat:"Induction of labour",
+ title:"Oxytocin augmentation",
+ definition:"IV oxytocin used to increase uterine contractions.",
+ investigations:"Continuous fetal monitoring when required and contraction frequency.",
+ management:"Titrate carefully and stop/reduce if tachysystole or fetal compromise occurs."
+},
+
+{
+ id:"contraindications-to-induction",
+ cat:"Induction of labour",
+ title:"Contraindications to induction",
+ definition:"Situations where artificial labour is unsafe or unsuitable.",
+ investigations:"Placenta praevia, malpresentation, previous uterine surgery and fetal compromise must be considered.",
+ management:"Choose an alternative mode/timing of delivery when induction is contraindicated."
+},
+
+{
+ id:"failed-induction-management",
+ cat:"Induction of labour",
+ title:"Failed induction management",
+ definition:"Failure to establish labour or achieve birth after an appropriate induction attempt.",
+ investigations:"Review Bishop score, cervical response, contractions and maternal/fetal status.",
+ management:"Senior review and individualized decision regarding further cervical ripening, augmentation or caesarean."
+},
+
+/* =========================================================
+   EARLY PREGNANCY
+   ========================================================= */
+
+{
+ id:"miscarriage",
+ cat:"Early pregnancy",
+ title:"Miscarriage",
+ definition:"Spontaneous loss of pregnancy before fetal viability according to the applicable definition.",
+ investigations:"History, examination, quantitative hCG where useful and ultrasound.",
+ management:"Expectant, medical or surgical management according to clinical status, patient preference and local protocol."
+},
+
+{
+ id:"threatened-miscarriage",
+ cat:"Early pregnancy",
+ title:"Threatened miscarriage",
+ definition:"Vaginal bleeding with a closed cervix and an intrauterine pregnancy that remains viable.",
+ investigations:"Ultrasound and clinical assessment.",
+ management:"Expectant management in many cases with follow-up and safety-net advice."
+},
+
+{
+ id:"inevitable-miscarriage",
+ cat:"Early pregnancy",
+ title:"Inevitable miscarriage",
+ definition:"Bleeding and cervical dilatation indicating pregnancy loss is unavoidable.",
+ investigations:"Clinical assessment and ultrasound.",
+ management:"Discuss expectant, medical or surgical management depending on gestation, symptoms and preference."
+},
+
+{
+ id:"incomplete-miscarriage",
+ cat:"Early pregnancy",
+ title:"Incomplete miscarriage",
+ definition:"Some products of conception remain within the uterus after pregnancy loss.",
+ investigations:"Examination and ultrasound where required.",
+ management:"Expectant, medical or surgical evacuation depending on bleeding, infection, stability and preference."
+},
+
+{
+ id:"complete-miscarriage",
+ cat:"Early pregnancy",
+ title:"Complete miscarriage",
+ definition:"All products of conception have been expelled and the uterus is empty.",
+ investigations:"Clinical assessment with ultrasound when diagnosis is uncertain.",
+ management:"Reassurance and follow-up if clinically stable."
+},
+
+{
+ id:"missed-miscarriage",
+ cat:"Early pregnancy",
+ title:"Missed miscarriage",
+ definition:"Non-viable intrauterine pregnancy retained within the uterus without expulsion.",
+ investigations:"Ultrasound confirmation using accepted diagnostic criteria.",
+ management:"Expectant, medical or surgical management depending on clinical context and preference."
+},
+
+{
+ id:"septic-miscarriage",
+ cat:"Early pregnancy",
+ title:"Septic miscarriage",
+ definition:"Pregnancy loss complicated by uterine/pelvic infection and systemic infection.",
+ investigations:"Observations, FBC, cultures, lactate and imaging where indicated.",
+ management:"Broad-spectrum IV antibiotics, resuscitation and urgent source control."
+},
+
+{
+ id:"ectopic-pregnancy",
+ cat:"Early pregnancy",
+ title:"Ectopic pregnancy",
+ definition:"Pregnancy implanted outside the uterine cavity, most commonly within the fallopian tube.",
+ investigations:"Pregnancy test, serial hCG and transvaginal ultrasound.",
+ management:"Expectant, medical methotrexate or surgical treatment depending on stability, hCG, ultrasound findings and local criteria."
+},
+
+{
+ id:"pregnancy-of-unknown-location",
+ cat:"Early pregnancy",
+ title:"Pregnancy of unknown location",
+ definition:"Positive pregnancy test with no definite intrauterine or ectopic pregnancy identified on ultrasound.",
+ investigations:"Serial hCG and repeat ultrasound.",
+ management:"Treat as a diagnostic state, not a diagnosis; exclude ectopic pregnancy carefully."
+},
+
+{
+ id:"molar-pregnancy",
+ cat:"Early pregnancy",
+ title:"Molar pregnancy",
+ definition:"Abnormal trophoblastic proliferation resulting in complete or partial hydatidiform mole.",
+ investigations:"Ultrasound, quantitative hCG and blood tests.",
+ management:"Suction evacuation is standard treatment for complete mole in suitable cases, followed by hCG surveillance."
+},
+
+{
+ id:"gestational-trophoblastic-neoplasia",
+ cat:"Early pregnancy",
+ title:"Gestational trophoblastic neoplasia",
+ definition:"Persistent or malignant trophoblastic disease following pregnancy.",
+ investigations:"Serial hCG, imaging and staging.",
+ management:"Specialist oncology/trophoblastic disease care and chemotherapy or other treatment as indicated."
+},
+
+{
+ id:"er-poc",
+ cat:"Early pregnancy",
+ title:"ERPOC",
+ definition:"Evacuation of retained products of conception using surgical or aspiration technique.",
+ investigations:"Confirm indication and assess bleeding, infection and uterine anatomy.",
+ management:"Use when indicated with appropriate consent, antibiotic strategy and follow-up."
+},
+
+/* =========================================================
+   GYNAECOLOGY HISTORY / EXAM
+   ========================================================= */
+
+{
+ id:"gynaecology-history",
+ cat:"Gynaecology history & examination",
+ title:"Gynaecology history",
+ definition:"Structured history covering presenting complaint, menstrual, obstetric, sexual, contraceptive and medical history.",
+ investigations:"The history itself guides focused examination and testing.",
+ management:"Use a systematic approach and identify red flags early."
+},
+
+{
+ id:"menstrual-history",
+ cat:"Gynaecology history & examination",
+ title:"Menstrual history",
+ definition:"Assessment of cycle pattern, bleeding and associated symptoms.",
+ investigations:"Cycle interval, duration, regularity, volume, clots, pain and intermenstrual/postcoital bleeding.",
+ management:"Use menstrual features to classify abnormal uterine bleeding and identify endocrine or structural causes."
+},
+
+{
+ id:"obstetric-history-gynaecology",
+ cat:"Gynaecology history & examination",
+ title:"Obstetric history in gynaecology",
+ definition:"Previous pregnancies and outcomes may explain infertility, pelvic pathology and treatment risks.",
+ investigations:"G/P, miscarriages, ectopic pregnancies, modes of delivery and pregnancy complications.",
+ management:"Integrate with the current gynaecological problem."
+},
+
+{
+ id:"sexual-history",
+ cat:"Gynaecology history & examination",
+ title:"Sexual history",
+ definition:"Confidential assessment of sexual activity, partners, contraception, STI exposure and symptoms.",
+ investigations:"STI testing when indicated.",
+ management:"Use non-judgemental, consent-based communication."
+},
+
+{
+ id:"contraception-history",
+ cat:"Gynaecology history & examination",
+ title:"Contraception history",
+ definition:"Review of current and previous contraceptive methods and reasons for continuation/discontinuation.",
+ investigations:"Pregnancy risk, BP and contraindications depending on method.",
+ management:"Offer individualised method choice."
+},
+
+{
+ id:"pv-examination",
+ cat:"Gynaecology history & examination",
+ title:"Per-vaginal examination",
+ definition:"Bimanual pelvic assessment to evaluate uterus, cervix and adnexal structures.",
+ investigations:"Assess cervical motion, uterine size, tenderness, position and adnexal masses.",
+ management:"Obtain consent and use only when clinically indicated."
+},
+
+{
+ id:"speculum-examination",
+ cat:"Gynaecology history & examination",
+ title:"Speculum examination",
+ definition:"Direct inspection of vagina and cervix.",
+ investigations:"Assess bleeding, discharge, lesions, cervix and sampling needs.",
+ management:"Use appropriate size speculum and explain procedure clearly."
+},
+
+{
+ id:"bimanual-examination",
+ cat:"Gynaecology history & examination",
+ title:"Bimanual pelvic examination",
+ definition:"Two-handed examination assessing pelvic organs and tenderness.",
+ investigations:"Uterine size, mobility, tenderness and adnexal masses.",
+ management:"Interpret findings with the history and imaging."
+},
+
+{
+ id:"rectal-examination-gynaecology",
+ cat:"Gynaecology history & examination",
+ title:"Rectal examination in gynaecology",
+ definition:"Examination used selectively for posterior pelvic pathology or suspected rectovaginal involvement.",
+ investigations:"Assess posterior vaginal wall, rectum and tenderness when relevant.",
+ management:"Perform only when clinically justified."
+},
+
+/* =========================================================
+   AUB
+   ========================================================= */
+
+{
+ id:"palm-coein",
+ cat:"Abnormal uterine bleeding",
+ title:"PALM-COEIN classification",
+ definition:"FIGO classification dividing AUB causes into structural and non-structural categories.",
+ investigations:"History, examination, blood tests and imaging based on suspected cause.",
+ management:"Identify and treat the underlying PALM-COEIN cause."
+},
+
+{
+ id:"fibroid",
+ cat:"Abnormal uterine bleeding",
+ title:"Fibroid",
+ definition:"Benign uterine smooth-muscle tumour associated with heavy menstrual bleeding, pressure symptoms and infertility in selected women.",
+ investigations:"Pelvic examination and ultrasound.",
+ management:"Observation, medical therapy, myomectomy, uterine artery embolisation or hysterectomy depending on symptoms and fertility goals."
+},
+
+{
+ id:"adenomyosis",
+ cat:"Abnormal uterine bleeding",
+ title:"Adenomyosis",
+ definition:"Endometrial glands and stroma within the myometrium causing an enlarged tender uterus and heavy painful menses.",
+ investigations:"Ultrasound and/or MRI where required.",
+ management:"Medical symptom control or surgery depending on severity and fertility plans."
+},
+
+{
+ id:"endometrial-polyp",
+ cat:"Abnormal uterine bleeding",
+ title:"Endometrial polyp",
+ definition:"Focal overgrowth of endometrial tissue producing abnormal bleeding.",
+ investigations:"Transvaginal ultrasound and hysteroscopy when indicated.",
+ management:"Hysteroscopic removal is commonly used for symptomatic or suspicious lesions."
+},
+
+{
+ id:"endometrial-hyperplasia",
+ cat:"Abnormal uterine bleeding",
+ title:"Endometrial hyperplasia",
+ definition:"Abnormal proliferative thickening of the endometrium, sometimes associated with atypia and cancer risk.",
+ investigations:"Endometrial biopsy/histology.",
+ management:"Progestogen-based therapy for selected non-atypical disease; atypical hyperplasia requires specialist management."
+},
+
+{
+ id:"coagulopathy-aub",
+ cat:"Abnormal uterine bleeding",
+ title:"Coagulopathy-related AUB",
+ definition:"AUB caused by an inherited or acquired bleeding disorder.",
+ investigations:"Bleeding history, FBC and coagulation testing with specialist tests when indicated.",
+ management:"Treat bleeding and underlying disorder; involve haematology when needed."
+},
+
+{
+ id:"ovulatory-dysfunction-aub",
+ cat:"Abnormal uterine bleeding",
+ title:"Ovulatory dysfunction AUB",
+ definition:"Irregular or prolonged bleeding caused by abnormal ovulation.",
+ investigations:"Menstrual history, pregnancy test, thyroid/prolactin or androgen studies when indicated.",
+ management:"Treat underlying endocrine/metabolic cause and control bleeding."
+},
+
+{
+ id:"endometrial-aub",
+ cat:"Abnormal uterine bleeding",
+ title:"Endometrial AUB",
+ definition:"Abnormal bleeding without a defined structural or systemic cause and thought to arise from endometrial mechanisms.",
+ investigations:"Diagnosis of exclusion.",
+ management:"Medical management is often appropriate."
+},
+
+{
+ id:"iatrogenic-aub",
+ cat:"Abnormal uterine bleeding",
+ title:"Iatrogenic AUB",
+ definition:"Bleeding caused by medications or medical devices.",
+ investigations:"Medication and contraception review.",
+ management:"Modify or change the causative treatment when appropriate."
+},
+
+{
+ id:"not-otherwise-classified-aub",
+ cat:"Abnormal uterine bleeding",
+ title:"AUB not otherwise classified",
+ definition:"Less common causes that do not fit neatly within the other PALM-COEIN categories.",
+ investigations:"Targeted investigation according to suspected pathology.",
+ management:"Specialist assessment when persistent or unexplained."
+},
+
+/* =========================================================
+   DYSMENORRHOEA / CHRONIC PELVIC PAIN
+   ========================================================= */
+
+{
+ id:"primary-dysmenorrhoea",
+ cat:"Chronic pelvic pain",
+ title:"Primary dysmenorrhoea",
+ definition:"Painful menstruation without identifiable pelvic pathology, usually beginning soon after menarche.",
+ investigations:"Usually clinical; pelvic examination/imaging if atypical features exist.",
+ management:"NSAIDs, hormonal suppression and lifestyle/supportive measures."
+},
+
+{
+ id:"secondary-dysmenorrhoea",
+ cat:"Chronic pelvic pain",
+ title:"Secondary dysmenorrhoea",
+ definition:"Menstrual pain caused by pelvic pathology.",
+ investigations:"Detailed history, pelvic examination and ultrasound.",
+ management:"Treat underlying cause such as endometriosis, adenomyosis or fibroids."
+},
+
+{
+ id:"chronic-pelvic-pain",
+ cat:"Chronic pelvic pain",
+ title:"Chronic pelvic pain",
+ definition:"Persistent or recurrent pelvic pain affecting quality of life and often involving multiple systems.",
+ investigations:"Gynaecological, gastrointestinal, urinary, musculoskeletal and psychosocial assessment.",
+ management:"Multidisciplinary approach based on likely pain generators."
+},
+
+{
+ id:"endometriosis",
+ cat:"Endometriosis",
+ title:"Endometriosis",
+ definition:"Endometrial-like tissue outside the uterine cavity causing inflammation, pain and sometimes infertility.",
+ investigations:"History, examination and pelvic imaging; laparoscopy may be used selectively.",
+ management:"NSAIDs, hormonal suppression, progestogens/combined hormonal therapy and surgery for selected patients."
+},
+
+{
+ id:"endometriosis-r-asrm",
+ cat:"Endometriosis",
+ title:"rASRM staging of endometriosis",
+ definition:"Revised American Society for Reproductive Medicine scoring system based on lesion size/depth, ovarian disease and adhesions.",
+ investigations:"Laparoscopic findings are used for formal scoring.",
+ management:"Stage alone does not predict pain severity; treatment should reflect symptoms and fertility goals."
+},
+
+{
+ id:"endometriosis-medical-management",
+ cat:"Endometriosis",
+ title:"Medical management of endometriosis",
+ definition:"Hormonal suppression aimed at reducing cyclical ovarian/endometrial stimulation and pain.",
+ investigations:"Pregnancy status, symptom pattern and treatment contraindications.",
+ management:"Combined hormonal contraception, progestogens and other hormonal suppression options according to individual need."
+},
+
+{
+ id:"endometriosis-surgical-management",
+ cat:"Endometriosis",
+ title:"Surgical management of endometriosis",
+ definition:"Operative treatment to excise or ablate endometriotic lesions and release adhesions.",
+ investigations:"Imaging and clinical indication for surgery.",
+ management:"Laparoscopic surgery is considered for selected pain, endometrioma or fertility indications."
+},
+
+{
+ id:"endometriosis-fertility",
+ cat:"Endometriosis",
+ title:"Endometriosis and fertility",
+ definition:"Endometriosis may impair fertility through inflammation, adhesions and distorted pelvic anatomy.",
+ investigations:"Age, ovarian reserve, semen analysis and tubal assessment depending on the fertility plan.",
+ management:"Individualise expectant management, surgery and assisted reproduction according to age and disease."
+},
+
+/* =========================================================
+   ADENOMYOSIS
+   ========================================================= */
+
+{
+ id:"adenomyosis-features",
+ cat:"Adenomyosis",
+ title:"Adenomyosis features",
+ definition:"Commonly causes heavy menstrual bleeding, dysmenorrhoea and a bulky tender uterus.",
+ investigations:"Ultrasound is first-line imaging in many settings.",
+ management:"Treatment is symptom- and fertility-directed."
+},
+
+{
+ id:"adenomyosis-imaging",
+ cat:"Adenomyosis",
+ title:"Adenomyosis imaging",
+ definition:"Ultrasound and MRI can demonstrate characteristic myometrial changes.",
+ investigations:"TVUS with assessment of myometrial architecture and uterine appearance.",
+ management:"Imaging supports diagnosis but should be interpreted with symptoms."
+},
+
+{
+ id:"adenomyosis-management",
+ cat:"Adenomyosis",
+ title:"Adenomyosis management",
+ definition:"Management aims to control pain and bleeding and preserve fertility where desired.",
+ investigations:"Assess bleeding severity, anaemia and fertility goals.",
+ management:"NSAIDs, hormonal therapy, LNG-IUS and surgery in selected women."
+},
+
+/* =========================================================
+   FIBROIDS
+   ========================================================= */
+
+{
+ id:"fibroid-types",
+ cat:"Fibroids",
+ title:"Fibroid types",
+ definition:"Leiomyomas may be submucosal, intramural or subserosal according to their relationship with the endometrium and uterine surface.",
+ investigations:"Ultrasound and hysteroscopy/MRI in selected cases.",
+ management:"Treatment depends on symptoms, location, size and fertility plans."
+},
+
+{
+ id:"fibroid-degeneration",
+ cat:"Fibroids",
+ title:"Fibroid degeneration",
+ definition:"Degenerative change within a fibroid may cause acute pain, particularly in pregnancy.",
+ investigations:"Clinical examination and ultrasound.",
+ management:"Usually conservative analgesia unless another acute pelvic process is suspected."
+},
+
+{
+ id:"fibroid-and-fertility",
+ cat:"Fibroids",
+ title:"Fibroids and fertility",
+ definition:"Certain fibroids, especially submucosal lesions, may reduce fertility or increase miscarriage risk.",
+ investigations:"Pelvic ultrasound, cavity assessment and fertility evaluation.",
+ management:"Myomectomy may be considered in selected women."
+},
+
+{
+ id:"medical-treatment-of-fibroids",
+ cat:"Fibroids",
+ title:"Medical treatment of fibroids",
+ definition:"Medications can reduce bleeding and sometimes fibroid size or symptoms.",
+ investigations:"Bleeding burden, anaemia, fibroid location and contraindications.",
+ management:"Options include NSAIDs, tranexamic acid, hormonal therapy and selected specialist medications."
+},
+
+{
+ id:"surgical-treatment-of-fibroids",
+ cat:"Fibroids",
+ title:"Surgical treatment of fibroids",
+ definition:"Surgical removal or definitive treatment of uterine leiomyomas.",
+ investigations:"Imaging and fertility assessment.",
+ management:"Myomectomy is fertility-sparing; hysterectomy is definitive for women who no longer desire fertility."
+},
+
+/* =========================================================
+   OVARIAN
+   ========================================================= */
+
+{
+ id:"ovarian-cyst",
+ cat:"Ovarian pathology",
+ title:"Ovarian cyst",
+ definition:"Fluid-filled or mixed ovarian lesion with a broad differential ranging from physiological to malignant causes.",
+ investigations:"Pelvic ultrasound and tumour markers where clinically indicated.",
+ management:"Observe simple benign cysts when appropriate; operate if symptomatic, persistent, complex or suspicious."
+},
+
+{
+ id:"ovarian-torsion",
+ cat:"Ovarian pathology",
+ title:"Ovarian torsion",
+ definition:"Twisting of the ovary/adnexa causing impaired venous outflow and potentially arterial compromise.",
+ investigations:"Acute pain history, examination and ultrasound with Doppler.",
+ management:"Gynaecological surgical emergency; arrange urgent laparoscopy/laparotomy depending on circumstances."
+},
+
+{
+ id:"benign-ovarian-tumour",
+ cat:"Ovarian pathology",
+ title:"Benign ovarian tumour",
+ definition:"Non-malignant ovarian neoplasm such as cystadenoma or dermoid.",
+ investigations:"Ultrasound morphology and selected tumour markers.",
+ management:"Observation or surgery based on size, symptoms, complexity and malignancy risk."
+},
+
+{
+ id:"borderline-ovarian-tumour",
+ cat:"Ovarian pathology",
+ title:"Borderline ovarian tumour",
+ definition:"Epithelial ovarian tumour with atypical proliferation but without destructive stromal invasion.",
+ investigations:"Ultrasound, tumour markers and histopathology.",
+ management:"Surgical staging and fertility-sparing options may be possible in selected women."
+},
+
+{
+ id:"ovarian-cancer",
+ cat:"Ovarian malignancy",
+ title:"Ovarian cancer",
+ definition:"Malignant tumour of the ovary, fallopian tube or primary peritoneum presenting commonly with nonspecific abdominal/pelvic symptoms.",
+ investigations:"Ultrasound, CA125 where appropriate, CT/MRI for staging and histology.",
+ management:"Gynaecologic oncology referral with staging surgery and systemic therapy as indicated."
+},
+
+{
+ id:"ca125",
+ cat:"Ovarian malignancy",
+ title:"CA-125",
+ definition:"Tumour-associated marker used mainly in evaluation and monitoring of epithelial ovarian cancer.",
+ investigations:"Serum CA125 interpreted with ultrasound and clinical context.",
+ management:"A raised level is not diagnostic of cancer because benign and other malignant conditions can elevate it."
+},
+
+{
+ id:"risk-of-malignancy-index",
+ cat:"Ovarian malignancy",
+ title:"Risk of Malignancy Index",
+ definition:"Risk score combining ultrasound features, menopausal status and CA125.",
+ investigations:"Ultrasound morphology, menopausal status and CA125.",
+ management:"Higher risk warrants specialist gynaecologic oncology assessment."
+},
+
+{
+ id:"ovarian-cancer-staging",
+ cat:"Ovarian malignancy",
+ title:"Ovarian cancer staging",
+ definition:"FIGO-based assessment of tumour extent within pelvis, abdomen and beyond.",
+ investigations:"Imaging and operative staging/histology.",
+ management:"Stage guides surgery and chemotherapy."
+},
+
+{
+ id:"ovarian-cancer-surgery",
+ cat:"Ovarian malignancy",
+ title:"Surgery for ovarian cancer",
+ definition:"Cytoreductive/staging surgery performed by appropriately trained gynaecologic oncology teams.",
+ investigations:"Preoperative staging and fitness assessment.",
+ management:"Aim for accurate staging and optimal cytoreduction when feasible."
+},
+
+{
+ id:"ovarian-cancer-chemotherapy",
+ cat:"Ovarian malignancy",
+ title:"Chemotherapy for ovarian cancer",
+ definition:"Systemic treatment used for epithelial ovarian malignancy, commonly platinum-based.",
+ investigations:"Histology, stage, performance status and organ function.",
+ management:"Usually integrated with surgery according to stage and resectability."
+},
+
+/* =========================================================
+   CERVICAL CANCER
+   ========================================================= */
+
+{
+ id:"cervical-cancer-screening",
+ cat:"Cervical cancer",
+ title:"Cervical cancer screening",
+ definition:"Screening aims to detect HPV infection and precancerous cervical lesions before invasive cancer develops.",
+ investigations:"HPV/cytology-based testing according to the current Malaysian screening pathway.",
+ management:"Abnormal results require appropriate follow-up and colposcopy."
+},
+
+{
+ id:"hpv",
+ cat:"Cervical cancer",
+ title:"Human papillomavirus",
+ definition:"High-risk HPV infection is the major causal factor in cervical cancer.",
+ investigations:"HPV testing and cervical screening.",
+ management:"Prevention includes vaccination and screening."
+},
+
+{
+ id:"cin",
+ cat:"Cervical cancer",
+ title:"Cervical intraepithelial neoplasia",
+ definition:"Pre-invasive squamous or glandular cervical epithelial abnormalities associated with high-risk HPV.",
+ investigations:"Colposcopy and biopsy.",
+ management:"Observation or excisional treatment depending on grade, age and reproductive plans."
+},
+
+{
+ id:"cervical-cancer-diagnosis",
+ cat:"Cervical cancer",
+ title:"Diagnosis of cervical cancer",
+ definition:"Diagnosis requires histological confirmation of invasive disease.",
+ investigations:"Speculum examination, biopsy and staging imaging.",
+ management:"Refer to gynaecologic oncology."
+},
+
+{
+ id:"cervical-cancer-staging",
+ cat:"Cervical cancer",
+ title:"Cervical cancer staging",
+ definition:"FIGO staging describes local, regional and distant extent of cervical carcinoma.",
+ investigations:"Pelvic examination, imaging and histology.",
+ management:"Stage determines treatment approach."
+},
+
+{
+ id:"cervical-cancer-treatment",
+ cat:"Cervical cancer",
+ title:"Cervical cancer treatment",
+ definition:"Treatment depends on stage, tumour characteristics and fertility considerations.",
+ investigations:"Staging work-up and histology.",
+ management:"Early disease may be managed surgically; locally advanced disease commonly requires chemoradiation according to specialist protocol."
+},
+
+{
+ id:"cervical-cancer-complications",
+ cat:"Cervical cancer",
+ title:"Complications of cervical cancer",
+ definition:"Local invasion, bleeding, pain, urinary or bowel obstruction and treatment-related morbidity may occur.",
+ investigations:"Clinical assessment, imaging and renal function when urinary obstruction is suspected.",
+ management:"Multidisciplinary symptom control, cancer treatment and palliative care when indicated."
+},
+
+/* =========================================================
+   ENDOMETRIAL CANCER
+   ========================================================= */
+
+{
+ id:"endometrial-cancer",
+ cat:"Endometrial cancer",
+ title:"Endometrial cancer",
+ definition:"Malignancy arising from the endometrial lining of the uterus.",
+ investigations:"Postmenopausal bleeding requires evaluation with pelvic assessment, ultrasound and endometrial sampling.",
+ management:"Treatment is primarily surgical in operable disease, with adjuvant therapy guided by stage and pathology."
+},
+
+{
+ id:"risk-factors-endometrial-cancer",
+ cat:"Endometrial cancer",
+ title:"Risk factors for endometrial cancer",
+ definition:"Risk increases with prolonged oestrogen exposure and metabolic/endocrine factors.",
+ investigations:"Assess obesity, diabetes, hypertension, anovulation, tamoxifen and family history.",
+ management:"Address modifiable risks and investigate abnormal bleeding promptly."
+},
+
+{
+ id:"postmenopausal-bleeding",
+ cat:"Endometrial cancer",
+ title:"Postmenopausal bleeding",
+ definition:"Vaginal bleeding after menopause that requires assessment for endometrial pathology.",
+ investigations:"Transvaginal ultrasound and/or endometrial sampling depending on pathway and findings.",
+ management:"Any unexplained postmenopausal bleeding should be investigated."
+},
+
+{
+ id:"endometrial-cancer-diagnosis",
+ cat:"Endometrial cancer",
+ title:"Diagnosis of endometrial cancer",
+ definition:"Diagnosis requires histological examination of endometrial tissue.",
+ investigations:"Endometrial biopsy, hysteroscopy and imaging when appropriate.",
+ management:"Refer for definitive staging and treatment."
+},
+
+{
+ id:"endometrial-cancer-staging",
+ cat:"Endometrial cancer",
+ title:"Endometrial cancer staging",
+ definition:"Assessment of extent and pathological features to determine prognosis and adjuvant therapy.",
+ investigations:"Surgical staging, histology and imaging.",
+ management:"Stage, grade, histologic type and molecular features influence treatment."
+},
+
+{
+ id:"endometrial-cancer-surgery",
+ cat:"Endometrial cancer",
+ title:"Surgery for endometrial cancer",
+ definition:"Definitive treatment usually involving hysterectomy and appropriate staging procedures.",
+ investigations:"Preoperative staging and medical fitness.",
+ management:"Minimally invasive surgery is considered when appropriate; staging is tailored to tumour risk."
+},
+
+{
+ id:"endometrial-cancer-adjuvant-treatment",
+ cat:"Endometrial cancer",
+ title:"Adjuvant treatment of endometrial cancer",
+ definition:"Postoperative treatment used to reduce recurrence risk in selected patients.",
+ investigations:"Final stage, grade, histology and molecular profile.",
+ management:"Radiotherapy and/or systemic therapy according to risk group."
+},
+
+/* =========================================================
+   SUBFERTILITY
+   ========================================================= */
+
+{
+ id:"subfertility",
+ cat:"Subfertility",
+ title:"Subfertility",
+ definition:"Failure to conceive despite regular unprotected intercourse for the appropriate duration, usually one year depending on age/context.",
+ investigations:"Semen analysis, ovulation assessment, tubal/uterine assessment and ovarian reserve when indicated.",
+ management:"Treat identifiable cause and consider ovulation induction, surgery or assisted reproduction."
+},
+
+{
+ id:"causes-of-subfertility",
+ cat:"Subfertility",
+ title:"Causes of subfertility",
+ definition:"Major categories include male factor, ovulatory disorders, tubal disease, uterine factors and unexplained infertility.",
+ investigations:"Evaluate both partners concurrently.",
+ management:"Cause-specific treatment and early referral according to age and duration."
+},
+
+{
+ id:"ovulatory-subfertility",
+ cat:"Subfertility",
+ title:"Ovulatory subfertility",
+ definition:"Infertility caused by absent or irregular ovulation.",
+ investigations:"Menstrual history, ovulation testing and endocrine investigations.",
+ management:"Ovulation induction based on cause and fertility service protocol."
+},
+
+{
+ id:"tubal-factor-infertility",
+ cat:"Subfertility",
+ title:"Tubal factor infertility",
+ definition:"Reduced fertility due to blocked, damaged or absent fallopian tubes.",
+ investigations:"HSG, HyCoSy or laparoscopy in selected cases.",
+ management:"Treat underlying disease where possible; IVF may be needed for significant tubal damage."
+},
+
+{
+ id:"male-factor-infertility",
+ cat:"Subfertility",
+ title:"Male factor infertility",
+ definition:"Infertility related to abnormalities in sperm production, function or delivery.",
+ investigations:"Semen analysis and further male evaluation when abnormal.",
+ management:"Repeat/confirm abnormal testing, treat reversible causes and consider IUI/IVF/ICSI."
+},
+
+{
+ id:"uterine-factor-infertility",
+ cat:"Subfertility",
+ title:"Uterine factor infertility",
+ definition:"Infertility associated with uterine abnormalities affecting implantation or pregnancy.",
+ investigations:"Pelvic ultrasound, saline/contrast studies or hysteroscopy depending on suspected pathology.",
+ management:"Treat significant structural lesions when appropriate."
+},
+
+{
+ id:"semen-analysis",
+ cat:"Subfertility",
+ title:"Semen analysis",
+ definition:"First-line investigation for male factor infertility.",
+ investigations:"Volume, concentration, motility and morphology according to laboratory standards.",
+ management:"Abnormal results should prompt repeat testing and male reproductive assessment."
+},
+
+{
+ id:"ovulation-testing",
+ cat:"Subfertility",
+ title:"Ovulation testing",
+ definition:"Assessment of whether ovulation occurs regularly.",
+ investigations:"Mid-luteal progesterone or other cycle-based assessment where appropriate.",
+ management:"Use menstrual pattern and test results to identify ovulatory dysfunction."
+},
+
+{
+ id:"hsg",
+ cat:"Subfertility",
+ title:"Hysterosalpingography",
+ definition:"Contrast radiographic test assessing uterine cavity and tubal patency.",
+ investigations:"Performed after exclusion of pregnancy and according to cycle timing.",
+ management:"Useful in selected women as a first-line tubal assessment."
+},
+
+{
+ id:"hycosy",
+ cat:"Subfertility",
+ title:"HyCoSy",
+ definition:"Ultrasound-based assessment of tubal patency using contrast.",
+ investigations:"Transvaginal ultrasound with contrast during the appropriate cycle phase.",
+ management:"Alternative to HSG where available."
+},
+
+{
+ id:"amh",
+ cat:"Subfertility",
+ title:"Anti-Müllerian hormone",
+ definition:"Marker associated with ovarian reserve and expected response to ovarian stimulation.",
+ investigations:"Blood AMH testing.",
+ management:"Useful for fertility counselling but does not directly predict natural conception."
+},
+
+{
+ id:"ovulation-induction",
+ cat:"Subfertility",
+ title:"Ovulation induction",
+ definition:"Medication used to stimulate ovulation in women with ovulatory dysfunction.",
+ investigations:"Confirm cause, tubal status and semen factors where appropriate.",
+ management:"Letrozole is commonly used for anovulatory PCOS; other regimens are cause-specific."
+},
+
+{
+ id:"ivf",
+ cat:"Subfertility",
+ title:"IVF",
+ definition:"In-vitro fertilisation involves ovarian stimulation, egg retrieval, fertilisation and embryo transfer.",
+ investigations:"Ovarian reserve, semen analysis, uterine/tubal assessment and infectious screening.",
+ management:"Use when indicated by tubal, unexplained, severe male or other fertility factors."
+},
+
+{
+ id:"icsi",
+ cat:"Subfertility",
+ title:"ICSI",
+ definition:"Intracytoplasmic sperm injection involves injecting one sperm directly into an oocyte.",
+ investigations:"Male factor assessment and IVF work-up.",
+ management:"Used particularly for significant male-factor infertility or previous fertilisation failure."
+},
+
+/* =========================================================
+   CONTRACEPTION
+   ========================================================= */
+
+{
+ id:"combined-oral-contraceptive-pill",
+ cat:"Contraception",
+ title:"Combined oral contraceptive pill",
+ definition:"Hormonal contraceptive containing oestrogen and progestogen.",
+ investigations:"Pregnancy risk, BP, migraine history, smoking and thrombotic/cardiovascular contraindications.",
+ management:"Highly effective when taken correctly; counsel regarding missed pills, VTE risk and drug interactions."
+},
+
+{
+ id:"progestogen-only-pill",
+ cat:"Contraception",
+ title:"Progestogen-only pill",
+ definition:"Oral contraceptive containing progestogen without oestrogen.",
+ investigations:"Assess pregnancy risk and suitability.",
+ management:"Useful when oestrogen is contraindicated or unsuitable."
+},
+
+{
+ id:"contraceptive-implant",
+ cat:"Contraception",
+ title:"Contraceptive implant",
+ definition:"Long-acting reversible progestogen contraception inserted subdermally.",
+ investigations:"Pregnancy exclusion and medication/contraindication assessment.",
+ management:"Highly effective and reversible; irregular bleeding is common."
+},
+
+{
+ id:"intrauterine-contraceptive-device",
+ cat:"Contraception",
+ title:"Copper IUCD",
+ definition:"Long-acting non-hormonal intrauterine contraception.",
+ investigations:"Pregnancy, STI risk, uterine anatomy and contraindications.",
+ management:"Highly effective and can also be used as emergency contraception in appropriate women."
+},
+
+{
+ id:"lng-ius",
+ cat:"Contraception",
+ title:"LNG-IUS",
+ definition:"Levonorgestrel-releasing intrauterine system providing long-acting contraception and endometrial suppression.",
+ investigations:"Pregnancy exclusion and uterine assessment.",
+ management:"Highly effective and often reduces heavy menstrual bleeding."
+},
+
+{
+ id:"dmpa",
+ cat:"Contraception",
+ title:"Depot medroxyprogesterone acetate",
+ definition:"Long-acting injectable progestogen contraception.",
+ investigations:"Pregnancy risk and bone/bleeding considerations.",
+ management:"Highly effective but may cause irregular bleeding and delayed return to fertility."
+},
+
+{
+ id:"emergency-contraception",
+ cat:"Contraception",
+ title:"Emergency contraception",
+ definition:"Intervention used after unprotected intercourse to prevent pregnancy.",
+ investigations:"Assess timing, pregnancy risk and suitability of method.",
+ management:"Copper IUCD is the most effective option; oral emergency contraception is another option depending on timing."
+},
+
+{
+ id:"contraception-counselling",
+ cat:"Contraception",
+ title:"Contraception counselling",
+ definition:"Shared decision-making about pregnancy prevention based on effectiveness, risks, preferences and reproductive goals.",
+ investigations:"Medical eligibility, sexual health and reproductive intentions.",
+ management:"Provide patient-centred options and clear instructions."
+},
+
+/* =========================================================
+   MENOPAUSE
+   ========================================================= */
+
+{
+ id:"perimenopause",
+ cat:"Menopause",
+ title:"Perimenopause",
+ definition:"Transition period before menopause characterised by changing ovarian function and menstrual irregularity.",
+ investigations:"Diagnosis is often clinical in typical age groups.",
+ management:"Treat symptoms, discuss contraception and consider HRT where appropriate."
+},
+
+{
+ id:"menopause",
+ cat:"Menopause",
+ title:"Menopause",
+ definition:"Permanent cessation of menstruation due to loss of ovarian follicular activity.",
+ investigations:"Usually clinical diagnosis; laboratory testing is used selectively.",
+ management:"Manage vasomotor and genitourinary symptoms and assess long-term health risks."
+},
+
+{
+ id:"menopausal-symptoms",
+ cat:"Menopause",
+ title:"Menopausal symptoms",
+ definition:"Symptoms may include hot flushes, night sweats, sleep disturbance, mood changes and genitourinary symptoms.",
+ investigations:"Focused symptom and medical history.",
+ management:"Lifestyle, non-hormonal therapies and HRT according to severity and contraindications."
+},
+
+{
+ id:"hrt",
+ cat:"Menopause",
+ title:"Hormone replacement therapy",
+ definition:"Oestrogen with or without progestogen used to treat menopausal symptoms.",
+ investigations:"Assess uterus, cardiovascular/VTE risk, breast history and contraindications.",
+ management:"Use the lowest effective regimen for symptom relief and review periodically."
+},
+
+{
+ id:"hrt-contraindications",
+ cat:"Menopause",
+ title:"HRT contraindications",
+ definition:"Medical conditions where systemic menopausal hormone therapy may be unsafe.",
+ investigations:"Cancer history, unexplained bleeding, thrombosis and liver disease assessment.",
+ management:"Consider non-hormonal alternatives and specialist advice when contraindications are present."
+},
+
+{
+ id:"hrt-risks-and-benefits",
+ cat:"Menopause",
+ title:"HRT risks and benefits",
+ definition:"Benefits include relief of vasomotor symptoms and prevention of bone loss, balanced against individual risks.",
+ investigations:"Individual risk assessment.",
+ management:"Shared decision-making and periodic review."
+},
+
+/* =========================================================
+   PROLAPSE / URINARY INCONTINENCE
+   ========================================================= */
+
+{
+ id:"pelvic-organ-prolapse",
+ cat:"Prolapse & urinary incontinence",
+ title:"Pelvic organ prolapse",
+ definition:"Descent of pelvic organs due to weakness of pelvic floor support.",
+ investigations:"Pelvic examination with staging where appropriate.",
+ management:"Pelvic floor training, lifestyle measures, pessary and surgical options."
+},
+
+{
+ id:"popq",
+ cat:"Prolapse & urinary incontinence",
+ title:"POP-Q concept",
+ definition:"Standardised pelvic organ prolapse quantification system using defined vaginal landmarks.",
+ investigations:"Measure anterior, posterior and apical vaginal points relative to the hymen.",
+ management:"Stage prolapse to communicate severity and guide treatment."
+},
+
+{
+ id:"cystocele",
+ cat:"Prolapse & urinary incontinence",
+ title:"Cystocele",
+ definition:"Anterior vaginal wall prolapse associated with descent of the bladder.",
+ investigations:"Pelvic examination.",
+ management:"Conservative measures, pessary or anterior repair when indicated."
+},
+
+{
+ id:"rectocele",
+ cat:"Prolapse & urinary incontinence",
+ title:"Rectocele",
+ definition:"Posterior vaginal wall prolapse caused by descent of the rectovaginal septum.",
+ investigations:"Pelvic examination and assessment of bowel symptoms.",
+ management:"Pelvic floor therapy, pessary or posterior repair in selected women."
+},
+
+{
+ id:"uterine-prolapse",
+ cat:"Prolapse & urinary incontinence",
+ title:"Uterine prolapse",
+ definition:"Descent of the uterus toward or beyond the vaginal opening.",
+ investigations:"Pelvic examination and POP-Q staging.",
+ management:"Conservative measures, pessary or reconstructive/definitive surgery."
+},
+
+{
+ id:"pessary",
+ cat:"Prolapse & urinary incontinence",
+ title:"Pessary",
+ definition:"Vaginal support device used to manage pelvic organ prolapse.",
+ investigations:"Assess vaginal health and ability to retain device.",
+ management:"Appropriate fitting, review and cleaning schedule; monitor for erosion/discharge."
+},
+
+{
+ id:"stress-urinary-incontinence",
+ cat:"Prolapse & urinary incontinence",
+ title:"Stress urinary incontinence",
+ definition:"Involuntary leakage with increased intra-abdominal pressure such as coughing or exercise.",
+ investigations:"History, bladder diary, examination and selected testing.",
+ management:"Pelvic floor muscle training is first-line; surgery such as mid-urethral sling may be considered when conservative treatment fails."
+},
+
+{
+ id:"urge-urinary-incontinence",
+ cat:"Prolapse & urinary incontinence",
+ title:"Urge urinary incontinence",
+ definition:"Urinary leakage associated with urgency due to detrusor overactivity symptoms.",
+ investigations:"History, bladder diary, urinalysis and selected evaluation.",
+ management:"Bladder training, lifestyle modification and pharmacotherapy where appropriate."
+},
+
+{
+ id:"mixed-urinary-incontinence",
+ cat:"Prolapse & urinary incontinence",
+ title:"Mixed urinary incontinence",
+ definition:"Combination of stress and urgency urinary incontinence.",
+ investigations:"Determine which symptom predominates.",
+ management:"Treat predominant component while addressing both where appropriate."
+},
+
+{
+ id:"urodynamics",
+ cat:"Prolapse & urinary incontinence",
+ title:"Urodynamics",
+ definition:"Physiological assessment of lower urinary tract function.",
+ investigations:"Filling cystometry, pressure-flow studies and related measurements.",
+ management:"Use selectively when diagnosis is unclear or before certain procedures."
+},
+
+{
+ id:"midurethral-sling",
+ cat:"Prolapse & urinary incontinence",
+ title:"Mid-urethral sling",
+ definition:"Surgical treatment for female stress urinary incontinence using a supportive sling beneath the urethra.",
+ investigations:"Confirm stress incontinence and discuss alternatives/risks.",
+ management:"Effective surgical option in appropriately selected women."
+},
+
+/* =========================================================
+   STI / VAGINAL DISCHARGE
+   ========================================================= */
+
+{
+ id:"vaginal-discharge-approach",
+ cat:"STI & vaginal discharge",
+ title:"Approach to vaginal discharge",
+ definition:"Systematic approach distinguishing physiological discharge, candidiasis, BV, trichomoniasis and cervicitis/STI.",
+ investigations:"History, speculum examination and microbiological testing where available.",
+ management:"Treat according to likely cause and test results while considering pregnancy and partner management."
+},
+
+{
+ id:"candidiasis-discharge",
+ cat:"STI & vaginal discharge",
+ title:"Candidiasis discharge",
+ definition:"Typically thick white discharge with vulval itch and erythema.",
+ investigations:"Microscopy/culture when uncertain or recurrent.",
+ management:"Topical azole therapy is generally preferred in pregnancy."
+},
+
+{
+ id:"bacterial-vaginosis-discharge",
+ cat:"STI & vaginal discharge",
+ title:"Bacterial vaginosis discharge",
+ definition:"Thin homogeneous discharge often associated with a fishy odour.",
+ investigations:"Microscopy/clinical criteria.",
+ management:"Treat symptomatic infection according to local protocol."
+},
+
+{
+ id:"trichomonas-discharge",
+ cat:"STI & vaginal discharge",
+ title:"Trichomonas vaginalis discharge",
+ definition:"Often frothy yellow-green discharge with vulval irritation.",
+ investigations:"NAAT or microscopy.",
+ management:"Treat patient and sexual partners."
+},
+
+{
+ id:"chlamydia-cervicitis",
+ cat:"STI & vaginal discharge",
+ title:"Chlamydia cervicitis",
+ definition:"Often asymptomatic infection that can cause mucopurulent cervical discharge and PID.",
+ investigations:"NAAT.",
+ management:"Pregnancy-appropriate antibiotic therapy and partner management."
+},
+
+{
+ id:"gonorrhoea-cervicitis",
+ cat:"STI & vaginal discharge",
+ title:"Gonorrhoea cervicitis",
+ definition:"Cervicitis caused by Neisseria gonorrhoeae.",
+ investigations:"NAAT and culture where relevant.",
+ management:"Treat according to current local antimicrobial guidance and address partner notification."
+},
+
+{
+ id:"pelvic-inflammatory-disease",
+ cat:"STI & vaginal discharge",
+ title:"Pelvic inflammatory disease",
+ definition:"Ascending infection of the upper female genital tract.",
+ investigations:"Clinical diagnosis supported by STI tests, pregnancy testing and imaging when needed.",
+ management:"Prompt broad-spectrum antibiotics; consider admission for severe disease, pregnancy or complications."
+},
+
+{
+ id:"genital-herpes",
+ cat:"STI & vaginal discharge",
+ title:"Genital herpes",
+ definition:"Genital infection caused by herpes simplex virus resulting in painful vesicles/ulcers.",
+ investigations:"Clinical examination and PCR/NAAT from lesions where available.",
+ management:"Antiviral therapy for symptomatic episodes and pregnancy-specific planning near delivery."
+},
+
+{
+ id:"syphilis-sti",
+ cat:"STI & vaginal discharge",
+ title:"Syphilis",
+ definition:"Systemic STI caused by Treponema pallidum with stage-dependent clinical manifestations.",
+ investigations:"Treponemal and non-treponemal serology.",
+ management:"Penicillin-based treatment and partner management."
+},
+
+/* =========================================================
+   TOP
+   ========================================================= */
+
+{
+ id:"termination-of-pregnancy",
+ cat:"Termination of pregnancy",
+ title:"Termination of pregnancy",
+ definition:"Intentional ending of pregnancy for legally permitted medical or other indications.",
+ investigations:"Confirm gestation, indication, suitability and exclusion of ectopic pregnancy.",
+ management:"Follow Malaysian legal requirements, hospital policy and approved methods with appropriate counselling and consent."
+},
+
+{
+ id:"medical-termination",
+ cat:"Termination of pregnancy",
+ title:"Medical termination",
+ definition:"Termination using medications to induce uterine evacuation.",
+ investigations:"Gestation, ectopic exclusion and medical contraindications.",
+ management:"Use approved medication regimen and local hospital protocol."
+},
+
+{
+ id:"surgical-termination",
+ cat:"Termination of pregnancy",
+ title:"Surgical termination",
+ definition:"Uterine evacuation using an operative technique.",
+ investigations:"Gestation, uterine anatomy and anaesthetic assessment.",
+ management:"Choose technique appropriate to gestation and indication with infection prevention and follow-up."
+},
+
+{
+ id:"top-complications",
+ cat:"Termination of pregnancy",
+ title:"Complications of TOP",
+ definition:"Potential complications include haemorrhage, infection, retained tissue and uterine/cervical injury.",
+ investigations:"Clinical assessment if symptoms occur after the procedure.",
+ management:"Treat complications promptly and provide contraception and follow-up."
+},
+
+/* =========================================================
+   PROCEDURES
+   ========================================================= */
+
+{
+ id:"pap-smear",
+ cat:"Procedures",
+ title:"Pap smear",
+ definition:"Cervical sampling for cytological assessment and/or HPV-related screening pathways.",
+ investigations:"Cervical sample obtained using speculum examination.",
+ management:"Follow the current Malaysian cervical screening programme and abnormal-result pathway."
+},
+
+{
+ id:"endometrial-biopsy",
+ cat:"Procedures",
+ title:"Endometrial biopsy",
+ definition:"Sampling of endometrium to assess hyperplasia or malignancy.",
+ investigations:"Pipelle or equivalent sampling.",
+ management:"Important in selected women with AUB, especially when endometrial malignancy risk is increased."
+},
+
+{
+ id:"colposcopy",
+ cat:"Procedures",
+ title:"Colposcopy",
+ definition:"Magnified examination of the cervix following abnormal screening.",
+ investigations:"Acetic acid/Lugol's assessment and directed biopsy where indicated.",
+ management:"Manage according to histological findings and cervical screening guidance."
+},
+
+{
+ id:"hysteroscopy",
+ cat:"Procedures",
+ title:"Hysteroscopy",
+ definition:"Direct visualisation of the uterine cavity using an endoscope.",
+ investigations:"Allows assessment of polyps, fibroids and endometrial pathology.",
+ management:"Diagnostic and operative hysteroscopy are used according to the clinical indication."
+},
+
+{
+ id:"laparoscopy",
+ cat:"Procedures",
+ title:"Laparoscopy",
+ definition:"Minimally invasive abdominal procedure allowing inspection and surgery of pelvic organs.",
+ investigations:"Direct visualisation of adnexa, pelvis and peritoneum.",
+ management:"Used for ectopic pregnancy, endometriosis, ovarian pathology and other pelvic conditions."
+},
+
+{
+ id:"dilatation-and-curettage",
+ cat:"Procedures",
+ title:"Dilatation and curettage",
+ definition:"Procedure to evacuate or sample the uterine cavity.",
+ investigations:"Confirm indication and assess pregnancy/bleeding status.",
+ management:"Modern practice often favours aspiration or hysteroscopy depending on indication."
+},
+
+{
+ id:"episiotomy",
+ cat:"Procedures",
+ title:"Episiotomy",
+ definition:"Surgical incision of the perineum during vaginal birth.",
+ investigations:"Assess indication, fetal position and urgency.",
+ management:"Not routine for all births; use selectively and repair appropriately."
+},
+
+/* =========================================================
+   HO ON-CALL
+   ========================================================= */
+
+{
+ id:"pph-on-call-approach",
+ cat:"HO on-call",
+ title:"PPH on-call approach",
+ definition:"On-call O&G care prioritises recognition of haemorrhage, resuscitation and rapid identification of the 4 Ts.",
+ investigations:"ABCDE, quantify blood loss, uterine tone, genital tract inspection, FBC, coagulation and crossmatch.",
+ management:"Call senior early, activate PPH/major haemorrhage pathway and treat cause while resuscitating."
+},
+
+{
+ id:"eclampsia-on-call-approach",
+ cat:"HO on-call",
+ title:"Eclampsia on-call approach",
+ definition:"Acute seizure in pregnancy/postpartum requiring immediate stabilisation.",
+ investigations:"ABCDE, glucose, BP, neurological assessment, bloods and fetal assessment.",
+ management:"Airway protection, MgSO4, BP control, senior review and delivery after maternal stabilisation."
+},
+
+{
+ id:"aph-on-call-approach",
+ cat:"HO on-call",
+ title:"APH on-call approach",
+ definition:"On-call approach to pregnancy bleeding with focus on maternal stability and placental pathology.",
+ investigations:"ABCDE, FBC, crossmatch, fetal assessment and ultrasound where indicated.",
+ management:"Call senior early, resuscitate, avoid digital PV examination until placenta praevia is excluded."
+},
+
+{
+ id:"cord-prolapse-on-call-approach",
+ cat:"HO on-call",
+ title:"Cord prolapse on-call approach",
+ definition:"Obstetric emergency requiring immediate reduction of cord compression and expedited delivery.",
+ investigations:"Immediate vaginal examination and continuous fetal monitoring.",
+ management:"Elevate presenting part, maternal positioning, emergency call and expedite birth."
+},
+
+{
+ id:"shoulder-dystocia-on-call-approach",
+ cat:"HO on-call",
+ title:"Shoulder dystocia on-call approach",
+ definition:"Emergency manoeuvre sequence after failure of shoulders to deliver.",
+ investigations:"Clinical diagnosis only.",
+ management:"Call for help, McRoberts, suprapubic pressure, internal manoeuvres and posterior arm delivery."
+},
+
+{
+ id:"maternal-collapse-on-call-approach",
+ cat:"HO on-call",
+ title:"Maternal collapse on-call approach",
+ definition:"Immediate resuscitation of a critically ill pregnant or postpartum woman.",
+ investigations:"ABCDE, ECG, glucose, blood tests and directed investigations.",
+ management:"Call resuscitation and obstetric teams, resuscitate immediately and search for reversible causes."
+},
+
+{
+ id:"sepsis-on-call",
+ cat:"HO on-call",
+ title:"Maternal sepsis on-call",
+ definition:"Maternal infection causing organ dysfunction or severe physiological deterioration.",
+ investigations:"ABCDE, cultures, lactate, FBC, renal/liver function, urine and imaging as indicated.",
+ management:"Sepsis pathway, prompt antibiotics, fluids/vasopressors as indicated and source control."
+},
+
+{
+ id:"preterm-labour-on-call",
+ cat:"HO on-call",
+ title:"Preterm labour on-call",
+ definition:"Preterm contractions with cervical change requiring urgent assessment.",
+ investigations:"Gestational age, fetal assessment, cervical assessment and infection screen.",
+ management:"Consider steroids, MgSO4 neuroprotection, tocolysis and transfer/delivery according to gestation and clinical status."
+},
+
+{
+ id:"acute-abdomen-pregnancy-on-call",
+ cat:"HO on-call",
+ title:"Acute abdomen in pregnancy",
+ definition:"Sudden abdominal pain requiring exclusion of obstetric, surgical and medical emergencies.",
+ investigations:"ABCDE, pregnancy-focused exam, blood tests and imaging.",
+ management:"Early senior surgical/O&G involvement and parallel resuscitation/diagnosis."
+},
+
+{
+ id:"postoperative-fever-after-cs",
+ cat:"HO on-call",
+ title:"Postoperative fever after CS",
+ definition:"Fever after caesarean requiring assessment for infection, thromboembolism and non-infectious causes.",
+ investigations:"Observations, wound, uterus, urine, respiratory examination, FBC/CRP and imaging where indicated.",
+ management:"Identify source and treat promptly; escalate if sepsis or deterioration."
+},
+
+{
+ id:"urinary-retention-after-delivery",
+ cat:"HO on-call",
+ title:"Urinary retention after delivery",
+ definition:"Inability to adequately empty the bladder postpartum.",
+ investigations:"History, bladder scan, urinalysis when indicated and assessment for perineal/neurological causes.",
+ management:"Prompt bladder decompression and identification of reversible causes."
+},
+
+{
+ id:"post-cs-wound-and-thromboembolism-assessment",
+ cat:"HO on-call",
+ title:"Post-CS wound and thromboembolism assessment",
+ definition:"Structured review for common early postoperative complications.",
+ investigations:"Wound examination, calf/leg symptoms, chest symptoms, vital signs and relevant imaging.",
+ management:"Treat infection or VTE urgently and follow local thromboprophylaxis and antimicrobial policy."
+},
+
+/* =========================================================
+   ADDITIONAL HIGH-YIELD TOPICS
+   ========================================================= */
+
+{
+ id:"obstetric-history-taking",
+ cat:"Core O&G skills",
+ title:"Obstetric history taking",
+ definition:"Structured history of current pregnancy, previous pregnancies, medical and social risk factors.",
+ investigations:"History directs all subsequent examination and investigations.",
+ management:"Always establish gestational age, obstetric score, presenting symptoms and red flags."
+},
+
+{
+ id:"antenatal-abdominal-examination",
+ cat:"Core O&G skills",
+ title:"Antenatal abdominal examination",
+ definition:"Systematic assessment of uterine size, fetal lie, presentation, position, engagement and fetal heart.",
+ investigations:"Inspection, palpation and fetal heart assessment.",
+ management:"Use findings to identify growth or presentation abnormalities."
+},
+
+{
+ id:"fetal-heart-rate-assessment",
+ cat:"Core O&G skills",
+ title:"Fetal heart rate assessment",
+ definition:"Assessment of fetal heart rate to identify wellbeing concerns.",
+ investigations:"Doppler, Pinard or CTG depending on gestation and clinical context.",
+ management:"Abnormal fetal rate requires prompt reassessment and escalation."
+},
+
+{
+ id:"ctg-interpretation",
+ cat:"CTG",
+ title:"CTG interpretation",
+ definition:"Cardiotocography assesses fetal heart rate pattern and uterine activity.",
+ investigations:"Assess baseline, variability, accelerations, decelerations and contractions.",
+ management:"Interpret using the current local framework and correlate with the clinical situation."
+},
+
+{
+ id:"baseline-fetal-heart-rate",
+ cat:"CTG",
+ title:"Baseline fetal heart rate",
+ definition:"Average fetal heart rate excluding transient changes.",
+ investigations:"Estimate over a suitable period excluding accelerations and decelerations.",
+ management:"Persistent abnormal baseline requires clinical assessment for fetal compromise."
+},
+
+{
+ id:"ctg-variability",
+ cat:"CTG",
+ title:"CTG variability",
+ definition:"Beat-to-beat fluctuation in fetal heart rate reflecting autonomic nervous system function.",
+ investigations:"Estimate amplitude of fluctuations around baseline.",
+ management:"Reduced or absent variability may indicate fetal hypoxia, medication effect or fetal sleep depending on context."
+},
+
+{
+ id:"ctg-accelerations",
+ cat:"CTG",
+ title:"CTG accelerations",
+ definition:"Transient rises in fetal heart rate associated with fetal movement and good autonomic function.",
+ investigations:"Identify frequency and pattern.",
+ management:"Presence of accelerations is generally reassuring when the remainder of the trace is normal."
+},
+
+{
+ id:"ctg-early-decelerations",
+ cat:"CTG",
+ title:"Early decelerations",
+ definition:"Gradual fetal heart rate decreases coinciding with contractions, commonly from head compression.",
+ investigations:"Assess timing and waveform.",
+ management:"Usually benign when isolated with normal baseline and variability."
+},
+
+{
+ id:"ctg-variable-decelerations",
+ cat:"CTG",
+ title:"Variable decelerations",
+ definition:"Abrupt fetal heart rate decreases often related to umbilical cord compression.",
+ investigations:"Assess depth, duration, recovery and associated features.",
+ management:"Interpret severity in context and intervene if persistent/recurrent with concerning features."
+},
+
+{
+ id:"ctg-late-decelerations",
+ cat:"CTG",
+ title:"Late decelerations",
+ definition:"Decelerations beginning after contraction onset and recovering after contraction ends, associated with uteroplacental insufficiency.",
+ investigations:"Assess persistence, variability, baseline and contraction pattern.",
+ management:"Prompt clinical assessment and intrauterine resuscitation; expedite delivery if unresolved fetal compromise."
+},
+
+{
+ id:"ctg-tachysystole",
+ cat:"CTG",
+ title:"Uterine tachysystole",
+ definition:"Excessive uterine contractions reducing fetal recovery time.",
+ investigations:"Contraction frequency and CTG.",
+ management:"Stop/reduce oxytocin, remove prostaglandin when possible and consider tocolysis according to local protocol if fetal compromise occurs."
+},
+
+{
+ id:"breech-evidence-and-counselling",
+ cat:"Breech",
+ title:"Breech counselling",
+ definition:"Shared decision-making regarding ECV, planned caesarean and selected vaginal breech delivery.",
+ investigations:"Presentation, estimated fetal weight, head flexion, placenta and maternal history.",
+ management:"Discuss success/failure, emergency delivery risk, neonatal outcomes and individual preferences."
+},
+
+{
+ id:"postpartum-assessment",
+ cat:"Postnatal care",
+ title:"Postpartum assessment",
+ definition:"Routine maternal review after delivery focused on physical recovery, complications and psychosocial wellbeing.",
+ investigations:"Vital signs, uterine involution, bleeding, wound/perineum, urine, breasts and mental health.",
+ management:"Identify PPH, infection, VTE, urinary retention and hypertensive complications; provide contraception and breastfeeding support."
+},
+
+{
+ id:"postpartum-endometritis",
+ cat:"Postnatal care",
+ title:"Postpartum endometritis",
+ definition:"Uterine infection after delivery, more common after caesarean birth.",
+ investigations:"Fever, uterine tenderness, foul lochia, FBC and cultures when indicated.",
+ management:"Broad-spectrum antibiotics and evaluate for retained products or other infection source."
+},
+
+{
+ id:"postpartum-hypertension",
+ cat:"Postnatal care",
+ title:"Postpartum hypertension",
+ definition:"Hypertension persisting or developing after delivery.",
+ investigations:"BP, symptoms, urine protein and renal/liver/platelet tests when indicated.",
+ management:"Monitor closely, treat severe hypertension urgently and review antihypertensive compatibility with breastfeeding."
+},
+
+{
+ id:"postpartum-depression",
+ cat:"Postnatal care",
+ title:"Postpartum depression",
+ definition:"Depressive illness arising after childbirth that affects mood, function and maternal-infant wellbeing.",
+ investigations:"Psychological assessment and suicide/self-harm risk assessment where relevant.",
+ management:"Early mental health support, psychotherapy and medication when indicated."
+},
+
+{
+ id:"postpartum-psychosis",
+ cat:"Postnatal care",
+ title:"Postpartum psychosis",
+ definition:"Rare psychiatric emergency with rapid onset of psychotic symptoms after childbirth.",
+ investigations:"Immediate psychiatric assessment and physical/medical work-up for contributors.",
+ management:"Emergency psychiatric care and protection of mother and infant."
+}
+
+];
+
+/* =========================================================
+   REFERENCES
+   ========================================================= */
+
+const refs = [
+
+[
+ "MOH Handbook of Obstetrics Guidelines 2024",
+ "https://jknselangor.moh.gov.my/hsis/images/hsis/medical_info/Handbook_of_Obstetrics_Guidelines_2024.pdf"
+],
+
+[
+ "MOH Guidelines on Prevention and Management of Preterm Birth 2023",
+ "https://www.moh.gov.my/moh/resources/Penerbitan/Perkhidmatan%20Perubatan/2023/GARIS_PANDUAN_PENGURUSAN_KELAHIRAN_PRATEM.pdf"
+],
+
+[
+ "MOH Guidelines on Induction of Labour 2021",
+ "https://www.moh.gov.my/moh/resources/Penerbitan/Perkhidmatan%20Perubatan/2021/Garis_Panduan_Induksi_Kelahiran_2021.pdf"
+],
+
+[
+ "MOH Clinical Practice Guidelines",
+ "https://www.moh.gov.my/index.php/pages/view/1273"
+]
+
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let saved = JSON.parse(
+  localStorage.getItem("medmy_og_saved") || "[]"
+);
+
+let cat = "All";
+let current = null;
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
+
+function esc(s){
+  return String(s).replace(
+    /[&<>"]/g,
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;"
+    }[m])
+  );
+}
+
+function categories(){
+  return ["All",...new Set(topics.map(x=>x.cat))];
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+function render(){
+
+  const app=document.getElementById("app");
+
+  if(current){
+    return renderTopic(current);
+  }
+
+  const cats=categories();
+
+  const filtered =
+    cat==="All"
+    ? topics
+    : topics.filter(t=>t.cat===cat);
+
+  app.innerHTML = `
+
+    <div class="hero">
+
+      <h1>Obstetrics & Gynaecology</h1>
+
+      <div>
+        Malaysian-focused high-yield notes for
+        clinical posting, viva, OBA/MCQ and HO on-call.
+      </div>
+
+      <div class="stat">
+
+        <div>
+          <b>${topics.length}</b>
+          Topics
+        </div>
+
+        <div>
+          <b>${new Set(topics.map(t=>t.cat)).size}</b>
+          Categories
+        </div>
+
+        <div>
+          <b>${saved.length}</b>
+          Saved
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tabs">
+
+      ${cats.map(c=>`
+
+        <button
+          class="tab ${c===cat?"active":""}"
+          onclick="setCat('${esc(c)}')"
+        >
+          ${esc(c)}
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    <div class="toolbar">
+
+      <b>
+        ${cat==="All"?"All O&G":esc(cat)}
+      </b>
+
+      <span class="muted">
+        ${filtered.length} topics
+      </span>
+
+    </div>
+
+    <div class="grid">
+
+      ${filtered.map(card).join("")}
+
+    </div>
+
+    <div class="section">
+
+      <h3>Malaysian references</h3>
+
+      ${
+        refs.map(r=>`
+
+          <div class="ref">
+            •
+            <a
+              href="${r[1]}"
+              target="_blank"
+              rel="noopener"
+            >
+              ${esc(r[0])}
+            </a>
+          </div>
+
+        `).join("")
+      }
+
+    </div>
+
+  `;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+function card(t){
+
+  return `
+
+    <article
+      class="card"
+      onclick="openTopic('${t.id}')"
+    >
+
+      <span class="tag">
+        ${esc(t.cat)}
+      </span>
+
+      <h3>
+        ${esc(t.title)}
+      </h3>
+
+      <div class="muted">
+        ${esc(t.definition)}
+      </div>
+
+    </article>
+
+  `;
+}
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+function setCat(c){
+
+  cat=c;
+  current=null;
+
+  render();
+
+  window.scrollTo(0,0);
+}
+
+/* =========================================================
+   TOPIC
+   ========================================================= */
+
+function openTopic(id){
+
+  current=topics.find(t=>t.id===id);
+
+  renderTopic(current);
+
+  window.scrollTo(0,0);
+}
+
+/* =========================================================
+   TOPIC PAGE
+   ========================================================= */
+
+function renderTopic(t){
+
+  const app=document.getElementById("app");
+
+  const isSaved=saved.includes(t.id);
+
+  app.innerHTML = `
+
+    <div class="toolbar">
+
+      <button
+        class="btn"
+        onclick="current=null;render()"
+      >
+        ← Back
+      </button>
+
+      <button
+        class="btn"
+        onclick="saveTopic('${t.id}')"
+      >
+        ${isSaved?"★ Saved":"☆ Save"}
+      </button>
+
+    </div>
+
+    <article class="topic">
+
+      <span class="tag">
+        ${esc(t.cat)}
+      </span>
+
+      <h1>
+        ${esc(t.title)}
+      </h1>
+
+
+      <div class="section">
+
+        <h3>
+          Definition
+        </h3>
+
+        <p>
+          ${esc(t.definition)}
+        </p>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          How it happens / why it matters
+        </h3>
+
+        <p class="why">
+
+          Think of the condition in terms of
+          maternal physiology, placenta, fetus,
+          anatomy, infection, hormones or
+          mechanical factors.
+
+          Always connect the clinical finding
+          to its mechanism.
+
+        </p>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Clinical features + WHY
+        </h3>
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Why it happens / significance</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>Presenting symptoms</td>
+              <td>
+                Reflect the main physiological,
+                anatomical or pathological process.
+              </td>
+            </tr>
+
+            <tr>
+              <td>Severity / progression</td>
+              <td>
+                Helps distinguish mild disease
+                from an evolving emergency.
+              </td>
+            </tr>
+
+            <tr>
+              <td>Associated symptoms</td>
+              <td>
+                May indicate complications or
+                alternative diagnoses.
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          History — ask + why
+        </h3>
+
+        <ul>
+
+          <li>
+            <b>Presenting symptom, onset, severity and progression</b>
+            —
+            establishes acuity and differential.
+          </li>
+
+          <li>
+            <b>Obstetric/menstrual history</b>
+            —
+            gestational age or cycle pattern changes diagnosis and management.
+          </li>
+
+          <li>
+            <b>Previous pregnancy, delivery, surgery and complications</b>
+            —
+            identifies recurrence and operative risk.
+          </li>
+
+          <li>
+            <b>Medical/drug/allergy history</b>
+            —
+            identifies contraindications and maternal risk.
+          </li>
+
+          <li>
+            <b>Red flags</b>
+            —
+            bleeding, severe pain, fever,
+            reduced fetal movement,
+            severe headache/visual symptoms,
+            dyspnoea or collapse.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Examination — what + significance
+        </h3>
+
+        <ul>
+
+          <li>
+            <b>ABCDE + vital signs</b>
+            —
+            detects maternal instability.
+          </li>
+
+          <li>
+            <b>General examination</b>
+            —
+            pallor, oedema, hydration,
+            respiratory/cardiovascular signs.
+          </li>
+
+          <li>
+            <b>Abdominal examination</b>
+            —
+            tenderness, uterine size,
+            lie/presentation,
+            contractions, fetal heart and growth.
+          </li>
+
+          <li>
+            <b>Pelvic/speculum/PV examination</b>
+            —
+            only when indicated and safe;
+            assesses cervix, bleeding, membranes
+            or pelvic pathology.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Investigations + interpretation
+        </h3>
+
+        <p>
+          ${esc(t.investigations)}
+        </p>
+
+        <ul>
+
+          <li>
+            <b>FBC</b>
+            —
+            anaemia, thrombocytopenia or infection markers.
+          </li>
+
+          <li>
+            <b>Renal/liver/coagulation tests</b>
+            —
+            selected according to clinical indication.
+          </li>
+
+          <li>
+            <b>Ultrasound</b>
+            —
+            anatomy, growth, placenta, liquor and pelvic pathology.
+          </li>
+
+          <li>
+            <b>CTG</b>
+            —
+            fetal wellbeing assessment where appropriate.
+          </li>
+
+          <li>
+            <b>Doppler</b>
+            —
+            placental/fetal haemodynamic assessment
+            in selected pregnancies.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Diagnosis / classification
+        </h3>
+
+        <div class="flow">
+
+          <b>
+            Clinical context
+            →
+            focused examination
+            →
+            targeted tests
+            →
+            classify severity
+            →
+            identify complications
+            →
+            treatment plan
+          </b>
+
+        </div>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Management
+        </h3>
+
+        <p>
+          ${esc(t.management)}
+        </p>
+
+        <ol>
+
+          <li>
+            Stabilise first if unstable.
+          </li>
+
+          <li>
+            Treat the underlying cause
+            and reversible factors.
+          </li>
+
+          <li>
+            Monitor maternal and fetal response
+            where relevant.
+          </li>
+
+          <li>
+            Escalate early for severe disease,
+            deterioration or diagnostic uncertainty.
+          </li>
+
+          <li>
+            Document diagnosis, counselling,
+            plan and safety-net instructions.
+          </li>
+
+        </ol>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          HO / On-call action
+        </h3>
+
+        <div class="warn">
+
+          <b>Red flags:</b>
+
+          haemodynamic instability,
+          major haemorrhage,
+          persistent fetal compromise,
+          severe hypertension/eclampsia,
+          sepsis,
+          acute abdomen,
+          cord prolapse,
+          shoulder dystocia
+          or maternal collapse.
+
+          <br><br>
+
+          →
+          Call senior O&G help immediately
+          and activate the relevant emergency pathway.
+
+        </div>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Exam pearls
+        </h3>
+
+        <div class="pearl">
+
+          • Always state gestational age
+          when discussing an obstetric case.
+
+          <br>
+
+          • In emergencies:
+          maternal resuscitation and diagnosis
+          happen in parallel.
+
+          <br>
+
+          • For management questions:
+          give indication
+          →
+          immediate stabilisation
+          →
+          definitive treatment
+          →
+          monitoring
+          →
+          complications.
+
+        </div>
+
+      </div>
+
+
+      <div class="section">
+
+        <h3>
+          Malaysian guideline note
+        </h3>
+
+        <p class="ref">
+
+          Use the current MOH Malaysia/JPPOBG
+          guideline and your hospital's current SOP.
+
+          Exact drug doses, delivery thresholds,
+          referral pathways and treatment protocols
+          should be checked against the latest
+          approved document.
+
+        </p>
+
+      </div>
+
+    </article>
+
+  `;
+}
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+function saveTopic(id){
+
+  if(saved.includes(id)){
+
+    saved=saved.filter(x=>x!==id);
+
+  }else{
+
+    saved=[...saved,id];
+
+  }
+
+  localStorage.setItem(
+    "medmy_og_saved",
+    JSON.stringify(saved)
+  );
+
+  renderTopic(
+    topics.find(t=>t.id===id)
+  );
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function search(q){
+
+  q=q.trim().toLowerCase();
+
+  if(!q){
+
+    current=null;
+    render();
+    return;
+
+  }
+
+  current=null;
+
+  const app=document.getElementById("app");
+
+  const hits=topics.filter(t=>
+    (
+      t.title+
+      " "+
+      t.cat+
+      " "+
+      t.definition+
+      " "+
+      t.investigations+
+      " "+
+      t.management
+    )
+    .toLowerCase()
+    .includes(q)
+  );
+
+  app.innerHTML = `
+
+    <div class="toolbar">
+
+      <b>
+        ${hits.length} result(s)
+      </b>
+
+      <button
+        class="btn"
+        onclick="
+          document.getElementById('q').value='';
+          render()
+        "
+      >
+        Clear
+      </button>
+
+    </div>
+
+    <div class="grid">
+
+      ${hits.map(card).join("")}
+
+    </div>
+
+  `;
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "medmy_og_dark",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+if(
+  localStorage.getItem("medmy_og_dark")==="true"
+){
+  document.body.classList.add("dark");
+}
+
+/* =========================================================
+   INITIAL RENDER
+   ========================================================= */
+
+render();
+
+</script>
+
 </body>
 </html>
