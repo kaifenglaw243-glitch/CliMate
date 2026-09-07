@@ -1,230 +1,1483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f766e">
+<title>MedMY — Malaysian Clinical Companion</title>
 
-  <title>MedMY — Malaysian Clinical Companion</title>
+<style>
+:root{
+  --primary:#0f766e;
+  --primary2:#115e59;
+  --bg:#f5f7f8;
+  --card:#ffffff;
+  --text:#17202a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --danger:#dc2626;
+  --warning:#d97706;
+  --shadow:0 4px 18px rgba(15,23,42,.07);
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+*{box-sizing:border-box}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-    }
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 
-    header {
-      background: #ffffff;
-      padding: 18px 20px;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+button,input,textarea,select{
+  font:inherit;
+}
 
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-    }
+button{
+  cursor:pointer;
+}
 
-    .tagline {
-      color: #6b7280;
-      font-size: 13px;
-      margin-top: 3px;
-    }
+header{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  padding:18px 16px 20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
 
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 24px 18px 60px;
-    }
+.header-row{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .hero {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 28px 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    }
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
 
-    .hero h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+.subtitle{
+  font-size:12px;
+  opacity:.85;
+  margin-top:2px;
+}
 
-    .hero p {
-      color: #667085;
-      line-height: 1.5;
-    }
+.header-btn{
+  background:rgba(255,255,255,.15);
+  color:white;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:10px;
+  padding:8px 10px;
+}
 
-    .section-title {
-      font-size: 20px;
-      font-weight: 750;
-      margin: 28px 0 14px;
-    }
+.search{
+  max-width:1000px;
+  margin:14px auto 0;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+.search input{
+  width:100%;
+  padding:13px 15px;
+  border:none;
+  border-radius:12px;
+  outline:none;
+}
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 18px;
-      min-height: 110px;
-      border: 1px solid #e8ebf0;
-    }
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:18px 15px 90px;
+}
 
-    .icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
+.page{
+  display:none;
+}
 
-    .card h3 {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
+.page.active{
+  display:block;
+}
 
-    .card p {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.4;
-    }
+h1{
+  font-size:25px;
+  margin:5px 0 6px;
+}
 
-    .departments {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+h2{
+  font-size:20px;
+  margin:25px 0 12px;
+}
 
-    .department {
-      background: white;
-      border: 1px solid #e1e5eb;
-      padding: 10px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-    }
+h3{
+  margin:0 0 7px;
+  font-size:16px;
+}
 
-    footer {
-      text-align: center;
-      color: #8a93a3;
-      font-size: 12px;
-      padding: 30px 15px;
-    }
+p{
+  line-height:1.55;
+}
 
-    @media (max-width: 600px) {
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
+.muted{
+  color:var(--muted);
+}
 
-      .hero h1 {
-        font-size: 26px;
-      }
-    }
-  </style>
+.hero{
+  background:var(--card);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.hero h1{
+  color:var(--primary2);
+}
+
+.level{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  margin-top:15px;
+}
+
+.level button{
+  border:1px solid var(--border);
+  background:white;
+  padding:8px 12px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+
+.level button.active{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+@media(min-width:700px){
+  .grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+
+.action{
+  width:100%;
+  text-align:left;
+  border:none;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+
+.action:active{
+  transform:scale(.98);
+}
+
+.icon{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.small{
+  font-size:12px;
+}
+
+.badge{
+  display:inline-block;
+  background:#ccfbf1;
+  color:#115e59;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:25px;
+}
+
+.list{
+  display:grid;
+  gap:10px;
+}
+
+.topic{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:15px;
+}
+
+.topic button{
+  border:none;
+  background:none;
+  text-align:left;
+  width:100%;
+}
+
+.topic-title{
+  font-weight:750;
+  font-size:16px;
+}
+
+.topic-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.filters{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  margin:15px 0;
+}
+
+.filters button{
+  border:1px solid var(--border);
+  background:white;
+  border-radius:20px;
+  padding:8px 13px;
+  white-space:nowrap;
+}
+
+.filters button.active{
+  background:var(--primary);
+  color:white;
+}
+
+.content-box{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:17px;
+  margin-bottom:12px;
+}
+
+.content-box h3{
+  color:var(--primary2);
+}
+
+ul{
+  padding-left:20px;
+}
+
+li{
+  margin:6px 0;
+  line-height:1.45;
+}
+
+.alert{
+  border-left:4px solid var(--danger);
+  background:#fef2f2;
+  padding:12px;
+  border-radius:8px;
+  margin:10px 0;
+}
+
+.warning{
+  border-left:4px solid var(--warning);
+  background:#fffbeb;
+  padding:12px;
+  border-radius:8px;
+  margin:10px 0;
+}
+
+.green{
+  border-left:4px solid var(--primary);
+  background:#f0fdfa;
+  padding:12px;
+  border-radius:8px;
+  margin:10px 0;
+}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px;
+  background:white;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.form-group{
+  margin-bottom:13px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.primary-btn{
+  background:var(--primary);
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:700;
+}
+
+.secondary-btn{
+  background:white;
+  color:var(--primary2);
+  border:1px solid var(--primary);
+  border-radius:10px;
+  padding:10px 15px;
+  font-weight:700;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:center;
+  z-index:30;
+}
+
+.bottom-inner{
+  width:100%;
+  max-width:700px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-btn{
+  border:none;
+  background:none;
+  padding:9px 5px 8px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.nav-btn span{
+  display:block;
+  font-size:20px;
+}
+
+.nav-btn.active{
+  color:var(--primary);
+  font-weight:700;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,td{
+  border:1px solid var(--border);
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  background:#f8fafc;
+}
+
+.mcq-option{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  margin:8px 0;
+}
+
+.mcq-option.correct{
+  background:#dcfce7;
+  border-color:#16a34a;
+}
+
+.mcq-option.wrong{
+  background:#fee2e2;
+  border-color:#dc2626;
+}
+
+.hidden{
+  display:none;
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:30px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">🩺 MedMY</div>
-  <div class="tagline">
-    Malaysian Clinical Companion
+  <div class="header-row">
+    <div>
+      <div class="logo">MedMY</div>
+      <div class="subtitle">Malaysian Clinical Companion</div>
+    </div>
+    <button class="header-btn" onclick="toggleDark()">🌙</button>
+  </div>
+
+  <div class="search">
+    <input id="searchInput"
+      placeholder="Search topics, drugs, investigations..."
+      oninput="globalSearch(this.value)">
   </div>
 </header>
 
 <main>
 
-  <section class="hero">
+<!-- HOME -->
+<section id="home" class="page active">
+
+  <div class="hero">
+    <span class="badge">MALAYSIA • MEDICAL EDUCATION</span>
     <h1>Learn it. Clerk it. Manage it. Present it. Survive.</h1>
-
-    <p>
-      A clinical companion designed for Malaysian medical students,
-      clinical students, House Officers and Medical Officers.
+    <p class="muted">
+      A clinical companion for Malaysian medical students, clinical students,
+      House Officers and Medical Officers.
     </p>
-  </section>
 
-  <div class="section-title">
-    Quick Access
+    <div class="level">
+      <button class="active" onclick="setLevel(this,'Student')">Student</button>
+      <button onclick="setLevel(this,'Clinical Student')">Clinical Student</button>
+      <button onclick="setLevel(this,'HO')">HO</button>
+      <button onclick="setLevel(this,'MO')">MO</button>
+    </div>
   </div>
+
+  <h2>Quick Access</h2>
 
   <div class="grid">
-
-    <div class="card">
+    <button class="action" onclick="showPage('study')">
       <div class="icon">📚</div>
       <h3>Study</h3>
-      <p>High-yield clinical notes organised by posting.</p>
-    </div>
+      <div class="small muted">Clinical topics</div>
+    </button>
 
-    <div class="card">
+    <button class="action" onclick="showPage('oncall')">
       <div class="icon">🚨</div>
       <h3>HO On-call</h3>
-      <p>Quick reference for common on-call emergencies.</p>
-    </div>
+      <div class="small muted">Emergency quick reference</div>
+    </button>
 
-    <div class="card">
+    <button class="action" onclick="showPage('clerking')">
       <div class="icon">🩺</div>
       <h3>Clerking</h3>
-      <p>Structured history and examination templates.</p>
-    </div>
+      <div class="small muted">History & examination</div>
+    </button>
 
-    <div class="card">
+    <button class="action" onclick="showPage('mcq')">
       <div class="icon">🧠</div>
       <h3>MCQ / OBA</h3>
-      <p>Practice clinical questions and exam pearls.</p>
+      <div class="small muted">Exam practice</div>
+    </button>
+  </div>
+
+  <h2>Study by Posting</h2>
+
+  <div class="grid">
+    <button class="action" onclick="openDepartment('Medicine')">🫀<br><b>Medicine</b></button>
+    <button class="action" onclick="openDepartment('Surgery')">🔪<br><b>Surgery</b></button>
+    <button class="action" onclick="openDepartment('O&G')">🤰<br><b>O&G</b></button>
+    <button class="action" onclick="openDepartment('Paediatrics')">👶<br><b>Paediatrics</b></button>
+    <button class="action" onclick="openDepartment('Emergency')">🚑<br><b>Emergency</b></button>
+    <button class="action" onclick="openDepartment('Orthopaedics')">🦴<br><b>Orthopaedics</b></button>
+    <button class="action" onclick="openDepartment('ENT')">👂<br><b>ENT</b></button>
+    <button class="action" onclick="openDepartment('Ophthalmology')">👁️<br><b>Ophthalmology</b></button>
+  </div>
+
+  <h2>High-Yield Today</h2>
+
+  <div class="list">
+    <div class="topic">
+      <button onclick="openTopic('Pre-eclampsia')">
+        <div class="topic-title">Pre-eclampsia</div>
+        <div class="topic-meta">Diagnosis • Investigation • Management • MgSO₄</div>
+      </button>
+    </div>
+
+    <div class="topic">
+      <button onclick="openTopic('PPROM & Preterm Labour')">
+        <div class="topic-title">PPROM & Preterm Labour</div>
+        <div class="topic-meta">Diagnosis • Steroids • Antibiotics • Delivery</div>
+      </button>
+    </div>
+
+    <div class="topic">
+      <button onclick="openTopic('Fetal Growth Restriction')">
+        <div class="topic-title">Fetal Growth Restriction</div>
+        <div class="topic-meta">Delphi criteria • Doppler • Delivery</div>
+      </button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- STUDY -->
+<section id="study" class="page">
+
+  <h1>📚 Study</h1>
+  <p class="muted">Clinical topics organised by posting.</p>
+
+  <div class="filters">
+    <button class="active" onclick="filterDept('All',this)">All</button>
+    <button onclick="filterDept('Medicine',this)">Medicine</button>
+    <button onclick="filterDept('Surgery',this)">Surgery</button>
+    <button onclick="filterDept('O&G',this)">O&G</button>
+    <button onclick="filterDept('Paediatrics',this)">Paeds</button>
+    <button onclick="filterDept('Emergency',this)">Emergency</button>
+  </div>
+
+  <div id="topicList" class="list"></div>
+
+</section>
+
+
+<!-- TOPIC -->
+<section id="topic" class="page">
+
+  <button class="secondary-btn" onclick="showPage('study')">← Back</button>
+
+  <div id="topicContent" style="margin-top:15px"></div>
+
+</section>
+
+
+<!-- ON CALL -->
+<section id="oncall" class="page">
+
+  <h1>🚨 HO On-call</h1>
+  <p class="muted">
+    Quick-reference framework. Always follow current hospital SOP,
+    Malaysian CPG and senior clinician instructions.
+  </p>
+
+  <div class="list">
+
+    <div class="card">
+      <h3>🫀 Chest Pain</h3>
+      <ol>
+        <li>ABCDE + vital signs</li>
+        <li>12-lead ECG early</li>
+        <li>IV access + bloods</li>
+        <li>Troponin according to local protocol</li>
+        <li>Assess ACS, PE, aortic dissection and other life-threatening causes</li>
+        <li>Escalate if unstable or ECG concerning</li>
+      </ol>
     </div>
 
     <div class="card">
-      <div class="icon">💊</div>
-      <h3>Drugs</h3>
-      <p>Clinical drug reference and prescribing reminders.</p>
+      <h3>🫁 Shortness of Breath</h3>
+      <ol>
+        <li>ABCDE</li>
+        <li>SpO₂ + respiratory rate</li>
+        <li>Oxygen if indicated</li>
+        <li>ECG, CXR, FBC, U&E ± ABG/VBG</li>
+        <li>Consider asthma/COPD, pneumonia, pulmonary oedema, PE, pneumothorax</li>
+        <li>Reassess response</li>
+      </ol>
     </div>
 
     <div class="card">
-      <div class="icon">🔬</div>
-      <h3>Investigations</h3>
-      <p>Interpret common laboratory and bedside investigations.</p>
+      <h3>🦠 Sepsis</h3>
+      <ol>
+        <li>Recognise deterioration early</li>
+        <li>ABCDE + lactate where appropriate</li>
+        <li>Blood cultures before antibiotics if this does not delay treatment</li>
+        <li>Start appropriate antimicrobials according to local protocol</li>
+        <li>Fluid resuscitation when indicated</li>
+        <li>Identify and control source</li>
+        <li>Escalate if shock or organ dysfunction</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>🩸 Major Bleeding / PPH</h3>
+      <ol>
+        <li>Call for help</li>
+        <li>ABCDE</li>
+        <li>Two large-bore IV cannulas if possible</li>
+        <li>FBC, coagulation, group & crossmatch</li>
+        <li>Identify source and treat immediately</li>
+        <li>Activate major haemorrhage protocol when indicated</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Reduced GCS</h3>
+      <ol>
+        <li>Airway + cervical spine consideration</li>
+        <li>Breathing + circulation</li>
+        <li>Check capillary glucose immediately</li>
+        <li>GCS + pupils</li>
+        <li>Look for seizure, stroke, infection, intoxication and metabolic causes</li>
+        <li>Urgent escalation if deterioration</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Hyperkalaemia</h3>
+      <ol>
+        <li>ABCDE</li>
+        <li>Urgent ECG</li>
+        <li>Repeat/confirm potassium if appropriate</li>
+        <li>Look for ECG changes</li>
+        <li>Start emergency treatment according to severity/local protocol</li>
+        <li>Treat underlying cause and consider renal replacement if refractory</li>
+      </ol>
     </div>
 
   </div>
 
-  <div class="section-title">
-    Departments
+</section>
+
+
+<!-- CLERKING -->
+<section id="clerking" class="page">
+
+  <h1>🩺 Clerking</h1>
+  <p class="muted">Create a basic case summary and presentation skeleton.</p>
+
+  <div class="card">
+
+    <div class="form-group">
+      <label>Patient</label>
+      <input id="patient" placeholder="e.g. 32-year-old G2P1">
+    </div>
+
+    <div class="form-group">
+      <label>Presenting Complaint</label>
+      <input id="complaint" placeholder="e.g. abdominal pain for 2 days">
+    </div>
+
+    <div class="form-group">
+      <label>History of Presenting Complaint</label>
+      <textarea id="hpc" placeholder="Onset, site, character, radiation, associated symptoms..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Past Medical / Surgical History</label>
+      <textarea id="pmh"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Medication / Allergy</label>
+      <textarea id="meds"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Examination</label>
+      <textarea id="exam" placeholder="General + systemic + relevant examination"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Investigations</label>
+      <textarea id="investigations"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Assessment / Differential</label>
+      <textarea id="assessment"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Plan</label>
+      <textarea id="plan"></textarea>
+    </div>
+
+    <button class="primary-btn" onclick="generateCase()">Generate Presentation</button>
+
   </div>
 
-  <div class="departments">
+  <div id="caseOutput" class="content-box hidden"></div>
 
-    <div class="department">Medicine</div>
-    <div class="department">Surgery</div>
-    <div class="department">O&G</div>
-    <div class="department">Paediatrics</div>
-    <div class="department">Orthopaedics</div>
-    <div class="department">Emergency</div>
-    <div class="department">Anaesthesiology</div>
-    <div class="department">Psychiatry</div>
-    <div class="department">ENT</div>
-    <div class="department">Ophthalmology</div>
-    <div class="department">Dermatology</div>
-    <div class="department">Primary Care</div>
+</section>
+
+
+<!-- DRUGS -->
+<section id="drugs" class="page">
+
+  <h1>💊 Drugs</h1>
+  <p class="muted">High-yield quick reference. Verify exact dose with current local protocol.</p>
+
+  <div class="list">
+
+    <div class="card">
+      <h3>Magnesium Sulfate</h3>
+      <p><b>Use:</b> Prevention/treatment of eclamptic seizures; fetal neuroprotection in selected preterm births.</p>
+      <p><b>Monitor:</b> Respiratory rate, reflexes, urine output, clinical toxicity.</p>
+      <div class="warning">Dose must be checked against current Malaysian/local hospital protocol.</div>
+    </div>
+
+    <div class="card">
+      <h3>Labetalol</h3>
+      <p><b>Use:</b> Hypertension in pregnancy.</p>
+      <p><b>Important:</b> Monitor BP and maternal heart rate; consider contraindications such as significant asthma/bradycardia.</p>
+    </div>
+
+    <div class="card">
+      <h3>Nifedipine</h3>
+      <p><b>Use:</b> Antihypertensive therapy in pregnancy; may also be used for selected obstetric indications according to protocol.</p>
+    </div>
+
+    <div class="card">
+      <h3>Tranexamic Acid</h3>
+      <p><b>Use:</b> Antifibrinolytic used in major bleeding including selected postpartum haemorrhage protocols.</p>
+    </div>
+
+    <div class="card">
+      <h3>Adrenaline</h3>
+      <p><b>Use:</b> First-line drug for anaphylaxis.</p>
+      <p><b>Principle:</b> Give promptly when anaphylaxis is suspected and follow local emergency protocol.</p>
+    </div>
+
+    <div class="card">
+      <h3>Salbutamol</h3>
+      <p><b>Use:</b> Bronchodilator for acute asthma/bronchospasm.</p>
+      <p><b>Monitor:</b> Tremor, tachycardia and potassium in severe treatment.</p>
+    </div>
 
   </div>
+
+</section>
+
+
+<!-- INVESTIGATIONS -->
+<section id="investigations" class="page">
+
+  <h1>🔬 Investigations</h1>
+
+  <div class="list">
+
+    <div class="card">
+      <h3>ECG — Quick Approach</h3>
+      <ol>
+        <li>Rate</li>
+        <li>Rhythm</li>
+        <li>Axis</li>
+        <li>Intervals</li>
+        <li>P waves</li>
+        <li>QRS</li>
+        <li>ST segment</li>
+        <li>T waves</li>
+        <li>Compare previous ECG</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>ABG / VBG</h3>
+      <ol>
+        <li>pH</li>
+        <li>PaCO₂</li>
+        <li>HCO₃⁻</li>
+        <li>Primary respiratory vs metabolic disorder</li>
+        <li>Compensation</li>
+        <li>Oxygenation</li>
+        <li>Consider lactate / anion gap where relevant</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>FBC</h3>
+      <ul>
+        <li>Hb — anaemia/polycythaemia</li>
+        <li>WBC — infection/inflammation</li>
+        <li>Platelets — thrombocytopenia/thrombocytosis</li>
+        <li>Look at trends, not just a single value</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>U&E / Creatinine</h3>
+      <ul>
+        <li>Na⁺</li>
+        <li>K⁺</li>
+        <li>Urea</li>
+        <li>Creatinine</li>
+        <li>Assess renal function and electrolyte abnormalities</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>LFT</h3>
+      <ul>
+        <li>ALT / AST</li>
+        <li>ALP</li>
+        <li>Bilirubin</li>
+        <li>Albumin</li>
+        <li>Interpret pattern and clinical context</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MCQ -->
+<section id="mcq" class="page">
+
+  <h1>🧠 MCQ / OBA</h1>
+  <p class="muted">High-yield clinical questions.</p>
+
+  <div id="mcqBox"></div>
+
+</section>
+
+
+<!-- SAVED -->
+<section id="saved" class="page">
+
+  <h1>⭐ Saved</h1>
+
+  <div id="savedList" class="list">
+    <div class="card muted">No saved topics yet.</div>
+  </div>
+
+</section>
+
+
+<!-- CPG -->
+<section id="cpg" class="page">
+
+  <h1>🇲🇾 Malaysian CPG</h1>
+
+  <div class="content-box">
+    <h3>Use the current guideline</h3>
+    <p>
+      MedMY is designed to support learning and clinical reference.
+      Always check the latest Malaysian Ministry of Health Clinical Practice
+      Guideline and your hospital's current SOP/protocol.
+    </p>
+  </div>
+
+  <div class="list">
+
+    <div class="card">
+      <h3>🇲🇾 MOH Malaysia</h3>
+      <p>Primary reference source for Malaysian Clinical Practice Guidelines.</p>
+      <button class="secondary-btn"
+        onclick="window.open('https://www.moh.gov.my/','_blank')">
+        Open MOH Malaysia
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>👨‍⚕️ Malaysian Medical Council</h3>
+      <p>Professional and regulatory reference.</p>
+      <button class="secondary-btn"
+        onclick="window.open('https://mmc.gov.my/','_blank')">
+        Open MMC
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  MedMY is an educational clinical companion. Current Malaysian CPG,
+  hospital SOP and senior clinician instructions take precedence.
+</footer>
 
 </main>
 
-<footer>
-  MedMY — Malaysian Clinical Companion
-  <br><br>
-  Educational reference only. Follow current Malaysian CPG,
-  local hospital protocols and senior clinical advice.
-</footer>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+  <div class="bottom-inner">
+
+    <button class="nav-btn active" onclick="showPage('home',this)">
+      <span>🏠</span>Home
+    </button>
+
+    <button class="nav-btn" onclick="showPage('study',this)">
+      <span>📚</span>Study
+    </button>
+
+    <button class="nav-btn" onclick="showPage('oncall',this)">
+      <span>🚨</span>On-call
+    </button>
+
+    <button class="nav-btn" onclick="showPage('clerking',this)">
+      <span>🩺</span>Clerk
+    </button>
+
+    <button class="nav-btn" onclick="showPage('saved',this)">
+      <span>⭐</span>Saved
+    </button>
+
+  </div>
+</nav>
+
+
+<script>
+
+const topics = [
+
+{
+department:"Medicine",
+title:"Acute Coronary Syndrome",
+sections:{
+"Definition":"A clinical syndrome caused by acute myocardial ischaemia, including unstable angina and myocardial infarction.",
+"Clinical Features":"Chest pain/pressure, radiation to arm or jaw, sweating, nausea, dyspnoea or atypical symptoms.",
+"Initial Assessment":"ABCDE, vital signs and early 12-lead ECG. Assess haemodynamic stability and differential diagnoses.",
+"Investigations":"ECG, serial cardiac biomarkers according to local protocol, FBC, U&E, glucose and other tests guided by presentation.",
+"Management":"Initial stabilisation, antiplatelet/anticoagulation and reperfusion strategy according to ACS type and current local protocol.",
+"Complications":"Arrhythmia, heart failure, cardiogenic shock, mechanical complications and recurrent ischaemia.",
+"Exam Pearl":"In suspected ACS, obtain and interpret the ECG early."
+}},
+
+{
+department:"Medicine",
+title:"Sepsis",
+sections:{
+"Definition":"Life-threatening organ dysfunction caused by a dysregulated response to infection.",
+"Recognition":"Suspect infection with physiological deterioration or organ dysfunction.",
+"Initial Management":"ABCDE, oxygen when indicated, IV access, blood investigations, cultures where appropriate, antimicrobials and source control.",
+"Monitoring":"Vital signs, urine output, mental state, perfusion and lactate where clinically indicated.",
+"Escalation":"Persistent hypotension, worsening organ dysfunction or respiratory failure requires urgent senior/critical-care assessment.",
+"Exam Pearl":"Early recognition, appropriate antimicrobials and source control are key."
+}},
+
+{
+department:"O&G",
+title:"Pre-eclampsia",
+sections:{
+"Definition":"A pregnancy-specific hypertensive disorder characterised by new hypertension after 20 weeks with proteinuria and/or maternal organ dysfunction.",
+"Clinical Features":"Hypertension, headache, visual symptoms, epigastric/RUQ pain, oedema or fetal growth concerns. May be asymptomatic.",
+"Investigations":"BP assessment, urine protein assessment, FBC/platelets, renal function, liver function and fetal assessment as indicated.",
+"Severe Features":"Severe hypertension, neurological symptoms, pulmonary oedema, significant renal/liver dysfunction, thrombocytopenia or other maternal/fetal concerns.",
+"Management":"Stabilise mother, control severe hypertension, consider magnesium sulfate when indicated, assess fetal wellbeing and determine timing/mode of delivery according to gestation and severity.",
+"Complications":"Eclampsia, HELLP syndrome, placental abruption, pulmonary oedema, stroke, renal/liver injury and fetal growth restriction.",
+"Exam Pearl":"Always assess both maternal condition and fetal wellbeing."
+}},
+
+{
+department:"O&G",
+title:"Fetal Growth Restriction",
+sections:{
+"Definition":"A fetus that has failed to reach its genetically determined growth potential; diagnosis relies on clinical assessment, ultrasound biometry and Doppler where appropriate.",
+"Assessment":"Estimated fetal weight, abdominal circumference, growth trajectory, amniotic fluid and fetal Doppler studies.",
+"Delphi Concept":"Commonly used criteria incorporate small fetal size plus supporting evidence such as abnormal Doppler or reduced growth depending on gestational age.",
+"Doppler":"Umbilical artery Doppler assesses placental resistance. MCA and ductus venosus Doppler may be used in selected cases according to gestation and severity.",
+"Management":"Serial surveillance, maternal assessment and planned delivery based on gestation, fetal growth, Doppler findings, CTG and overall clinical picture.",
+"Exam Pearl":"Do not decide delivery based on EFW alone; integrate Doppler and fetal surveillance."
+}},
+
+{
+department:"O&G",
+title:"PPROM & Preterm Labour",
+sections:{
+"Definition":"PPROM is rupture of membranes before labour and before 37 weeks. Preterm labour is labour with regular contractions causing cervical change before 37 weeks.",
+"Diagnosis":"History of fluid leakage, sterile speculum examination where appropriate, assessment for infection and cervical change. Avoid unnecessary digital vaginal examination.",
+"Investigations":"Maternal observations, FBC/CRP where appropriate, fetal assessment, ultrasound and microbiological testing according to local protocol.",
+"Management":"Depends on gestational age, infection, fetal status and labour. Consider corticosteroids, antibiotics and magnesium sulfate for selected pregnancies according to gestation/local protocol.",
+"Delivery":"Immediate delivery may be required for chorioamnionitis, significant maternal compromise, fetal compromise or established labour depending on clinical circumstances.",
+"Exam Pearl":"Always look for maternal infection and fetal compromise."
+}},
+
+{
+department:"Paediatrics",
+title:"Neonatal Jaundice",
+sections:{
+"Assessment":"Determine age at onset, gestational age, feeding, stool/urine colour, haemolysis risk and clinical wellbeing.",
+"Red Flags":"Jaundice in the first 24 hours, rapidly rising bilirubin, prolonged jaundice, pale stool/dark urine or an unwell infant.",
+"Investigations":"Serum bilirubin and investigations guided by age, severity and suspected cause.",
+"Management":"Use age-specific bilirubin treatment thresholds; phototherapy and exchange transfusion are used when indicated.",
+"Exam Pearl":"Jaundice within the first 24 hours is pathological until proven otherwise."
+}},
+
+{
+department:"Emergency",
+title:"Anaphylaxis",
+sections:{
+"Recognition":"Sudden airway, breathing or circulation compromise with or without skin/mucosal features after exposure to a likely trigger.",
+"First Step":"Call for help and give IM adrenaline promptly when anaphylaxis is suspected.",
+"ABCDE":"Airway, breathing and circulation assessment with appropriate oxygen and monitoring.",
+"Further Management":"IV access, fluid resuscitation when indicated and adjunctive treatment according to local emergency protocol.",
+"Observation":"Monitor for deterioration and biphasic reactions according to severity/local protocol.",
+"Exam Pearl":"Do not delay adrenaline while waiting for investigations."
+}}
+
+];
+
+
+function showPage(id,btn){
+
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+  const page=document.getElementById(id);
+
+  if(page) page.classList.add("active");
+
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+
+  if(btn) btn.classList.add("active");
+
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  if(id==="study") renderTopics("All");
+  if(id==="saved") renderSaved();
+  if(id==="mcq") renderMCQ();
+}
+
+
+function setLevel(btn,level){
+
+  document.querySelectorAll(".level button")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  localStorage.setItem("medmyLevel",level);
+}
+
+
+function openDepartment(dept){
+
+  showPage("study");
+
+  document.querySelectorAll(".filters button")
+    .forEach(b=>b.classList.remove("active"));
+
+  renderTopics(dept);
+}
+
+
+function filterDept(dept,btn){
+
+  document.querySelectorAll(".filters button")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  renderTopics(dept);
+}
+
+
+function renderTopics(dept="All"){
+
+  const list=document.getElementById("topicList");
+
+  let filtered=topics;
+
+  if(dept!=="All"){
+    filtered=topics.filter(t=>t.department===dept);
+  }
+
+  list.innerHTML="";
+
+  filtered.forEach(topic=>{
+
+    const div=document.createElement("div");
+
+    div.className="topic";
+
+    div.innerHTML=`
+      <button onclick="openTopic('${topic.title.replace(/'/g,"\\'")}')">
+        <span class="badge">${topic.department}</span>
+        <div class="topic-title" style="margin-top:8px">${topic.title}</div>
+        <div class="topic-meta">Tap to open clinical note →</div>
+      </button>
+    `;
+
+    list.appendChild(div);
+
+  });
+}
+
+
+function openTopic(title){
+
+  const topic=topics.find(t=>t.title===title);
+
+  if(!topic) return;
+
+  showPage("topic");
+
+  let html=`
+    <span class="badge">${topic.department}</span>
+    <h1 style="margin-top:10px">${topic.title}</h1>
+  `;
+
+  Object.entries(topic.sections).forEach(([heading,text])=>{
+
+    html+=`
+      <div class="content-box">
+        <h3>${heading}</h3>
+        <p>${text}</p>
+      </div>
+    `;
+
+  });
+
+  html+=`
+    <button class="primary-btn" onclick="saveTopic('${topic.title.replace(/'/g,"\\'")}')">
+      ⭐ Save Topic
+    </button>
+  `;
+
+  document.getElementById("topicContent").innerHTML=html;
+}
+
+
+function saveTopic(title){
+
+  let saved=JSON.parse(localStorage.getItem("medmySaved")||"[]");
+
+  if(!saved.includes(title)){
+    saved.push(title);
+  }
+
+  localStorage.setItem("medmySaved",JSON.stringify(saved));
+
+  alert("Saved ⭐");
+}
+
+
+function renderSaved(){
+
+  const box=document.getElementById("savedList");
+
+  let saved=JSON.parse(localStorage.getItem("medmySaved")||"[]");
+
+  if(saved.length===0){
+    box.innerHTML='<div class="card muted">No saved topics yet.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  saved.forEach(title=>{
+
+    box.innerHTML+=`
+      <div class="topic">
+        <button onclick="openTopic('${title.replace(/'/g,"\\'")}')">
+          <div class="topic-title">⭐ ${title}</div>
+          <div class="topic-meta">Open saved topic →</div>
+        </button>
+      </div>
+    `;
+
+  });
+}
+
+
+function generateCase(){
+
+  const patient=document.getElementById("patient").value;
+  const complaint=document.getElementById("complaint").value;
+  const hpc=document.getElementById("hpc").value;
+  const pmh=document.getElementById("pmh").value;
+  const meds=document.getElementById("meds").value;
+  const exam=document.getElementById("exam").value;
+  const investigations=document.getElementById("investigations").value;
+  const assessment=document.getElementById("assessment").value;
+  const plan=document.getElementById("plan").value;
+
+  const output=document.getElementById("caseOutput");
+
+  output.classList.remove("hidden");
+
+  output.innerHTML=`
+    <h2>📋 Case Presentation</h2>
+
+    <p><b>Patient:</b> ${patient||"—"}</p>
+
+    <p><b>Presenting Complaint:</b>
+    ${complaint||"—"}</p>
+
+    <p><b>History:</b>
+    ${hpc||"—"}</p>
+
+    <p><b>Past Medical / Surgical History:</b>
+    ${pmh||"—"}</p>
+
+    <p><b>Medication / Allergy:</b>
+    ${meds||"—"}</p>
+
+    <p><b>Examination:</b>
+    ${exam||"—"}</p>
+
+    <p><b>Investigations:</b>
+    ${investigations||"—"}</p>
+
+    <p><b>Assessment:</b>
+    ${assessment||"—"}</p>
+
+    <p><b>Plan:</b>
+    ${plan||"—"}</p>
+  `;
+
+  localStorage.setItem("medmyCase",JSON.stringify({
+    patient,complaint,hpc,pmh,meds,exam,investigations,assessment,plan
+  }));
+}
+
+
+const mcqs=[
+
+{
+q:"A pregnant woman has severe hypertension with neurological symptoms. Which medication is used for seizure prevention/treatment in eclampsia?",
+options:[
+"Magnesium sulfate",
+"Tranexamic acid",
+"Metformin",
+"Salbutamol"
+],
+answer:0,
+explanation:"Magnesium sulfate is used for prevention and treatment of eclamptic seizures."
+},
+
+{
+q:"Which investigation is essential early in a patient with suspected acute coronary syndrome?",
+options:[
+"12-lead ECG",
+"Urine microscopy only",
+"Skin biopsy",
+"DEXA scan"
+],
+answer:0,
+explanation:"A 12-lead ECG should be obtained early in suspected ACS."
+},
+
+{
+q:"Which is a red flag in neonatal jaundice?",
+options:[
+"Jaundice appearing within the first 24 hours",
+"Mild jaundice after feeding",
+"Normal urine",
+"Normal stool colour"
+],
+answer:0,
+explanation:"Jaundice in the first 24 hours is considered pathological until proven otherwise."
+},
+
+{
+q:"What is the first-line drug for anaphylaxis?",
+options:[
+"IM adrenaline",
+"Oral antihistamine alone",
+"IV antibiotic",
+"Oral steroid alone"
+],
+answer:0,
+explanation:"Prompt IM adrenaline is the key first-line treatment for suspected anaphylaxis."
+}
+
+];
+
+
+let currentMCQ=0;
+
+
+function renderMCQ(){
+
+  const box=document.getElementById("mcqBox");
+
+  const q=mcqs[currentMCQ];
+
+  box.innerHTML=`
+    <div class="card">
+
+      <span class="badge">Question ${currentMCQ+1} / ${mcqs.length}</span>
+
+      <h2>${q.q}</h2>
+
+      <div id="options"></div>
+
+      <div id="mcqExplanation" class="green hidden"></div>
+
+      <br>
+
+      <button class="secondary-btn"
+        onclick="nextMCQ()">
+        Next Question →
+      </button>
+
+    </div>
+  `;
+
+  const options=document.getElementById("options");
+
+  q.options.forEach((option,index)=>{
+
+    const button=document.createElement("button");
+
+    button.className="mcq-option";
+
+    button.textContent=option;
+
+    button.onclick=()=>answerMCQ(index,button);
+
+    options.appendChild(button);
+
+  });
+}
+
+
+function answerMCQ(index,button){
+
+  const q=mcqs[currentMCQ];
+
+  document.querySelectorAll(".mcq-option")
+    .forEach(b=>b.disabled=true);
+
+  if(index===q.answer){
+    button.classList.add("correct");
+  }else{
+    button.classList.add("wrong");
+    document.querySelectorAll(".mcq-option")[q.answer]
+      .classList.add("correct");
+  }
+
+  const explanation=document.getElementById("mcqExplanation");
+
+  explanation.classList.remove("hidden");
+
+  explanation.innerHTML=
+    "<b>Explanation:</b> "+q.explanation;
+}
+
+
+function nextMCQ(){
+
+  currentMCQ++;
+
+  if(currentMCQ>=mcqs.length){
+    currentMCQ=0;
+  }
+
+  renderMCQ();
+}
+
+
+function globalSearch(value){
+
+  value=value.trim().toLowerCase();
+
+  if(!value) return;
+
+  const results=topics.filter(t=>
+    t.title.toLowerCase().includes(value) ||
+    t.department.toLowerCase().includes(value) ||
+    Object.values(t.sections).some(x=>
+      x.toLowerCase().includes(value)
+    )
+  );
+
+  if(results.length===0){
+    showPage("study");
+    document.getElementById("topicList").innerHTML=
+      '<div class="card muted">No matching topic found.</div>';
+    return;
+  }
+
+  showPage("study");
+
+  document.getElementById("topicList").innerHTML=
+    results.map(t=>`
+      <div class="topic">
+        <button onclick="openTopic('${t.title.replace(/'/g,"\\'")}')">
+          <span class="badge">${t.department}</span>
+          <div class="topic-title" style="margin-top:8px">${t.title}</div>
+        </button>
+      </div>
+    `).join("");
+}
+
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+
+    document.documentElement.style.setProperty("--bg","#0f172a");
+    document.documentElement.style.setProperty("--card","#1e293b");
+    document.documentElement.style.setProperty("--text","#f8fafc");
+    document.documentElement.style.setProperty("--muted","#cbd5e1");
+    document.documentElement.style.setProperty("--border","#334155");
+
+  }else{
+
+    document.documentElement.style.setProperty("--bg","#f5f7f8");
+    document.documentElement.style.setProperty("--card","#ffffff");
+    document.documentElement.style.setProperty("--text","#17202a");
+    document.documentElement.style.setProperty("--muted","#64748b");
+    document.documentElement.style.setProperty("--border","#e2e8f0");
+
+  }
+
+}
+
+
+/* Load saved level */
+
+window.addEventListener("load",()=>{
+
+  const savedLevel=localStorage.getItem("medmyLevel");
+
+  if(savedLevel){
+
+    document.querySelectorAll(".level button")
+      .forEach(button=>{
+        if(button.textContent===savedLevel){
+          button.classList.remove("active");
+          button.classList.add("active");
+        }
+      });
+
+  }
+
+  renderTopics("All");
+
+});
+
+</script>
 
 </body>
 </html>
