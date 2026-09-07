@@ -1,1481 +1,2622 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f766e">
+<meta name="description" content="MedMY — Malaysian Clinical Companion">
 <title>MedMY — Malaysian Clinical Companion</title>
 
 <style>
 :root{
-  --primary:#0f766e;
-  --primary2:#115e59;
-  --bg:#f5f7f8;
-  --card:#ffffff;
-  --text:#17202a;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --danger:#dc2626;
-  --warning:#d97706;
-  --shadow:0 4px 18px rgba(15,23,42,.07);
+--bg:#f5f7f7;
+--card:#fff;
+--text:#172022;
+--muted:#667174;
+--line:#dfe7e7;
+--primary:#0f766e;
+--primary2:#115e59;
+--soft:#e7f5f3;
+--danger:#b42318;
+--warn:#9a6700;
+--shadow:0 8px 24px rgba(16,24,40,.06)
 }
 
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+background:var(--bg);
+color:var(--text);
+line-height:1.55
 }
 
-button,input,textarea,select{
-  font:inherit;
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:var(--primary);text-decoration:none}
+
+.topbar{
+position:sticky;
+top:0;
+z-index:20;
+background:rgba(255,255,255,.94);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--line);
+height:64px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 16px
 }
 
-button{
-  cursor:pointer;
-}
-
-header{
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:white;
-  padding:18px 16px 20px;
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-
-.header-row{
-  max-width:1000px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.brand{
+border:0;
+background:none;
+display:flex;
+align-items:center;
+gap:10px;
+text-align:left;
+color:var(--text)
 }
 
 .logo{
-  font-size:25px;
-  font-weight:800;
+width:38px;
+height:38px;
+border-radius:12px;
+background:var(--primary);
+color:#fff;
+display:grid;
+place-items:center;
+font-weight:800
 }
 
-.subtitle{
-  font-size:12px;
-  opacity:.85;
-  margin-top:2px;
+.brand small{
+display:block;
+color:var(--muted);
+font-size:11px
 }
 
-.header-btn{
-  background:rgba(255,255,255,.15);
-  color:white;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:10px;
-  padding:8px 10px;
+.top-actions{
+display:flex;
+gap:6px
 }
 
-.search{
-  max-width:1000px;
-  margin:14px auto 0;
+.iconbtn{
+border:0;
+background:var(--soft);
+border-radius:10px;
+width:38px;
+height:38px
 }
 
-.search input{
-  width:100%;
-  padding:13px 15px;
-  border:none;
-  border-radius:12px;
-  outline:none;
+.layout{
+display:flex;
+min-height:calc(100vh - 64px)
 }
 
-main{
-  max-width:1000px;
-  margin:auto;
-  padding:18px 15px 90px;
+.sidebar{
+width:230px;
+background:var(--card);
+border-right:1px solid var(--line);
+padding:16px;
+flex:none
 }
 
-.page{
-  display:none;
+.sidebar nav{
+display:grid;
+gap:5px
 }
 
-.page.active{
-  display:block;
+.navitem{
+border:0;
+background:none;
+padding:11px 12px;
+border-radius:10px;
+text-align:left;
+color:var(--muted)
 }
 
-h1{
-  font-size:25px;
-  margin:5px 0 6px;
+.navitem.active,
+.navitem:hover{
+background:var(--soft);
+color:var(--primary);
+font-weight:700
 }
 
-h2{
-  font-size:20px;
-  margin:25px 0 12px;
+.side-note{
+font-size:11px;
+color:var(--muted);
+margin-top:22px
 }
 
-h3{
-  margin:0 0 7px;
-  font-size:16px;
+.main{
+max-width:1200px;
+width:100%;
+padding:24px;
+margin:auto
 }
 
-p{
-  line-height:1.55;
-}
-
-.muted{
-  color:var(--muted);
-}
+.page{display:none}
+.page.active{display:block}
 
 .hero{
-  background:var(--card);
-  border-radius:18px;
-  padding:20px;
-  box-shadow:var(--shadow);
-  border:1px solid var(--border);
+background:linear-gradient(135deg,#0f766e,#115e59);
+color:#fff;
+border-radius:22px;
+padding:28px;
+margin-bottom:22px;
+box-shadow:var(--shadow)
 }
 
 .hero h1{
-  color:var(--primary2);
+margin:0 0 8px;
+font-size:30px
 }
 
-.level{
-  display:flex;
-  gap:7px;
-  overflow:auto;
-  margin-top:15px;
+.hero p{
+margin:0 0 20px;
+opacity:.92
 }
 
-.level button{
-  border:1px solid var(--border);
-  background:white;
-  padding:8px 12px;
-  border-radius:20px;
-  white-space:nowrap;
+.searchbar{
+display:flex;
+gap:8px
 }
 
-.level button.active{
-  background:var(--primary);
-  color:white;
-  border-color:var(--primary);
+.searchbar input{
+flex:1;
+min-width:0
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+.input,
+input,
+textarea,
+select{
+border:1px solid var(--line);
+border-radius:10px;
+padding:10px 12px;
+background:var(--card);
+color:var(--text)
 }
 
-@media(min-width:700px){
-  .grid{
-    grid-template-columns:repeat(4,1fr);
-  }
+.primary{
+background:var(--primary);
+color:#fff;
+border:0;
+border-radius:10px;
+padding:10px 15px;
+font-weight:700
 }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:16px;
-  box-shadow:var(--shadow);
+.section{margin:22px 0}
+.section h2{font-size:20px}
+
+.grid,
+.topicgrid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px
 }
 
-.action{
-  width:100%;
-  text-align:left;
-  border:none;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:16px;
-  box-shadow:var(--shadow);
+.card,
+.topic,
+.box,
+.q{
+background:var(--card);
+border:1px solid var(--line);
+border-radius:15px;
+padding:16px;
+box-shadow:var(--shadow)
 }
 
-.action:active{
-  transform:scale(.98);
-}
-
-.icon{
-  font-size:27px;
-  margin-bottom:8px;
-}
-
-.small{
-  font-size:12px;
-}
-
-.badge{
-  display:inline-block;
-  background:#ccfbf1;
-  color:#115e59;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:700;
-}
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:25px;
-}
-
-.list{
-  display:grid;
-  gap:10px;
-}
+.card{text-align:left}
 
 .topic{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:15px;
+width:100%;
+text-align:left
 }
 
-.topic button{
-  border:none;
-  background:none;
-  text-align:left;
-  width:100%;
+.topic:hover{
+border-color:#9ccfca
 }
 
-.topic-title{
-  font-weight:750;
-  font-size:16px;
+.icon{font-size:24px}
+
+.badge{
+display:inline-block;
+font-size:11px;
+padding:3px 8px;
+border-radius:999px;
+background:var(--soft);
+color:var(--primary);
+font-weight:700;
+margin-bottom:7px
 }
 
-.topic-meta{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
+.badge.red{
+background:#fee4e2;
+color:var(--danger)
 }
 
-.filters{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  margin:15px 0;
+.badge.yellow{
+background:#fff4ce;
+color:var(--warn)
 }
 
-.filters button{
-  border:1px solid var(--border);
-  background:white;
-  border-radius:20px;
-  padding:8px 13px;
-  white-space:nowrap;
+.sub,
+.muted{
+color:var(--muted)
 }
 
-.filters button.active{
-  background:var(--primary);
-  color:white;
+.toolbar{
+display:flex;
+justify-content:space-between;
+gap:12px;
+align-items:center;
+margin-bottom:18px
 }
 
-.content-box{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:17px;
-  margin-bottom:12px;
+.chips{
+display:flex;
+flex-wrap:wrap;
+gap:7px
 }
 
-.content-box h3{
-  color:var(--primary2);
+.chip{
+border:1px solid var(--line);
+background:var(--card);
+padding:7px 11px;
+border-radius:999px
 }
 
-ul{
-  padding-left:20px;
+.chip.active{
+background:var(--soft);
+border-color:#9ccfca;
+color:var(--primary);
+font-weight:700
 }
 
-li{
-  margin:6px 0;
-  line-height:1.45;
+.detail{
+max-width:900px;
+margin:auto
 }
 
-.alert{
-  border-left:4px solid var(--danger);
-  background:#fef2f2;
-  padding:12px;
-  border-radius:8px;
-  margin:10px 0;
+.detail h1{
+font-size:30px;
+margin:8px 0
+}
+
+.box{
+margin:14px 0
+}
+
+.box h3{
+margin:0 0 8px
+}
+
+.box ul,
+.box ol{
+margin:8px 0 0;
+padding-left:22px
+}
+
+.why{
+border-left:4px solid var(--primary);
+background:var(--soft)
 }
 
 .warning{
-  border-left:4px solid var(--warning);
-  background:#fffbeb;
-  padding:12px;
-  border-radius:8px;
-  margin:10px 0;
+border-left:4px solid #d89b00;
+background:#fff8dc
 }
 
-.green{
-  border-left:4px solid var(--primary);
-  background:#f0fdfa;
-  padding:12px;
-  border-radius:8px;
-  margin:10px 0;
+.dangerbox{
+border-left:4px solid var(--danger);
+background:#fff0ef
 }
 
-input,textarea,select{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px;
-  background:white;
+.pearls{
+border-left:4px solid #7c3aed;
+background:#f4efff
 }
 
-textarea{
-  min-height:110px;
-  resize:vertical;
+.source{
+background:#f0f5ff;
+border-left:4px solid #4f46e5
 }
 
-.form-group{
-  margin-bottom:13px;
+.tablewrap{
+overflow:auto;
+border:1px solid var(--line);
+border-radius:12px
 }
 
-label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:6px;
+.clinical-table{
+width:100%;
+border-collapse:collapse;
+min-width:650px
 }
 
-.primary-btn{
-  background:var(--primary);
-  color:white;
-  border:none;
-  border-radius:10px;
-  padding:11px 16px;
-  font-weight:700;
+.clinical-table th,
+.clinical-table td{
+padding:9px 10px;
+border-bottom:1px solid var(--line);
+vertical-align:top;
+text-align:left
 }
 
-.secondary-btn{
-  background:white;
-  color:var(--primary2);
-  border:1px solid var(--primary);
-  border-radius:10px;
-  padding:10px 15px;
-  font-weight:700;
+.clinical-table th{
+background:#f2f6f6;
+font-size:12px
 }
 
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:center;
-  z-index:30;
+.flow{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+gap:7px
 }
 
-.bottom-inner{
-  width:100%;
-  max-width:700px;
-  display:flex;
-  justify-content:space-around;
+.step{
+background:var(--soft);
+padding:8px 10px;
+border-radius:9px;
+font-weight:600
 }
 
-.nav-btn{
-  border:none;
-  background:none;
-  padding:9px 5px 8px;
-  color:var(--muted);
-  font-size:11px;
+.arrow{color:var(--muted)}
+
+.ref{
+display:block;
+margin:6px 0
 }
 
-.nav-btn span{
-  display:block;
-  font-size:20px;
+.q{
+margin:14px 0
 }
 
-.nav-btn.active{
-  color:var(--primary);
-  font-weight:700;
+.option{
+display:block;
+width:100%;
+text-align:left;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:9px;
+padding:9px;
+margin-top:7px
 }
 
-.table-wrap{
-  overflow-x:auto;
+.option.correct{
+background:#e7f7ed;
+border-color:#5abf7a
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
+.option.wrong{
+background:#fff0ef;
+border-color:#e0786f
 }
 
-th,td{
-  border:1px solid var(--border);
-  padding:9px;
-  text-align:left;
-  vertical-align:top;
+.explanation{
+display:none;
+margin-top:10px;
+padding:10px;
+border-radius:9px;
+background:#f6f8f8
 }
 
-th{
-  background:#f8fafc;
+.q.done .explanation{
+display:block
 }
 
-.mcq-option{
-  display:block;
-  width:100%;
-  text-align:left;
-  background:white;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  margin:8px 0;
+.back{
+border:0;
+background:none;
+color:var(--primary);
+font-weight:700;
+padding:0;
+margin-bottom:8px
 }
 
-.mcq-option.correct{
-  background:#dcfce7;
-  border-color:#16a34a;
+.empty{
+text-align:center;
+padding:30px;
+color:var(--muted);
+background:var(--card);
+border:1px dashed var(--line);
+border-radius:14px
 }
 
-.mcq-option.wrong{
-  background:#fee2e2;
-  border-color:#dc2626;
+.bottomnav{
+display:none
 }
 
-.hidden{
-  display:none;
+.drawer{
+display:block!important
 }
 
-footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:30px;
+.dark{
+--bg:#0d1415;
+--card:#142021;
+--text:#eef5f5;
+--muted:#9fb0b0;
+--line:#2b3a3b;
+--soft:#183a37;
+--shadow:none
+}
+
+.dark .topbar{
+background:rgba(13,20,21,.94)
+}
+
+.dark .clinical-table th{
+background:#1b2a2b
+}
+
+.dark .source{
+background:#17213a
+}
+
+.dark .warning{
+background:#2c2714
+}
+
+.dark .pearls{
+background:#241b36
+}
+
+@media(max-width:800px){
+
+.sidebar{
+display:none
+}
+
+.sidebar.drawer{
+position:fixed;
+display:block;
+z-index:30;
+top:64px;
+left:0;
+bottom:0;
+width:260px;
+box-shadow:var(--shadow)
+}
+
+.main{
+padding:16px 14px 90px
+}
+
+.grid,
+.topicgrid{
+grid-template-columns:1fr
+}
+
+.hero{
+padding:22px
+}
+
+.hero h1{
+font-size:26px
+}
+
+.toolbar{
+align-items:flex-start;
+flex-direction:column
+}
+
+.bottomnav{
+position:fixed;
+display:grid;
+grid-template-columns:repeat(6,1fr);
+bottom:0;
+left:0;
+right:0;
+z-index:25;
+background:rgba(255,255,255,.96);
+backdrop-filter:blur(12px);
+border-top:1px solid var(--line);
+padding:5px
+}
+
+.bottomnav button{
+border:0;
+background:none;
+color:var(--muted);
+font-size:10px;
+padding:5px 2px
+}
+
+.bottomnav button.active{
+color:var(--primary);
+font-weight:800
+}
+
+.searchbar{
+flex-direction:column
+}
+
+.searchbar .primary{
+width:100%
+}
+
+.clinical-table{
+min-width:620px
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-row">
-    <div>
-      <div class="logo">MedMY</div>
-      <div class="subtitle">Malaysian Clinical Companion</div>
-    </div>
-    <button class="header-btn" onclick="toggleDark()">🌙</button>
-  </div>
+<div id="app">
 
-  <div class="search">
-    <input id="searchInput"
-      placeholder="Search topics, drugs, investigations..."
-      oninput="globalSearch(this.value)">
-  </div>
+<header class="topbar">
+
+<button class="brand" data-route="home">
+<span class="logo">M</span>
+<span>
+<strong>MedMY</strong>
+<small>Malaysian Clinical Companion</small>
+</span>
+</button>
+
+<div class="top-actions">
+<button class="iconbtn" id="themeBtn">☾</button>
+<button class="iconbtn" id="menuBtn">☰</button>
+</div>
+
 </header>
 
-<main>
+<div class="layout">
 
-<!-- HOME -->
-<section id="home" class="page active">
+<aside class="sidebar">
 
-  <div class="hero">
-    <span class="badge">MALAYSIA • MEDICAL EDUCATION</span>
-    <h1>Learn it. Clerk it. Manage it. Present it. Survive.</h1>
-    <p class="muted">
-      A clinical companion for Malaysian medical students, clinical students,
-      House Officers and Medical Officers.
-    </p>
+<nav id="sideNav"></nav>
 
-    <div class="level">
-      <button class="active" onclick="setLevel(this,'Student')">Student</button>
-      <button onclick="setLevel(this,'Clinical Student')">Clinical Student</button>
-      <button onclick="setLevel(this,'HO')">HO</button>
-      <button onclick="setLevel(this,'MO')">MO</button>
-    </div>
-  </div>
+<div class="side-note">
+Malaysia-first • guideline-aware • ward-ready
+</div>
 
-  <h2>Quick Access</h2>
+</aside>
 
-  <div class="grid">
-    <button class="action" onclick="showPage('study')">
-      <div class="icon">📚</div>
-      <h3>Study</h3>
-      <div class="small muted">Clinical topics</div>
-    </button>
+<main class="main">
 
-    <button class="action" onclick="showPage('oncall')">
-      <div class="icon">🚨</div>
-      <h3>HO On-call</h3>
-      <div class="small muted">Emergency quick reference</div>
-    </button>
+<section id="home" class="page active"></section>
 
-    <button class="action" onclick="showPage('clerking')">
-      <div class="icon">🩺</div>
-      <h3>Clerking</h3>
-      <div class="small muted">History & examination</div>
-    </button>
+<section id="study" class="page"></section>
 
-    <button class="action" onclick="showPage('mcq')">
-      <div class="icon">🧠</div>
-      <h3>MCQ / OBA</h3>
-      <div class="small muted">Exam practice</div>
-    </button>
-  </div>
+<section id="oncall" class="page"></section>
 
-  <h2>Study by Posting</h2>
+<section id="clerking" class="page"></section>
 
-  <div class="grid">
-    <button class="action" onclick="openDepartment('Medicine')">🫀<br><b>Medicine</b></button>
-    <button class="action" onclick="openDepartment('Surgery')">🔪<br><b>Surgery</b></button>
-    <button class="action" onclick="openDepartment('O&G')">🤰<br><b>O&G</b></button>
-    <button class="action" onclick="openDepartment('Paediatrics')">👶<br><b>Paediatrics</b></button>
-    <button class="action" onclick="openDepartment('Emergency')">🚑<br><b>Emergency</b></button>
-    <button class="action" onclick="openDepartment('Orthopaedics')">🦴<br><b>Orthopaedics</b></button>
-    <button class="action" onclick="openDepartment('ENT')">👂<br><b>ENT</b></button>
-    <button class="action" onclick="openDepartment('Ophthalmology')">👁️<br><b>Ophthalmology</b></button>
-  </div>
+<section id="mcq" class="page"></section>
 
-  <h2>High-Yield Today</h2>
+<section id="saved" class="page"></section>
 
-  <div class="list">
-    <div class="topic">
-      <button onclick="openTopic('Pre-eclampsia')">
-        <div class="topic-title">Pre-eclampsia</div>
-        <div class="topic-meta">Diagnosis • Investigation • Management • MgSO₄</div>
-      </button>
-    </div>
+<section id="cpg" class="page"></section>
 
-    <div class="topic">
-      <button onclick="openTopic('PPROM & Preterm Labour')">
-        <div class="topic-title">PPROM & Preterm Labour</div>
-        <div class="topic-meta">Diagnosis • Steroids • Antibiotics • Delivery</div>
-      </button>
-    </div>
-
-    <div class="topic">
-      <button onclick="openTopic('Fetal Growth Restriction')">
-        <div class="topic-title">Fetal Growth Restriction</div>
-        <div class="topic-meta">Delphi criteria • Doppler • Delivery</div>
-      </button>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- STUDY -->
-<section id="study" class="page">
-
-  <h1>📚 Study</h1>
-  <p class="muted">Clinical topics organised by posting.</p>
-
-  <div class="filters">
-    <button class="active" onclick="filterDept('All',this)">All</button>
-    <button onclick="filterDept('Medicine',this)">Medicine</button>
-    <button onclick="filterDept('Surgery',this)">Surgery</button>
-    <button onclick="filterDept('O&G',this)">O&G</button>
-    <button onclick="filterDept('Paediatrics',this)">Paeds</button>
-    <button onclick="filterDept('Emergency',this)">Emergency</button>
-  </div>
-
-  <div id="topicList" class="list"></div>
-
-</section>
-
-
-<!-- TOPIC -->
-<section id="topic" class="page">
-
-  <button class="secondary-btn" onclick="showPage('study')">← Back</button>
-
-  <div id="topicContent" style="margin-top:15px"></div>
-
-</section>
-
-
-<!-- ON CALL -->
-<section id="oncall" class="page">
-
-  <h1>🚨 HO On-call</h1>
-  <p class="muted">
-    Quick-reference framework. Always follow current hospital SOP,
-    Malaysian CPG and senior clinician instructions.
-  </p>
-
-  <div class="list">
-
-    <div class="card">
-      <h3>🫀 Chest Pain</h3>
-      <ol>
-        <li>ABCDE + vital signs</li>
-        <li>12-lead ECG early</li>
-        <li>IV access + bloods</li>
-        <li>Troponin according to local protocol</li>
-        <li>Assess ACS, PE, aortic dissection and other life-threatening causes</li>
-        <li>Escalate if unstable or ECG concerning</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>🫁 Shortness of Breath</h3>
-      <ol>
-        <li>ABCDE</li>
-        <li>SpO₂ + respiratory rate</li>
-        <li>Oxygen if indicated</li>
-        <li>ECG, CXR, FBC, U&E ± ABG/VBG</li>
-        <li>Consider asthma/COPD, pneumonia, pulmonary oedema, PE, pneumothorax</li>
-        <li>Reassess response</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>🦠 Sepsis</h3>
-      <ol>
-        <li>Recognise deterioration early</li>
-        <li>ABCDE + lactate where appropriate</li>
-        <li>Blood cultures before antibiotics if this does not delay treatment</li>
-        <li>Start appropriate antimicrobials according to local protocol</li>
-        <li>Fluid resuscitation when indicated</li>
-        <li>Identify and control source</li>
-        <li>Escalate if shock or organ dysfunction</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>🩸 Major Bleeding / PPH</h3>
-      <ol>
-        <li>Call for help</li>
-        <li>ABCDE</li>
-        <li>Two large-bore IV cannulas if possible</li>
-        <li>FBC, coagulation, group & crossmatch</li>
-        <li>Identify source and treat immediately</li>
-        <li>Activate major haemorrhage protocol when indicated</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>🧠 Reduced GCS</h3>
-      <ol>
-        <li>Airway + cervical spine consideration</li>
-        <li>Breathing + circulation</li>
-        <li>Check capillary glucose immediately</li>
-        <li>GCS + pupils</li>
-        <li>Look for seizure, stroke, infection, intoxication and metabolic causes</li>
-        <li>Urgent escalation if deterioration</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>⚡ Hyperkalaemia</h3>
-      <ol>
-        <li>ABCDE</li>
-        <li>Urgent ECG</li>
-        <li>Repeat/confirm potassium if appropriate</li>
-        <li>Look for ECG changes</li>
-        <li>Start emergency treatment according to severity/local protocol</li>
-        <li>Treat underlying cause and consider renal replacement if refractory</li>
-      </ol>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- CLERKING -->
-<section id="clerking" class="page">
-
-  <h1>🩺 Clerking</h1>
-  <p class="muted">Create a basic case summary and presentation skeleton.</p>
-
-  <div class="card">
-
-    <div class="form-group">
-      <label>Patient</label>
-      <input id="patient" placeholder="e.g. 32-year-old G2P1">
-    </div>
-
-    <div class="form-group">
-      <label>Presenting Complaint</label>
-      <input id="complaint" placeholder="e.g. abdominal pain for 2 days">
-    </div>
-
-    <div class="form-group">
-      <label>History of Presenting Complaint</label>
-      <textarea id="hpc" placeholder="Onset, site, character, radiation, associated symptoms..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Past Medical / Surgical History</label>
-      <textarea id="pmh"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Medication / Allergy</label>
-      <textarea id="meds"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Examination</label>
-      <textarea id="exam" placeholder="General + systemic + relevant examination"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Investigations</label>
-      <textarea id="investigations"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Assessment / Differential</label>
-      <textarea id="assessment"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Plan</label>
-      <textarea id="plan"></textarea>
-    </div>
-
-    <button class="primary-btn" onclick="generateCase()">Generate Presentation</button>
-
-  </div>
-
-  <div id="caseOutput" class="content-box hidden"></div>
-
-</section>
-
-
-<!-- DRUGS -->
-<section id="drugs" class="page">
-
-  <h1>💊 Drugs</h1>
-  <p class="muted">High-yield quick reference. Verify exact dose with current local protocol.</p>
-
-  <div class="list">
-
-    <div class="card">
-      <h3>Magnesium Sulfate</h3>
-      <p><b>Use:</b> Prevention/treatment of eclamptic seizures; fetal neuroprotection in selected preterm births.</p>
-      <p><b>Monitor:</b> Respiratory rate, reflexes, urine output, clinical toxicity.</p>
-      <div class="warning">Dose must be checked against current Malaysian/local hospital protocol.</div>
-    </div>
-
-    <div class="card">
-      <h3>Labetalol</h3>
-      <p><b>Use:</b> Hypertension in pregnancy.</p>
-      <p><b>Important:</b> Monitor BP and maternal heart rate; consider contraindications such as significant asthma/bradycardia.</p>
-    </div>
-
-    <div class="card">
-      <h3>Nifedipine</h3>
-      <p><b>Use:</b> Antihypertensive therapy in pregnancy; may also be used for selected obstetric indications according to protocol.</p>
-    </div>
-
-    <div class="card">
-      <h3>Tranexamic Acid</h3>
-      <p><b>Use:</b> Antifibrinolytic used in major bleeding including selected postpartum haemorrhage protocols.</p>
-    </div>
-
-    <div class="card">
-      <h3>Adrenaline</h3>
-      <p><b>Use:</b> First-line drug for anaphylaxis.</p>
-      <p><b>Principle:</b> Give promptly when anaphylaxis is suspected and follow local emergency protocol.</p>
-    </div>
-
-    <div class="card">
-      <h3>Salbutamol</h3>
-      <p><b>Use:</b> Bronchodilator for acute asthma/bronchospasm.</p>
-      <p><b>Monitor:</b> Tremor, tachycardia and potassium in severe treatment.</p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- INVESTIGATIONS -->
-<section id="investigations" class="page">
-
-  <h1>🔬 Investigations</h1>
-
-  <div class="list">
-
-    <div class="card">
-      <h3>ECG — Quick Approach</h3>
-      <ol>
-        <li>Rate</li>
-        <li>Rhythm</li>
-        <li>Axis</li>
-        <li>Intervals</li>
-        <li>P waves</li>
-        <li>QRS</li>
-        <li>ST segment</li>
-        <li>T waves</li>
-        <li>Compare previous ECG</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>ABG / VBG</h3>
-      <ol>
-        <li>pH</li>
-        <li>PaCO₂</li>
-        <li>HCO₃⁻</li>
-        <li>Primary respiratory vs metabolic disorder</li>
-        <li>Compensation</li>
-        <li>Oxygenation</li>
-        <li>Consider lactate / anion gap where relevant</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>FBC</h3>
-      <ul>
-        <li>Hb — anaemia/polycythaemia</li>
-        <li>WBC — infection/inflammation</li>
-        <li>Platelets — thrombocytopenia/thrombocytosis</li>
-        <li>Look at trends, not just a single value</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3>U&E / Creatinine</h3>
-      <ul>
-        <li>Na⁺</li>
-        <li>K⁺</li>
-        <li>Urea</li>
-        <li>Creatinine</li>
-        <li>Assess renal function and electrolyte abnormalities</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3>LFT</h3>
-      <ul>
-        <li>ALT / AST</li>
-        <li>ALP</li>
-        <li>Bilirubin</li>
-        <li>Albumin</li>
-        <li>Interpret pattern and clinical context</li>
-      </ul>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MCQ -->
-<section id="mcq" class="page">
-
-  <h1>🧠 MCQ / OBA</h1>
-  <p class="muted">High-yield clinical questions.</p>
-
-  <div id="mcqBox"></div>
-
-</section>
-
-
-<!-- SAVED -->
-<section id="saved" class="page">
-
-  <h1>⭐ Saved</h1>
-
-  <div id="savedList" class="list">
-    <div class="card muted">No saved topics yet.</div>
-  </div>
-
-</section>
-
-
-<!-- CPG -->
-<section id="cpg" class="page">
-
-  <h1>🇲🇾 Malaysian CPG</h1>
-
-  <div class="content-box">
-    <h3>Use the current guideline</h3>
-    <p>
-      MedMY is designed to support learning and clinical reference.
-      Always check the latest Malaysian Ministry of Health Clinical Practice
-      Guideline and your hospital's current SOP/protocol.
-    </p>
-  </div>
-
-  <div class="list">
-
-    <div class="card">
-      <h3>🇲🇾 MOH Malaysia</h3>
-      <p>Primary reference source for Malaysian Clinical Practice Guidelines.</p>
-      <button class="secondary-btn"
-        onclick="window.open('https://www.moh.gov.my/','_blank')">
-        Open MOH Malaysia
-      </button>
-    </div>
-
-    <div class="card">
-      <h3>👨‍⚕️ Malaysian Medical Council</h3>
-      <p>Professional and regulatory reference.</p>
-      <button class="secondary-btn"
-        onclick="window.open('https://mmc.gov.my/','_blank')">
-        Open MMC
-      </button>
-    </div>
-
-  </div>
-
-</section>
-
-<footer>
-  MedMY is an educational clinical companion. Current Malaysian CPG,
-  hospital SOP and senior clinician instructions take precedence.
-</footer>
+<section id="searchPage" class="page"></section>
 
 </main>
 
+</div>
 
-<!-- BOTTOM NAV -->
+<nav class="bottomnav" id="bottomNav"></nav>
 
-<nav class="bottom-nav">
-  <div class="bottom-inner">
-
-    <button class="nav-btn active" onclick="showPage('home',this)">
-      <span>🏠</span>Home
-    </button>
-
-    <button class="nav-btn" onclick="showPage('study',this)">
-      <span>📚</span>Study
-    </button>
-
-    <button class="nav-btn" onclick="showPage('oncall',this)">
-      <span>🚨</span>On-call
-    </button>
-
-    <button class="nav-btn" onclick="showPage('clerking',this)">
-      <span>🩺</span>Clerk
-    </button>
-
-    <button class="nav-btn" onclick="showPage('saved',this)">
-      <span>⭐</span>Saved
-    </button>
-
-  </div>
-</nav>
+</div>
 
 
 <script>
 
-const topics = [
+const departments=[
+"Medicine",
+"General Surgery",
+"O&G",
+"Paediatrics",
+"Orthopaedics",
+"Emergency Medicine",
+"Anaesthesiology",
+"Primary Care",
+"Psychiatry",
+"ENT",
+"Ophthalmology",
+"Dermatology"
+];
+
+
+const refs={
+
+"pre":{
+"title":"MOH Malaysia — Management of Hypertension in Pregnancy",
+"url":"https://www.moh.gov.my/moh/attachments/CPG_Management_of_Hypertension_4th_Edition.pdf"
+},
+
+"preterm":{
+"title":"MOH Malaysia — Guidelines on Prevention and Management of Preterm Birth, 2023",
+"url":"https://www.moh.gov.my/images/04-penerbitan/penerbitan-klinikal/perkhidmatan-OG-dan-pediatrik/Guideline_on_Prevention_and_Management_30Aug23.pdf"
+},
+
+"handbook":{
+"title":"MOH Malaysia — Handbook of Obstetrics Guideline",
+"url":"https://www.moh.gov.my/images/04-penerbitan/penerbitan-klinikal/perkhidmatan-OG-dan-pediatrik/FINAL_DRAF_LAYOUT_Handbook_of_Obstetrics_Guideline_PDF_compressed.pdf"
+},
+
+"gdm":{
+"title":"MOH Malaysia — Management of Diabetes in Pregnancy, 2017",
+"url":"https://www.moh.gov.my/moh/resources/Penerbitan/CPG/Endocrine/1a.pdf"
+},
+
+"pph":{
+"title":"MOH Malaysia — Training Manual / Quick Reference Guide on Post Partum Haemorrhage, 2016",
+"url":"https://hq.moh.gov.my/bpkk/index.php/pages/orang-awam/kesihatan-ibu-orang-awam.html"
+},
+
+"cpg":{
+"title":"MOH Malaysia — Clinical Practice Guidelines hub",
+"url":"https://www.moh.gov.my/penerbitan-dan-laporan/dasar-akta-polisi-garis-panduan/penerbitan-klinikal/senarai-penerbitan-klinikal/panduan-amalan-klinikal-cpg"
+}
+
+};
+
+
+const topics=[
 
 {
-department:"Medicine",
-title:"Acute Coronary Syndrome",
-sections:{
-"Definition":"A clinical syndrome caused by acute myocardial ischaemia, including unstable angina and myocardial infarction.",
-"Clinical Features":"Chest pain/pressure, radiation to arm or jaw, sweating, nausea, dyspnoea or atypical symptoms.",
-"Initial Assessment":"ABCDE, vital signs and early 12-lead ECG. Assess haemodynamic stability and differential diagnoses.",
-"Investigations":"ECG, serial cardiac biomarkers according to local protocol, FBC, U&E, glucose and other tests guided by presentation.",
-"Management":"Initial stabilisation, antiplatelet/anticoagulation and reperfusion strategy according to ACS type and current local protocol.",
-"Complications":"Arrhythmia, heart failure, cardiogenic shock, mechanical complications and recurrent ischaemia.",
-"Exam Pearl":"In suspected ACS, obtain and interpret the ECG early."
-}},
+"id":"pe",
+"d":"O&G",
+"title":"Pre-eclampsia",
+"tags":"hypertension pregnancy proteinuria severe features eclampsia",
+"summary":"Placental disease with maternal endothelial dysfunction; recognise severe disease, stabilise mother and plan delivery.",
+"refs":["pre","handbook"],
+
+"sections":[
 
 {
-department:"Medicine",
-title:"Sepsis",
-sections:{
-"Definition":"Life-threatening organ dysfunction caused by a dysregulated response to infection.",
-"Recognition":"Suspect infection with physiological deterioration or organ dysfunction.",
-"Initial Management":"ABCDE, oxygen when indicated, IV access, blood investigations, cultures where appropriate, antimicrobials and source control.",
-"Monitoring":"Vital signs, urine output, mental state, perfusion and lactate where clinically indicated.",
-"Escalation":"Persistent hypotension, worsening organ dysfunction or respiratory failure requires urgent senior/critical-care assessment.",
-"Exam Pearl":"Early recognition, appropriate antimicrobials and source control are key."
-}},
+"title":"1. Definition & concept",
+"kind":"text",
+"content":"Pre-eclampsia is a pregnancy-specific multisystem disorder characterised by new hypertension after 20 weeks with maternal organ dysfunction and/or proteinuria. Think of it as a placental disorder that becomes clinically expressed through maternal endothelial and vascular dysfunction."
+},
 
 {
-department:"O&G",
-title:"Pre-eclampsia",
-sections:{
-"Definition":"A pregnancy-specific hypertensive disorder characterised by new hypertension after 20 weeks with proteinuria and/or maternal organ dysfunction.",
-"Clinical Features":"Hypertension, headache, visual symptoms, epigastric/RUQ pain, oedema or fetal growth concerns. May be asymptomatic.",
-"Investigations":"BP assessment, urine protein assessment, FBC/platelets, renal function, liver function and fetal assessment as indicated.",
-"Severe Features":"Severe hypertension, neurological symptoms, pulmonary oedema, significant renal/liver dysfunction, thrombocytopenia or other maternal/fetal concerns.",
-"Management":"Stabilise mother, control severe hypertension, consider magnesium sulfate when indicated, assess fetal wellbeing and determine timing/mode of delivery according to gestation and severity.",
-"Complications":"Eclampsia, HELLP syndrome, placental abruption, pulmonary oedema, stroke, renal/liver injury and fetal growth restriction.",
-"Exam Pearl":"Always assess both maternal condition and fetal wellbeing."
-}},
+"title":"2. How does it happen?",
+"kind":"why",
+"content":"Abnormal placentation → inadequate spiral-artery remodelling → placental malperfusion/ischemia → release of anti-angiogenic and inflammatory factors → maternal endothelial dysfunction → vasoconstriction, capillary leak and organ injury.<br><br>This explains why disease can affect the brain, liver, kidneys, blood, lungs and placenta—not just blood pressure."
+},
 
 {
-department:"O&G",
-title:"Fetal Growth Restriction",
-sections:{
-"Definition":"A fetus that has failed to reach its genetically determined growth potential; diagnosis relies on clinical assessment, ultrasound biometry and Doppler where appropriate.",
-"Assessment":"Estimated fetal weight, abdominal circumference, growth trajectory, amniotic fluid and fetal Doppler studies.",
-"Delphi Concept":"Commonly used criteria incorporate small fetal size plus supporting evidence such as abnormal Doppler or reduced growth depending on gestational age.",
-"Doppler":"Umbilical artery Doppler assesses placental resistance. MCA and ductus venosus Doppler may be used in selected cases according to gestation and severity.",
-"Management":"Serial surveillance, maternal assessment and planned delivery based on gestation, fetal growth, Doppler findings, CTG and overall clinical picture.",
-"Exam Pearl":"Do not decide delivery based on EFW alone; integrate Doppler and fetal surveillance."
-}},
+"title":"3. Clinical features — explain the “why”",
+"kind":"table",
+"content":{
+"headers":["Finding","Why it happens"],
+"rows":[
+["Hypertension","↑ systemic vascular resistance from endothelial dysfunction and vasoconstriction."],
+["Proteinuria","Glomerular endothelial injury increases permeability to protein."],
+["Headache / visual symptoms","Cerebral endothelial dysfunction, vasospasm and/or cerebral oedema."],
+["RUQ/epigastric pain","Hepatic involvement and capsular stretching/ischemia."],
+["Thrombocytopenia","Platelet activation and consumption."],
+["Raised AST/ALT","Hepatocellular injury."],
+["Pulmonary oedema / dyspnoea","Capillary leak + increased afterload ± cardiac dysfunction."],
+["Fetal growth restriction","Placental insufficiency reduces oxygen/nutrient transfer."]
+]
+}
+},
 
 {
-department:"O&G",
-title:"PPROM & Preterm Labour",
-sections:{
-"Definition":"PPROM is rupture of membranes before labour and before 37 weeks. Preterm labour is labour with regular contractions causing cervical change before 37 weeks.",
-"Diagnosis":"History of fluid leakage, sterile speculum examination where appropriate, assessment for infection and cervical change. Avoid unnecessary digital vaginal examination.",
-"Investigations":"Maternal observations, FBC/CRP where appropriate, fetal assessment, ultrasound and microbiological testing according to local protocol.",
-"Management":"Depends on gestational age, infection, fetal status and labour. Consider corticosteroids, antibiotics and magnesium sulfate for selected pregnancies according to gestation/local protocol.",
-"Delivery":"Immediate delivery may be required for chorioamnionitis, significant maternal compromise, fetal compromise or established labour depending on clinical circumstances.",
-"Exam Pearl":"Always look for maternal infection and fetal compromise."
-}},
+"title":"4. History — ask with purpose",
+"kind":"table",
+"content":{
+"headers":["Ask","Why?"],
+"rows":[
+["Gestation, previous BP readings","Distinguish chronic HTN from new-onset disease."],
+["Headache, visual disturbance, confusion","Neurological severe features/eclampsia risk."],
+["RUQ/epigastric pain, nausea/vomiting","Hepatic involvement/HELLP."],
+["Dyspnoea/orthopnoea","Pulmonary oedema/cardiac involvement."],
+["Reduced fetal movement","Possible fetal compromise."],
+["Previous pre-eclampsia/FGR/placental disease","Recurrence and placental-risk assessment."]
+]
+}
+},
 
 {
-department:"Paediatrics",
-title:"Neonatal Jaundice",
-sections:{
-"Assessment":"Determine age at onset, gestational age, feeding, stool/urine colour, haemolysis risk and clinical wellbeing.",
-"Red Flags":"Jaundice in the first 24 hours, rapidly rising bilirubin, prolonged jaundice, pale stool/dark urine or an unwell infant.",
-"Investigations":"Serum bilirubin and investigations guided by age, severity and suspected cause.",
-"Management":"Use age-specific bilirubin treatment thresholds; phototherapy and exchange transfusion are used when indicated.",
-"Exam Pearl":"Jaundice within the first 24 hours is pathological until proven otherwise."
-}},
+"title":"5. Examination",
+"kind":"table",
+"content":{
+"headers":["Examine","Look for"],
+"rows":[
+["BP — repeat correctly","Severity / acute hypertensive crisis."],
+["Neurology","Clonus, hyperreflexia, altered mental state."],
+["Respiratory system","Pulmonary oedema."],
+["Abdomen","RUQ/epigastric tenderness; fundal height."],
+["Obstetric assessment","Fetal heart, movements, presentation, uterine activity."],
+["Fluid balance","Avoid under-resuscitation and fluid overload."]
+]
+}
+},
 
 {
-department:"Emergency",
-title:"Anaphylaxis",
-sections:{
-"Recognition":"Sudden airway, breathing or circulation compromise with or without skin/mucosal features after exposure to a likely trigger.",
-"First Step":"Call for help and give IM adrenaline promptly when anaphylaxis is suspected.",
-"ABCDE":"Airway, breathing and circulation assessment with appropriate oxygen and monitoring.",
-"Further Management":"IV access, fluid resuscitation when indicated and adjunctive treatment according to local emergency protocol.",
-"Observation":"Monitor for deterioration and biphasic reactions according to severity/local protocol.",
-"Exam Pearl":"Do not delay adrenaline while waiting for investigations."
-}}
+"title":"6. Investigations",
+"kind":"table",
+"content":{
+"headers":["Test","Purpose"],
+"rows":[
+["FBC / platelet","Anaemia, thrombocytopenia, HELLP component."],
+["Renal profile / creatinine","Renal involvement and treatment baseline."],
+["LFT","Hepatic involvement/HELLP."],
+["Urine protein assessment","Document proteinuria where indicated."],
+["CTG","Fetal wellbeing when gestationally appropriate."],
+["Ultrasound growth + liquor + Doppler","Assess placental insufficiency/FGR."]
+]
+}
+},
+
+{
+"title":"7. Management — clinical flow",
+"kind":"flow",
+"content":"Stabilise mother → confirm severity → control severe hypertension if present → magnesium sulfate when indicated for seizure prophylaxis/treatment → assess maternal organ function → assess fetus → involve senior O&G/MFM team → decide expectant management versus delivery based on maternal/fetal condition and gestation."
+},
+
+{
+"title":"8. Severe disease / red flags",
+"kind":"danger",
+"content":"Severe headache, visual symptoms, epigastric/RUQ pain, pulmonary oedema, neurological signs, severe/persistent hypertension, thrombocytopenia, significant renal or hepatic dysfunction and fetal compromise should trigger urgent senior review and escalation.<br><br>Do not wait for a dramatic amount of proteinuria before recognising severe disease."
+},
+
+{
+"title":"9. Delivery principle",
+"kind":"text",
+"content":"Delivery is the definitive treatment, but timing is a risk balance: maternal deterioration and fetal compromise favour delivery; stable mother and fetus may permit carefully monitored expectant management at appropriate gestations in a specialist setting."
+},
+
+{
+"title":"10. Exam pearls",
+"kind":"pearls",
+"content":"Pre-eclampsia is multisystem—not simply “hypertension + proteinuria”.<br><br>Always assess both mother and fetus.<br><br>A severe BP is an emergency because stroke risk rises rapidly.<br><br>Magnesium sulfate prevents/treats eclamptic seizures; it is not the antihypertensive.<br><br>Delivery treats the underlying placental disease, but timing depends on clinical context."
+}
+
+]
+},
+
+
+{
+"id":"fgr",
+"d":"O&G",
+"title":"Fetal Growth Restriction (FGR)",
+"tags":"fgr SGA Delphi EFW AC umbilical artery Doppler MCA ductus venosus delivery",
+"summary":"Differentiate constitutionally small fetuses from pathological growth restriction and use Doppler/surveillance to time delivery.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"1. Definition & concept",
+"kind":"text",
+"content":"FGR means a fetus has failed to reach its biologically determined growth potential, usually because of placental insufficiency or another pathology. SGA is a size description; FGR is a clinical diagnosis involving abnormal growth and/or evidence of compromise."
+},
+
+{
+"title":"2. How does it happen?",
+"kind":"why",
+"content":"Most placental FGR: abnormal placentation → high placental vascular resistance → reduced maternal–fetal exchange → fetal adaptation and reduced growth.<br><br>As placental resistance worsens, umbilical artery diastolic flow becomes reduced, absent or reversed; fetal redistribution may increase cerebral blood flow, reflected by MCA changes. Severe compromise may eventually affect venous Doppler and CTG."
+},
+
+{
+"title":"3. Clinical features — explain the “why”",
+"kind":"table",
+"content":{
+"headers":["Finding","Why / significance"],
+"rows":[
+["SFH smaller than expected","May reflect FGR, wrong dates, oligohydramnios or maternal habitus; screening only."],
+["Reduced fetal movement","May reflect fetal hypoxaemia/compromise."],
+["Small EFW/AC","Suggests reduced fetal growth; interpret with gestation and Doppler."],
+["Oligohydramnios","Reduced fetal renal perfusion/urine output may accompany placental insufficiency."],
+["Abnormal UA Doppler","Higher placental resistance; worsening disease may cause absent/reversed end-diastolic flow."],
+["Low MCA resistance / abnormal CPR","Fetal redistribution (“brain sparing”) in placental insufficiency."]
+]
+}
+},
+
+{
+"title":"4. History — ask with purpose",
+"kind":"table",
+"content":{
+"headers":["Ask","Why?"],
+"rows":[
+["Accurate LMP/dating scan","Wrong dates can mimic FGR."],
+["Serial SFH/growth scans","Trend is more useful than one measurement."],
+["Reduced fetal movement","Screen for compromise."],
+["Hypertension / pre-eclampsia","Major placental-risk association."],
+["Smoking/substance exposure","Placental and fetal growth effects."],
+["Previous FGR/stillbirth/abruption","Recurrence risk and placental pathology."],
+["Diabetes/renal/autoimmune disease","Maternal vascular/metabolic contributors."]
+]
+}
+},
+
+{
+"title":"5. Diagnosis — practical approach",
+"kind":"flow",
+"content":"1) Confirm gestational age. → 2) Assess EFW and AC. → 3) Look for serial growth trajectory. → 4) Assess amniotic fluid. → 5) Perform Doppler surveillance, especially umbilical artery. → 6) Add MCA/ductus venosus/CTG according to gestation, severity and local specialist protocol."
+},
+
+{
+"title":"6. Doppler — understand the physiology",
+"kind":"table",
+"content":{
+"headers":["Doppler","What it tells you"],
+"rows":[
+["Umbilical artery (UA)","Placental resistance. PI rises as placental vascular resistance increases; absent/reversed end-diastolic flow is severe placental disease."],
+["MCA","Fetal cerebral adaptation. Reduced resistance may indicate redistribution/brain-sparing."],
+["CPR","Combines cerebral and placental resistance; abnormality may support fetal redistribution/placental dysfunction."],
+["Ductus venosus","Venous/cardiac adaptation; abnormal waveform can indicate advanced fetal compromise in selected early severe FGR."]
+]
+}
+},
+
+{
+"title":"7. Surveillance",
+"kind":"text",
+"content":"Frequency is severity- and gestation-dependent. Combine fetal movement, CTG, liquor, UA Doppler and selected cerebral/venous Dopplers according to the local specialist pathway."
+},
+
+{
+"title":"8. Delivery — high-yield framework",
+"kind":"table",
+"content":{
+"headers":["Scenario","General principle"],
+"rows":[
+["Normal UA end-diastolic flow + reassuring surveillance","MOH handbook notes considering delivery from ≥37 weeks when other surveillance is normal."],
+["UA absent/reversed end-diastolic flow","Higher risk; specialist/inpatient surveillance and earlier delivery are often required. MOH handbook advises delivery >32 weeks with absent/reversed flow."],
+["28–32 weeks with AEDF/REDF","MOH handbook describes admission for CTG ± BPP ± venous Doppler, antenatal steroids and MgSO4 neuroprotection, with delivery for pathological CTG/BPP."],
+["Pathological CTG / severe fetal compromise","Delivery may be indicated irrespective of growth percentile; urgent senior decision."]
+]
+}
+},
+
+{
+"title":"9. IOL vs Caesarean",
+"kind":"flow",
+"content":"Mode depends on gestation, fetal status, Doppler, cervix and obstetric factors. A stable late-onset FGR fetus with reassuring testing may be suitable for induction and vaginal birth. Severe early FGR with significant Doppler/CTG abnormalities may require Caesarean because the fetus may not tolerate labour. Specialist decision."
+},
+
+{
+"title":"10. Complications",
+"kind":"bullets",
+"content":[
+"Fetal hypoxaemia → acidaemia → stillbirth.",
+"Prematurity from indicated early delivery.",
+"Neonatal hypoglycaemia, temperature instability and NICU admission.",
+"Maternal disease such as pre-eclampsia may coexist."
+]
+},
+
+{
+"title":"11. Exam pearls",
+"kind":"pearls",
+"content":[
+"Do not equate SGA with FGR.",
+"UA Doppler primarily reflects placental resistance.",
+"Absent/reversed EDF is a major escalation finding.",
+"Always integrate gestation + growth + Doppler + CTG + maternal condition.",
+"Delivery timing balances worsening placental disease against prematurity."
+]
+}
+
+]
+},
+
+
+{
+"id":"pprom",
+"d":"O&G",
+"title":"PPROM & Preterm Labour",
+"tags":"pprom preterm labour rupture membranes contractions steroids antibiotics MgSO4 tocolysis",
+"summary":"Confirm membrane rupture, exclude infection/fetal compromise and manage prematurity using the Malaysian 2023 guideline.",
+"refs":["preterm","handbook"],
+
+"sections":[
+
+{
+"title":"1. Definitions",
+"kind":"text",
+"content":"Preterm birth in the Malaysian 2023 guideline is birth from 22 weeks to before 37 completed weeks. PPROM means rupture of membranes before labour and before 37 weeks."
+},
+
+{
+"title":"2. How does it happen?",
+"kind":"why",
+"content":"Membrane weakening can result from infection/inflammation, mechanical stress, cervical insufficiency, bleeding, smoking and other pathways.<br><br>Once membranes rupture, ascending infection becomes possible and loss of amniotic fluid may contribute to oligohydramnios and cord/fetal complications.<br><br>Preterm labour involves cervical remodelling, uterine activation and membrane/prostaglandin pathways before term."
+},
+
+{
+"title":"3. Clinical features — explain the “why”",
+"kind":"table",
+"content":{
+"headers":["Finding","Why it happens"],
+"rows":[
+["Sudden gush/continuous watery leakage","Amniotic fluid escapes through a membrane defect."],
+["Regular painful contractions","Myometrial activation and cervical change indicate labour."],
+["Fever / maternal tachycardia","Possible intra-amniotic infection."],
+["Fetal tachycardia","Can reflect infection, hypoxia or other fetal stress."],
+["Foul-smelling fluid","Raises suspicion of infection."],
+["Reduced liquor","Ongoing membrane leak may reduce amniotic fluid."]
+]
+}
+},
+
+{
+"title":"4. History — ask with purpose",
+"kind":"table",
+"content":{
+"headers":["Ask","Why?"],
+"rows":[
+["Time, amount, colour and odour of fluid","Establish likelihood/timing and infection risk."],
+["Contractions / pelvic pressure","Assess established preterm labour."],
+["Fever/chills/unwellness","Infection."],
+["Bleeding","Abruption/APH and possible contraindication to tocolysis."],
+["Fetal movement","Fetal wellbeing."],
+["Gestation and previous preterm birth","Determines treatment eligibility and recurrence risk."]
+]
+}
+},
+
+{
+"title":"5. Examination",
+"kind":"text",
+"content":"Maternal vitals, abdominal tenderness/uterine activity and fetal heart rate are essential. Use a sterile speculum when assessing suspected PPROM where appropriate. Avoid routine digital vaginal examination because it can increase infection risk and shorten latency; reserve it when labour/delivery assessment requires it."
+},
+
+{
+"title":"6. Investigations",
+"kind":"text",
+"content":"Diagnosis is primarily clinical with sterile speculum assessment and locally approved bedside tests when needed. Assess maternal infection and fetal wellbeing. CTG is used when appropriate to gestation/clinical state; ultrasound can assess liquor, presentation and growth. Do not use a test result in isolation if the clinical picture is discordant."
+},
+
+{
+"title":"7. Management — Malaysian 2023 framework",
+"kind":"flow",
+"content":"Confirm PPROM/preterm labour → assess maternal infection and fetal status → determine gestational age → admit/refer to appropriate facility when indicated → antibiotics for PPROM according to local protocol → antenatal corticosteroids when eligible → MgSO4 for fetal neuroprotection when eligible and birth is likely soon → tocolysis only when appropriate and no contraindication → deliver for infection, established labour, fetal compromise, significant bleeding or other obstetric indication."
+},
+
+{
+"title":"8. Antenatal corticosteroids",
+"kind":"text",
+"content":"MOH Malaysia 2023 recommends antenatal corticosteroids for women between 24+0 and 35+6 weeks with preterm labour and PPROM. The guideline gives IM dexamethasone 6 mg twice daily for 2 days. In diabetes, monitor glucose closely and anticipate steroid-related hyperglycaemia."
+},
+
+{
+"title":"9. Magnesium sulfate for fetal neuroprotection",
+"kind":"text",
+"content":"MOH Malaysia 2023 recommends parenteral MgSO4 for women 24+0 to 33+6 weeks in established preterm labour where delivery is likely soon. Specialist hospitals: 4 g IV bolus over 15 minutes followed by 1 g/hour until birth or 24 hours, whichever is sooner. Follow local protocol and monitor clinically."
+},
+
+{
+"title":"10. Tocolysis",
+"kind":"bullets",
+"content":[
+"Tocolysis may buy time for corticosteroids, transfer or neuroprotection in selected patients.",
+"Malaysian 2023 guideline lists antepartum haemorrhage, clinical features of infection and non-reassuring fetal heart rate as contraindications.",
+"Do not use tocolysis to delay delivery when continuing pregnancy is unsafe."
+]
+},
+
+{
+"title":"11. Complications",
+"kind":"bullets",
+"content":[
+"Chorioamnionitis and maternal sepsis.",
+"Placental abruption.",
+"Prematurity and respiratory morbidity.",
+"Neonatal sepsis.",
+"Cord compression/prolapse and oligohydramnios-related complications."
+]
+},
+
+{
+"title":"12. Exam pearls",
+"kind":"pearls",
+"content":[
+"PPROM = rupture before labour + before 37 weeks.",
+"Digital PV is generally avoided in suspected PPROM unless necessary.",
+"Infection + fetal compromise + significant bleeding are major reasons to deliver.",
+"Steroids reduce neonatal complications of prematurity; MgSO4 is for fetal neuroprotection in selected early preterm birth."
+]
+}
+
+]
+},
+
+
+{
+"id":"pph",
+"d":"O&G",
+"title":"Postpartum Haemorrhage (PPH)",
+"tags":"pph 4Ts tone trauma tissue thrombin uterotonics tranexamic blood loss",
+"summary":"Recognise major obstetric haemorrhage early, resuscitate in parallel with finding the cause, and escalate rapidly.",
+"refs":["pph","handbook"],
+
+"sections":[
+
+{
+"title":"1. Concept",
+"kind":"text",
+"content":"PPH is significant postpartum bleeding causing maternal compromise. In practice, management should be triggered by ongoing bleeding and clinical deterioration rather than waiting for a single numerical threshold."
+},
+
+{
+"title":"2. Why does PPH become dangerous quickly?",
+"kind":"why",
+"content":"Obstetric bleeding can be rapid and concealed. Pregnancy increases blood volume, so a woman may initially look deceptively well despite major loss.<br><br>Continued haemorrhage causes reduced venous return → reduced cardiac output → tissue hypoperfusion → coagulopathy, which can further accelerate bleeding."
+},
+
+{
+"title":"3. Clinical features — explain the “why”",
+"kind":"table",
+"content":{
+"headers":["Finding","Why it happens"],
+"rows":[
+["Heavy vaginal bleeding / clots","Ongoing uterine, traumatic or coagulopathic bleeding."],
+["Boggy enlarged uterus","Uterine atony prevents myometrial compression of placental bed vessels."],
+["Firm uterus + persistent bleeding","Think trauma, retained tissue or another source."],
+["Tachycardia / hypotension","Circulating volume loss and compensatory response."],
+["Pallor, cold peripheries, altered mental state","Progressive hypoperfusion/shock."],
+["Persistent oozing from wounds/IV sites","Possible coagulopathy."]
+]
+}
+},
+
+{
+"title":"4. The 4 Ts",
+"kind":"table",
+"content":{
+"headers":["T","Cause"],
+"rows":[
+["Tone","Uterine atony — commonest."],
+["Trauma","Genital tract laceration, haematoma, uterine rupture/inversion."],
+["Tissue","Retained placenta/products or abnormal placentation."],
+["Thrombin","Coagulopathy/DIC."]
+]
+}
+},
+
+{
+"title":"5. First minutes",
+"kind":"flow",
+"content":"Call for help and activate the obstetric haemorrhage pathway → ABCDE → quantify/estimate blood loss → two large-bore IVs → FBC, coagulation/fibrinogen, renal profile and group/crossmatch according to severity → warm patient and blood products → uterine massage if atony suspected → uterotonics according to local protocol → identify/control the cause → reassess continuously."
+},
+
+{
+"title":"6. Cause-directed management",
+"kind":"table",
+"content":{
+"headers":["Cause","Immediate direction"],
+"rows":[
+["Tone","Massage + uterotonics; empty bladder; escalate to balloon tamponade/surgery if refractory."],
+["Trauma","Inspect systematically; repair tears; manage haematoma/rupture urgently."],
+["Tissue","Assess placenta completeness; manual removal/evacuation as indicated by senior clinician."],
+["Thrombin","Correct haemostatic abnormalities with blood components guided by clinical/lab findings."]
+]
+}
+},
+
+{
+"title":"7. Tranexamic acid",
+"kind":"text",
+"content":"TXA is an important early adjunct in PPH because it inhibits fibrinolysis and helps preserve formed clot. Give according to the current local/MOH obstetric haemorrhage protocol; do not delay definitive haemorrhage control or resuscitation while arranging TXA."
+},
+
+{
+"title":"8. Escalation",
+"kind":"flow",
+"content":"If bleeding continues despite first-line measures: balloon tamponade or other mechanical control → examination under anaesthesia/repair → uterine artery embolisation where appropriate and available → compression sutures/arterial ligation → hysterectomy when life-saving and indicated. Escalate early rather than waiting until profound shock."
+},
+
+{
+"title":"9. Complications",
+"kind":"bullets",
+"content":[
+"Hypovolaemic shock, DIC, acute kidney injury, myocardial/cerebral hypoxia, Sheehan syndrome, transfusion complications, ICU admission and maternal death."
+]
+},
+
+{
+"title":"10. Exam pearls",
+"kind":"pearls",
+"content":[
+"Use 4 Ts: Tone, Trauma, Tissue, Thrombin.",
+"Resuscitation and diagnosis happen in parallel.",
+"A firm uterus does not exclude serious bleeding.",
+"Escalate early if ongoing bleeding or instability."
+]
+}
+
+]
+},
+
+
+{
+"id":"gdm",
+"d":"O&G",
+"title":"Gestational Diabetes Mellitus (GDM)",
+"tags":"gdm diabetes pregnancy OGTT MNT metformin insulin macrosomia",
+"summary":"Screen appropriately, control maternal glucose and understand how hyperglycaemia changes fetal growth and delivery planning.",
+"refs":["gdm","handbook"],
+
+"sections":[
+
+{
+"title":"1. Concept",
+"kind":"text",
+"content":"GDM is diabetes first diagnosed during pregnancy. Pregnancy increases insulin resistance, particularly later in gestation; inadequate beta-cell compensation results in hyperglycaemia."
+},
+
+{
+"title":"2. How does it happen?",
+"kind":"why",
+"content":"Placental hormones increase maternal insulin resistance → maternal glucose availability to fetus increases → fetal pancreatic insulin secretion rises → insulin promotes fetal growth and fat deposition.<br><br>This helps explain macrosomia, polyhydramnios and neonatal hypoglycaemia after birth."
+},
+
+{
+"title":"3. Clinical features / consequences",
+"kind":"table",
+"content":{
+"headers":["Finding","Why / significance"],
+"rows":[
+["Often asymptomatic","Hyperglycaemia may not produce obvious symptoms in pregnancy."],
+["Large-for-gestational-age fetus","Maternal glucose crosses placenta; fetal insulin promotes growth."],
+["Polyhydramnios","May be related to fetal polyuria in hyperglycaemia."],
+["Pre-eclampsia risk","Diabetes is associated with maternal vascular/placental complications."],
+["Neonatal hypoglycaemia","Fetal hyperinsulinaemia persists after placental glucose supply stops."]
+]
+}
+},
+
+{
+"title":"4. Diagnosis / screening",
+"kind":"text",
+"content":"Follow the current Malaysian GDM screening pathway and 75-g OGTT criteria. High-risk women may be screened at booking, with repeat testing later if initial testing is normal according to local guidance. Do not import a different country’s diagnostic threshold without checking the Malaysian CPG."
+},
+
+{
+"title":"5. Management",
+"kind":"flow",
+"content":"Medical nutrition therapy + appropriate physical activity → self-monitoring of blood glucose → review targets and fetal growth → add pharmacotherapy when targets are not met → metformin can be offered in selected women after specialist discussion; insulin is used when MNT/metformin are inadequate or unsuitable and in specified high-glucose/high-risk situations."
+},
+
+{
+"title":"6. Malaysian CPG points",
+"kind":"bullets",
+"content":[
+"MOH Malaysia CPG states metformin should be offered when targets are not met by diet/exercise within 1–2 weeks, after specialist consultation.",
+"Insulin should be initiated when MNT and/or metformin fail, when metformin is contraindicated/unacceptable, and in specified high fasting glucose situations."
+]
+},
+
+{
+"title":"7. Antenatal assessment",
+"kind":"text",
+"content":"Assess glycaemic control, BP/proteinuria, maternal complications and fetal growth. Poor control raises risk of macrosomia, shoulder dystocia, polyhydramnios, preterm birth and stillbirth; fetal surveillance and delivery planning depend on control and complications."
+},
+
+{
+"title":"8. Intrapartum / postnatal",
+"kind":"text",
+"content":"Follow local intrapartum glucose pathway. After delivery, insulin requirements usually fall rapidly in women with GDM because placental insulin resistance resolves. Arrange appropriate postpartum glucose reassessment and long-term diabetes prevention/screening."
+},
+
+{
+"title":"9. Exam pearls",
+"kind":"pearls",
+"content":[
+"Think “maternal glucose → fetal insulin → macrosomia”.",
+"Do not manage GDM from fetal size alone; assess glucose control and the whole obstetric picture.",
+"Steroids can worsen glucose control and require closer monitoring if given for preterm risk."
+]
+}
+
+]
+},
+
+
+{
+"id":"ctg",
+"d":"O&G",
+"title":"CTG Interpretation",
+"tags":"ctg fetal heart baseline variability accelerations decelerations",
+"summary":"Interpret baseline, variability, accelerations and decelerations, then integrate the clinical context.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"Framework",
+"kind":"flow",
+"content":"Assess contractions → baseline rate → variability → accelerations → decelerations → overall classification → clinical context and action."
+},
+
+{
+"title":"Why abnormalities occur",
+"kind":"why",
+"content":"Reduced variability may reflect fetal sleep, drugs or hypoxia; late decelerations suggest uteroplacental insufficiency; prolonged bradycardia may reflect acute compromise."
+},
+
+{
+"title":"Action",
+"kind":"text",
+"content":"Correct reversible causes, assess mother, stop uterotonic if appropriate, escalate for pathological trace and prepare for expedited birth when indicated."
+},
+
+{
+"title":"Pearls",
+"kind":"pearls",
+"content":[
+"A CTG is a dynamic test; trends and clinical context matter."
+]
+}
+
+]
+},
+
+
+{
+"id":"iol",
+"d":"O&G",
+"title":"Induction of Labour",
+"tags":"iol bishop score prostaglandin ARM oxytocin",
+"summary":"Choose the method according to indication, cervix, membranes, presentation and uterine scar.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"Approach",
+"kind":"text",
+"content":"Confirm indication, gestation, presentation, fetal wellbeing, placenta, cervical favourability and previous uterine surgery."
+},
+
+{
+"title":"Bishop score",
+"kind":"text",
+"content":"Cervical dilatation, effacement/length, station, consistency and position guide cervical ripening strategy."
+},
+
+{
+"title":"Methods",
+"kind":"text",
+"content":"Cervical ripening with an appropriate prostaglandin or mechanical method, then ARM and oxytocin when suitable."
+},
+
+{
+"title":"Pearls",
+"kind":"pearls",
+"content":[
+"Always check for contraindications to vaginal birth/IOL before starting."
+]
+}
+
+]
+},
+
+
+{
+"id":"breech",
+"d":"O&G",
+"title":"Breech Presentation & ECV",
+"tags":"breech ECV caesarean vaginal breech",
+"summary":"Confirm presentation, assess suitability for ECV and counsel on delivery options.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"Approach",
+"kind":"text",
+"content":"Confirm breech by ultrasound, gestation, placenta, liquor, fetal position and contraindications to ECV."
+},
+
+{
+"title":"ECV",
+"kind":"text",
+"content":"External cephalic version can reduce persistent breech at term in suitable women; perform where emergency Caesarean capability is available."
+},
+
+{
+"title":"Delivery",
+"kind":"text",
+"content":"Mode depends on fetal presentation, gestation, obstetric factors, local expertise and informed consent."
+},
+
+{
+"title":"Pearls",
+"kind":"pearls",
+"content":[
+"Always exclude contraindications and ensure fetal assessment before/after ECV."
+]
+}
+
+]
+},
+
+
+{
+"id":"anaemia",
+"d":"O&G",
+"title":"Anaemia in Pregnancy",
+"tags":"anaemia iron deficiency pregnancy ferritin transfusion",
+"summary":"Classify anaemia, identify iron deficiency and treat early while recognising when IV iron or transfusion may be needed.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"Mechanism",
+"kind":"why",
+"content":"Pregnancy increases plasma volume more than red-cell mass, causing physiological haemodilution; iron deficiency is the common pathological cause."
+},
+
+{
+"title":"History",
+"kind":"text",
+"content":"Diet, pica, bleeding, parity, previous anaemia, GI symptoms and haemoglobinopathy risk."
+},
+
+{
+"title":"Investigations",
+"kind":"text",
+"content":"FBC indices, ferritin/iron studies where appropriate, blood film and haemoglobinopathy testing according to context."
+},
+
+{
+"title":"Management",
+"kind":"text",
+"content":"Oral iron for most iron deficiency; consider IV iron when oral therapy is ineffective/intolerable or rapid repletion is needed; transfusion is for severe/symptomatic or actively bleeding patients according to clinical context."
+},
+
+{
+"title":"Pearls",
+"kind":"pearls",
+"content":[
+"Treat the cause, not only the Hb number."
+]
+}
+
+]
+},
+
+
+{
+"id":"aph",
+"d":"O&G",
+"title":"Antepartum Haemorrhage",
+"tags":"aph placenta previa abruption vasa previa bleeding pregnancy",
+"summary":"Stabilise first, then distinguish abruption, placenta praevia, vasa praevia and local causes.",
+"refs":["handbook"],
+
+"sections":[
+
+{
+"title":"Mechanism",
+"kind":"why",
+"content":"Placental separation causes concealed/overt bleeding in abruption; low-lying placenta causes painless bleeding; fetal vessel rupture causes rapid fetal compromise."
+},
+
+{
+"title":"Key clues",
+"kind":"table",
+"content":{
+"headers":["Condition","Typical clues"],
+"rows":[
+["Placenta praevia","Painless bright red bleeding; placenta location on ultrasound."],
+["Placental abruption","Painful bleeding, uterine tenderness/irritability; bleeding may be concealed."],
+["Vasa praevia","Bleeding after membrane rupture with fetal bradycardia/acute fetal compromise."]
+]
+}
+},
+
+{
+"title":"Safety",
+"kind":"text",
+"content":"Do not perform digital vaginal examination until placenta praevia has been excluded when APH is being assessed."
+},
+
+{
+"title":"Pearls",
+"kind":"pearls",
+"content":[
+"Maternal shock can be worse than visible blood loss in concealed abruption."
+]
+}
+
+]
+}
 
 ];
 
 
-function showPage(id,btn){
+const emergencies=[
 
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+[
+"Chest pain",
+"ABCDE → ECG early → consider ACS/PE/aortic catastrophe → escalate",
+"red"
+],
 
-  const page=document.getElementById(id);
+[
+"Shortness of breath",
+"ABCDE → oxygen if indicated → ECG/CXR/ABG as appropriate → treat cause",
+""
+],
 
-  if(page) page.classList.add("active");
+[
+"Reduced GCS",
+"ABCDE → bedside glucose → pupils → reversible causes → urgent escalation",
+"red"
+],
 
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+[
+"Seizure / eclampsia",
+"Airway + oxygen → protect from injury → MgSO4 per protocol → BP control → identify cause → senior escalation",
+"red"
+],
 
-  if(btn) btn.classList.add("active");
+[
+"Major bleeding / PPH",
+"Call help → ABC → IV access → bloods/crossmatch → haemorrhage control",
+"red"
+],
 
-  window.scrollTo({top:0,behavior:"smooth"});
+[
+"Septic patient",
+"ABCDE → cultures if appropriate → antibiotics → fluids/reassessment → source control",
+""
+],
 
-  if(id==="study") renderTopics("All");
-  if(id==="saved") renderSaved();
-  if(id==="mcq") renderMCQ();
+[
+"Hyperkalaemia",
+"ECG → membrane stabilisation → shift K → remove K → repeat K/ECG",
+"red"
+],
+
+[
+"Anaphylaxis",
+"IM adrenaline promptly + ABCDE + fluids + escalation",
+"red"
+]
+
+];
+
+
+const qs=[
+
+[
+"A 34-week pregnant woman has BP 175/115 with severe headache. What is the immediate priority?",
+
+[
+"Wait for ultrasound",
+"Stabilise mother, treat severe hypertension and assess seizure risk",
+"Discharge if fetal movement is normal",
+"Give oral iron"
+],
+
+1,
+
+"Severe hypertension with neurological symptoms is an obstetric emergency. Maternal stabilisation and urgent treatment take priority."
+],
+
+[
+"Which Doppler most directly reflects placental vascular resistance in FGR?",
+
+[
+"MCA",
+"Umbilical artery",
+"Ductus venosus",
+"Maternal radial artery"
+],
+
+1,
+
+"UA Doppler reflects placental resistance; absent/reversed end-diastolic flow indicates severe placental disease."
+],
+
+[
+"In suspected PPROM, which examination should generally be avoided unless necessary?",
+
+[
+"Abdominal examination",
+"Sterile speculum",
+"Digital vaginal examination",
+"Vital signs"
+],
+
+2,
+
+"Routine digital PV can increase infection risk and shorten latency."
+],
+
+[
+"MOH Malaysia 2023 recommends MgSO4 for fetal neuroprotection in established preterm labour at which gestational range?",
+
+[
+"20–23+6",
+"24–33+6",
+"34–36+6",
+"37 weeks onwards"
+],
+
+1,
+
+"The 2023 Malaysian preterm birth guideline recommends parenteral MgSO4 at 24+0 to 33+6 weeks when birth is likely soon."
+],
+
+[
+"The 4 Ts of PPH are:",
+
+[
+"Tone, Trauma, Tissue, Thrombin",
+"Tachycardia, Temperature, Tissue, Thrombosis",
+"Tone, Tension, Trauma, Thrombosis",
+"Tissue, Thrombosis, Temperature, Tone"
+],
+
+0,
+
+"The 4 Ts provide a rapid cause framework: Tone, Trauma, Tissue, Thrombin."
+],
+
+[
+"In GDM, why can the newborn develop hypoglycaemia after delivery?",
+
+[
+"Maternal insulin crosses placenta",
+"Fetal hyperinsulinaemia persists after placental glucose supply stops",
+"The placenta continues supplying glucose",
+"Insulin resistance suddenly increases"
+],
+
+1,
+
+"Maternal glucose crosses the placenta but maternal insulin does not. Fetal hyperinsulinaemia can persist after birth, causing neonatal hypoglycaemia."
+]
+
+];
+
+
+const $=s=>document.querySelector(s);
+
+const $$=s=>[...document.querySelectorAll(s)];
+
+
+let level=localStorage.getItem("medmy_level")||"Clinical Student";
+
+let saved=JSON.parse(localStorage.getItem("medmy_saved")||"[]");
+
+
+const nav=[
+["home","⌂","Home"],
+["study","📚","Study"],
+["oncall","🚨","On-call"],
+["clerking","🩺","Clerk"],
+["mcq","🧠","MCQ"],
+["saved","⭐","Saved"]
+];
+
+
+function navHTML(){
+
+return nav.map(
+([id,ic,label])=>
+`<button class="navitem" data-route="${id}">${ic} &nbsp;${label}</button>`
+).join("");
+
 }
 
 
-function setLevel(btn,level){
+function init(){
 
-  document.querySelectorAll(".level button")
-    .forEach(b=>b.classList.remove("active"));
+$("#sideNav").innerHTML=navHTML();
 
-  btn.classList.add("active");
+$("#bottomNav").innerHTML=
+nav.map(
+([id,ic,label])=>
+`<button data-route="${id}">${ic}<br>${label}</button>`
+).join("");
 
-  localStorage.setItem("medmyLevel",level);
+document.body.addEventListener("click",e=>{
+
+const b=e.target.closest("[data-route]");
+
+if(b)route(b.dataset.route);
+
+});
+
+$("#themeBtn").onclick=toggleTheme;
+
+$("#menuBtn").onclick=()=>
+$(".sidebar").classList.toggle("drawer");
+
+renderAll();
+
+route("home");
+
 }
 
 
-function openDepartment(dept){
+function route(id){
 
-  showPage("study");
+$$(".page").forEach(x=>x.classList.remove("active"));
 
-  document.querySelectorAll(".filters button")
-    .forEach(b=>b.classList.remove("active"));
+const el=$("#"+id);
 
-  renderTopics(dept);
+if(el){
+
+el.classList.add("active");
+
+$$(".navitem,.bottomnav button")
+.forEach(x=>
+x.classList.toggle("active",x.dataset.route===id)
+);
+
+window.scrollTo(0,0);
+
+}
+
 }
 
 
-function filterDept(dept,btn){
+function renderAll(){
 
-  document.querySelectorAll(".filters button")
-    .forEach(b=>b.classList.remove("active"));
+renderHome();
 
-  btn.classList.add("active");
+renderStudy();
 
-  renderTopics(dept);
+renderOncall();
+
+renderClerk();
+
+renderMCQ();
+
+renderSaved();
+
+renderCPG();
+
 }
 
 
-function renderTopics(dept="All"){
+function topicCard(t){
 
-  const list=document.getElementById("topicList");
+return `
+<button class="topic" data-topic="${t.id}">
 
-  let filtered=topics;
+<span class="badge">${t.d}</span>
 
-  if(dept!=="All"){
-    filtered=topics.filter(t=>t.department===dept);
-  }
+<b>${t.title}</b>
 
-  list.innerHTML="";
+<br>
 
-  filtered.forEach(topic=>{
+<small>${t.summary}</small>
 
-    const div=document.createElement("div");
+</button>
+`;
 
-    div.className="topic";
-
-    div.innerHTML=`
-      <button onclick="openTopic('${topic.title.replace(/'/g,"\\'")}')">
-        <span class="badge">${topic.department}</span>
-        <div class="topic-title" style="margin-top:8px">${topic.title}</div>
-        <div class="topic-meta">Tap to open clinical note →</div>
-      </button>
-    `;
-
-    list.appendChild(div);
-
-  });
 }
 
 
-function openTopic(title){
+function wireTopics(){
 
-  const topic=topics.find(t=>t.title===title);
+$$("[data-topic]")
+.forEach(b=>
+b.onclick=()=>openTopic(b.dataset.topic)
+);
 
-  if(!topic) return;
-
-  showPage("topic");
-
-  let html=`
-    <span class="badge">${topic.department}</span>
-    <h1 style="margin-top:10px">${topic.title}</h1>
-  `;
-
-  Object.entries(topic.sections).forEach(([heading,text])=>{
-
-    html+=`
-      <div class="content-box">
-        <h3>${heading}</h3>
-        <p>${text}</p>
-      </div>
-    `;
-
-  });
-
-  html+=`
-    <button class="primary-btn" onclick="saveTopic('${topic.title.replace(/'/g,"\\'")}')">
-      ⭐ Save Topic
-    </button>
-  `;
-
-  document.getElementById("topicContent").innerHTML=html;
 }
 
 
-function saveTopic(title){
+function renderHome(){
 
-  let saved=JSON.parse(localStorage.getItem("medmySaved")||"[]");
+const og=topics.filter(t=>t.d==="O&G");
 
-  if(!saved.includes(title)){
-    saved.push(title);
-  }
+$("#home").innerHTML=`
 
-  localStorage.setItem("medmySaved",JSON.stringify(saved));
+<div class="hero">
 
-  alert("Saved ⭐");
+<h1>Learn it. Clerk it. Manage it.</h1>
+
+<p>
+Malaysia-first clinical companion for Medical Students,
+Clinical Students, House Officers and Medical Officers.
+</p>
+
+<div class="searchbar">
+
+<input
+id="globalSearch"
+placeholder="Search topic, symptom, emergency…"
+>
+
+<button class="primary" id="searchBtn">
+Search
+</button>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>My level</h2>
+
+<div class="chips">
+
+${["Student","Clinical Student","HO","MO"].map(x=>
+
+`<button
+class="chip ${x===level?"active":""}"
+data-level="${x}">
+${x}
+</button>`
+
+).join("")}
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>O&G — High-yield clinical core</h2>
+
+<div class="topicgrid">
+
+${og.map(topicCard).join("")}
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Quick access</h2>
+
+<div class="grid">
+
+${[
+["📚","Study","Guideline-aware topics by posting.","study"],
+["🚨","On-call","Fast emergency orientation.","oncall"],
+["🩺","Clerking","Build a structured presentation.","clerking"],
+["🧠","MCQ/OBA","Clinical scenario practice.","mcq"]
+].map(x=>
+
+`
+<button class="card" data-route="${x[3]}">
+
+<div class="icon">${x[0]}</div>
+
+<h3>${x[1]}</h3>
+
+<p>${x[2]}</p>
+
+</button>
+`
+
+).join("")}
+
+</div>
+
+</div>
+
+`;
+
+
+$$("[data-level]").forEach(b=>
+
+b.onclick=()=>{
+
+level=b.dataset.level;
+
+localStorage.setItem("medmy_level",level);
+
+renderHome();
+
+}
+
+);
+
+
+$("#searchBtn").onclick=()=>
+doSearch($("#globalSearch").value);
+
+wireTopics();
+
+}
+
+
+function renderStudy(){
+
+$("#study").innerHTML=`
+
+<div class="toolbar">
+
+<div>
+
+<h1>Study by posting</h1>
+
+<p class="sub">
+Start with conditions you will clerk, present and manage.
+</p>
+
+</div>
+
+<select id="deptFilter">
+
+<option>All departments</option>
+
+${departments.map(d=>
+`<option>${d}</option>`
+).join("")}
+
+</select>
+
+</div>
+
+<div class="topicgrid" id="studyTopics"></div>
+
+`;
+
+$("#deptFilter").onchange=renderStudyTopics;
+
+renderStudyTopics();
+
+}
+
+
+function renderStudyTopics(){
+
+const d=$("#deptFilter").value;
+
+$("#studyTopics").innerHTML=
+topics
+.filter(t=>d==="All departments"||t.d===d)
+.map(topicCard)
+.join("");
+
+wireTopics();
+
+}
+
+
+function renderOncall(){
+
+$("#oncall").innerHTML=`
+
+<h1>HO On-call Quick Reference</h1>
+
+<p class="sub">
+Rapid orientation only.
+Follow current hospital SOP/CPG and escalate early.
+</p>
+
+<div class="topicgrid">
+
+${emergencies.map(e=>
+
+`
+<div class="card">
+
+<span class="badge ${e[2]}">
+${e[2]?"RED FLAG":"QUICK"}
+</span>
+
+<h3>${e[0]}</h3>
+
+<p>${e[1]}</p>
+
+</div>
+`
+
+).join("")}
+
+</div>
+
+
+<div class="box warning">
+
+<b>Universal first move:</b>
+
+call for help when unstable →
+ABCDE →
+monitoring →
+IV access →
+focused investigations →
+treat immediately reversible threats →
+reassess →
+escalate.
+
+</div>
+
+`;
+
+}
+
+
+function renderClerk(){
+
+$("#clerking").innerHTML=`
+
+<div class="detail">
+
+<h1>Clerking & Case Presentation</h1>
+
+<p class="sub">
+Saved locally on this device; do not enter identifiable patient information.
+</p>
+
+
+<div class="box">
+
+<label>Case / patient label</label>
+
+<input
+id="cp"
+placeholder="e.g. 34F 32 weeks — non-identifying label"
+>
+
+
+<label>Presenting complaint + HPI</label>
+
+<textarea id="ch" rows="4"></textarea>
+
+
+<label>PMH / drugs / allergies</label>
+
+<textarea id="cm" rows="3"></textarea>
+
+
+<label>Examination</label>
+
+<textarea id="ce" rows="4"></textarea>
+
+
+<label>Investigations</label>
+
+<textarea id="ci" rows="3"></textarea>
+
+
+<label>Assessment / differentials</label>
+
+<textarea id="ca" rows="3"></textarea>
+
+
+<label>Plan</label>
+
+<textarea id="cl" rows="4"></textarea>
+
+
+<button class="primary" id="saveCase">
+Save locally
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h3>Presentation skeleton</h3>
+
+<div id="presentation">
+Fill the form to generate a concise presentation.
+</div>
+
+</div>
+
+</div>
+
+`;
+
+
+["cp","ch","cm","ce","ci","ca","cl"]
+.forEach(id=>
+$("#"+id).oninput=buildPresentation
+);
+
+
+$("#saveCase").onclick=()=>{
+
+localStorage.setItem(
+"medmy_case",
+JSON.stringify(
+Object.fromEntries(
+["cp","ch","cm","ce","ci","ca","cl"]
+.map(id=>[id,$("#"+id).value])
+)
+)
+);
+
+alert("Saved locally on this device.");
+
+};
+
+}
+
+
+function buildPresentation(){
+
+const v=id=>
+$("#"+id)?.value||`[${id}]`;
+
+$("#presentation").innerHTML=`
+
+<b>${v("cp")}</b>
+
+<br>
+
+${v("ch")}
+
+<br><br>
+
+<b>Background:</b>
+${v("cm")}
+
+<br>
+
+<b>Examination:</b>
+${v("ce")}
+
+<br>
+
+<b>Investigations:</b>
+${v("ci")}
+
+<br>
+
+<b>Assessment:</b>
+${v("ca")}
+
+<br>
+
+<b>Plan:</b>
+${v("cl")}
+
+`;
+
+}
+
+
+function renderMCQ(){
+
+$("#mcq").innerHTML=`
+
+<h1>MCQ / OBA</h1>
+
+<p class="sub">
+Answer first, then reveal the reasoning.
+</p>
+
+${qs.map((q,i)=>
+
+`
+<div class="q">
+
+<b>
+${i+1}. ${q[0]}
+</b>
+
+${q[1].map((a,j)=>
+
+`
+<button
+class="option"
+data-correct="${j===q[2]}">
+
+${String.fromCharCode(65+j)}.
+${a}
+
+</button>
+`
+
+).join("")}
+
+<div class="explanation">
+
+<b>Why:</b>
+${q[3]}
+
+</div>
+
+</div>
+`
+
+).join("")}
+
+`;
+
+
+$$(".option").forEach(b=>
+
+b.onclick=()=>{
+
+const q=b.closest(".q");
+
+if(q.classList.contains("done"))return;
+
+$$(".option",q)
+.forEach(x=>x.disabled=true);
+
+b.classList.add(
+b.dataset.correct==="true"
+?"correct"
+:"wrong"
+);
+
+q.classList.add("done");
+
+}
+
+);
+
 }
 
 
 function renderSaved(){
 
-  const box=document.getElementById("savedList");
+const ts=topics.filter(
+t=>saved.includes(t.id)
+);
 
-  let saved=JSON.parse(localStorage.getItem("medmySaved")||"[]");
+$("#saved").innerHTML=`
 
-  if(saved.length===0){
-    box.innerHTML='<div class="card muted">No saved topics yet.</div>';
-    return;
-  }
+<h1>Saved topics</h1>
 
-  box.innerHTML="";
+<p class="sub">
+Stored locally on this device.
+</p>
 
-  saved.forEach(title=>{
-
-    box.innerHTML+=`
-      <div class="topic">
-        <button onclick="openTopic('${title.replace(/'/g,"\\'")}')">
-          <div class="topic-title">⭐ ${title}</div>
-          <div class="topic-meta">Open saved topic →</div>
-        </button>
-      </div>
-    `;
-
-  });
+${
+ts.length
+?
+`<div class="topicgrid">
+${ts.map(topicCard).join("")}
+</div>`
+:
+`<div class="empty">
+No saved topics yet.
+</div>`
 }
 
+`;
 
-function generateCase(){
-
-  const patient=document.getElementById("patient").value;
-  const complaint=document.getElementById("complaint").value;
-  const hpc=document.getElementById("hpc").value;
-  const pmh=document.getElementById("pmh").value;
-  const meds=document.getElementById("meds").value;
-  const exam=document.getElementById("exam").value;
-  const investigations=document.getElementById("investigations").value;
-  const assessment=document.getElementById("assessment").value;
-  const plan=document.getElementById("plan").value;
-
-  const output=document.getElementById("caseOutput");
-
-  output.classList.remove("hidden");
-
-  output.innerHTML=`
-    <h2>📋 Case Presentation</h2>
-
-    <p><b>Patient:</b> ${patient||"—"}</p>
-
-    <p><b>Presenting Complaint:</b>
-    ${complaint||"—"}</p>
-
-    <p><b>History:</b>
-    ${hpc||"—"}</p>
-
-    <p><b>Past Medical / Surgical History:</b>
-    ${pmh||"—"}</p>
-
-    <p><b>Medication / Allergy:</b>
-    ${meds||"—"}</p>
-
-    <p><b>Examination:</b>
-    ${exam||"—"}</p>
-
-    <p><b>Investigations:</b>
-    ${investigations||"—"}</p>
-
-    <p><b>Assessment:</b>
-    ${assessment||"—"}</p>
-
-    <p><b>Plan:</b>
-    ${plan||"—"}</p>
-  `;
-
-  localStorage.setItem("medmyCase",JSON.stringify({
-    patient,complaint,hpc,pmh,meds,exam,investigations,assessment,plan
-  }));
-}
-
-
-const mcqs=[
-
-{
-q:"A pregnant woman has severe hypertension with neurological symptoms. Which medication is used for seizure prevention/treatment in eclampsia?",
-options:[
-"Magnesium sulfate",
-"Tranexamic acid",
-"Metformin",
-"Salbutamol"
-],
-answer:0,
-explanation:"Magnesium sulfate is used for prevention and treatment of eclamptic seizures."
-},
-
-{
-q:"Which investigation is essential early in a patient with suspected acute coronary syndrome?",
-options:[
-"12-lead ECG",
-"Urine microscopy only",
-"Skin biopsy",
-"DEXA scan"
-],
-answer:0,
-explanation:"A 12-lead ECG should be obtained early in suspected ACS."
-},
-
-{
-q:"Which is a red flag in neonatal jaundice?",
-options:[
-"Jaundice appearing within the first 24 hours",
-"Mild jaundice after feeding",
-"Normal urine",
-"Normal stool colour"
-],
-answer:0,
-explanation:"Jaundice in the first 24 hours is considered pathological until proven otherwise."
-},
-
-{
-q:"What is the first-line drug for anaphylaxis?",
-options:[
-"IM adrenaline",
-"Oral antihistamine alone",
-"IV antibiotic",
-"Oral steroid alone"
-],
-answer:0,
-explanation:"Prompt IM adrenaline is the key first-line treatment for suspected anaphylaxis."
-}
-
-];
-
-
-let currentMCQ=0;
-
-
-function renderMCQ(){
-
-  const box=document.getElementById("mcqBox");
-
-  const q=mcqs[currentMCQ];
-
-  box.innerHTML=`
-    <div class="card">
-
-      <span class="badge">Question ${currentMCQ+1} / ${mcqs.length}</span>
-
-      <h2>${q.q}</h2>
-
-      <div id="options"></div>
-
-      <div id="mcqExplanation" class="green hidden"></div>
-
-      <br>
-
-      <button class="secondary-btn"
-        onclick="nextMCQ()">
-        Next Question →
-      </button>
-
-    </div>
-  `;
-
-  const options=document.getElementById("options");
-
-  q.options.forEach((option,index)=>{
-
-    const button=document.createElement("button");
-
-    button.className="mcq-option";
-
-    button.textContent=option;
-
-    button.onclick=()=>answerMCQ(index,button);
-
-    options.appendChild(button);
-
-  });
-}
-
-
-function answerMCQ(index,button){
-
-  const q=mcqs[currentMCQ];
-
-  document.querySelectorAll(".mcq-option")
-    .forEach(b=>b.disabled=true);
-
-  if(index===q.answer){
-    button.classList.add("correct");
-  }else{
-    button.classList.add("wrong");
-    document.querySelectorAll(".mcq-option")[q.answer]
-      .classList.add("correct");
-  }
-
-  const explanation=document.getElementById("mcqExplanation");
-
-  explanation.classList.remove("hidden");
-
-  explanation.innerHTML=
-    "<b>Explanation:</b> "+q.explanation;
-}
-
-
-function nextMCQ(){
-
-  currentMCQ++;
-
-  if(currentMCQ>=mcqs.length){
-    currentMCQ=0;
-  }
-
-  renderMCQ();
-}
-
-
-function globalSearch(value){
-
-  value=value.trim().toLowerCase();
-
-  if(!value) return;
-
-  const results=topics.filter(t=>
-    t.title.toLowerCase().includes(value) ||
-    t.department.toLowerCase().includes(value) ||
-    Object.values(t.sections).some(x=>
-      x.toLowerCase().includes(value)
-    )
-  );
-
-  if(results.length===0){
-    showPage("study");
-    document.getElementById("topicList").innerHTML=
-      '<div class="card muted">No matching topic found.</div>';
-    return;
-  }
-
-  showPage("study");
-
-  document.getElementById("topicList").innerHTML=
-    results.map(t=>`
-      <div class="topic">
-        <button onclick="openTopic('${t.title.replace(/'/g,"\\'")}')">
-          <span class="badge">${t.department}</span>
-          <div class="topic-title" style="margin-top:8px">${t.title}</div>
-        </button>
-      </div>
-    `).join("");
-}
-
-
-function toggleDark(){
-
-  document.body.classList.toggle("dark");
-
-  if(document.body.classList.contains("dark")){
-
-    document.documentElement.style.setProperty("--bg","#0f172a");
-    document.documentElement.style.setProperty("--card","#1e293b");
-    document.documentElement.style.setProperty("--text","#f8fafc");
-    document.documentElement.style.setProperty("--muted","#cbd5e1");
-    document.documentElement.style.setProperty("--border","#334155");
-
-  }else{
-
-    document.documentElement.style.setProperty("--bg","#f5f7f8");
-    document.documentElement.style.setProperty("--card","#ffffff");
-    document.documentElement.style.setProperty("--text","#17202a");
-    document.documentElement.style.setProperty("--muted","#64748b");
-    document.documentElement.style.setProperty("--border","#e2e8f0");
-
-  }
+wireTopics();
 
 }
 
 
-/* Load saved level */
+function refHTML(keys){
 
-window.addEventListener("load",()=>{
+return `
 
-  const savedLevel=localStorage.getItem("medmyLevel");
+<div class="box source">
 
-  if(savedLevel){
+<h3>🇲🇾 Guideline references</h3>
 
-    document.querySelectorAll(".level button")
-      .forEach(button=>{
-        if(button.textContent===savedLevel){
-          button.classList.remove("active");
-          button.classList.add("active");
-        }
-      });
+${keys.map(k=>{
 
-  }
+const r=refs[k];
 
-  renderTopics("All");
+return `
 
-});
+<a
+class="ref"
+href="${r.url}"
+target="_blank"
+rel="noopener">
+
+↗ ${r.title}
+
+</a>
+
+`;
+
+}).join("")}
+
+<p class="muted">
+
+MedMY summarises guideline concepts for learning.
+Always verify the current official document and local hospital pathway before clinical use.
+
+</p>
+
+</div>
+
+`;
+
+}
+
+
+function renderCPG(){
+
+$("#cpg").innerHTML=`
+
+<h1>Malaysian CPG</h1>
+
+<p class="sub">
+Guideline-first reference layer.
+</p>
+
+
+<div class="box">
+
+<h3>Source hierarchy</h3>
+
+<ol>
+
+<li>
+MOH Malaysia / MaHTAS CPG and official MOH guidelines
+</li>
+
+<li>
+MOH specialist hospital / national protocols
+</li>
+
+<li>
+Malaysian specialty guidance
+</li>
+
+<li>
+WHO / FIGO / RCOG / NICE and other international guidance when Malaysian guidance does not fully cover the question
+</li>
+
+<li>
+Textbooks and review literature for background physiology
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="box source">
+
+<h3>Current official CPG hub</h3>
+
+<a
+class="ref"
+href="${refs.cpg.url}"
+target="_blank"
+rel="noopener">
+
+↗ ${refs.cpg.title}
+
+</a>
+
+<p>
+
+Use the latest official version and local hospital pathway.
+Guideline recommendations support, but do not replace, clinical judgement.
+
+</p>
+
+</div>
+
+
+<div class="box">
+
+<h3>
+O&G references currently built into MedMY
+</h3>
+
+${Object.entries(refs)
+.filter(([k])=>k!=="cpg")
+.map(([k,r])=>
+
+`
+<a
+class="ref"
+href="${r.url}"
+target="_blank"
+rel="noopener">
+
+↗ ${r.title}
+
+</a>
+`
+
+).join("")}
+
+</div>
+
+`;
+
+}
+
+
+function renderSection(s){
+
+if(s.kind==="table"){
+
+return `
+
+<div class="box">
+
+<h3>${s.title}</h3>
+
+<div class="tablewrap">
+
+<table class="clinical-table">
+
+<thead>
+
+<tr>
+
+${s.content.headers.map(h=>
+`<th>${h}</th>`
+).join("")}
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${s.content.rows.map(r=>
+
+`
+<tr>
+
+${r.map(c=>
+`<td>${c}</td>`
+).join("")}
+
+</tr>
+`
+
+).join("")}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+if(s.kind==="bullets"){
+
+const cls=s.contentClass||"";
+
+return `
+
+<div class="box
+${s.title.toLowerCase().includes("pearl")?"pearls":""}
+${cls}">
+
+<h3>${s.title}</h3>
+
+<ul>
+
+${s.content.map(x=>
+`<li>${x}</li>`
+).join("")}
+
+</ul>
+
+</div>
+
+`;
+
+}
+
+
+return `
+
+<div class="box
+${s.kind==="why"?"why":""}
+${s.kind==="flow"?"warning":""}">
+
+<h3>${s.title}</h3>
+
+<p>${s.content}</p>
+
+</div>
+
+`;
+
+}
+
+
+function openTopic(id){
+
+const t=topics.find(x=>x.id===id);
+
+if(!t)return;
+
+
+$("#searchPage").innerHTML=`
+
+<div class="detail">
+
+<button class="back" id="back">
+← Back
+</button>
+
+<span class="badge">
+${t.d}
+</span>
+
+<h1>
+${t.title}
+</h1>
+
+<p class="sub">
+${t.summary}
+</p>
+
+<button
+class="chip ${saved.includes(id)?"active":""}"
+id="saveTopic">
+
+${saved.includes(id)?"★ Saved":"☆ Save topic"}
+
+</button>
+
+${t.sections.map(renderSection).join("")}
+
+${refHTML(t.refs)}
+
+</div>
+
+`;
+
+
+route("searchPage");
+
+
+$("#back").onclick=()=>
+route("study");
+
+
+$("#saveTopic").onclick=()=>{
+
+saved.includes(id)
+?
+saved=saved.filter(x=>x!==id)
+:
+saved.push(id);
+
+localStorage.setItem(
+"medmy_saved",
+JSON.stringify(saved)
+);
+
+openTopic(id);
+
+};
+
+}
+
+
+function doSearch(q){
+
+q=(q||"").toLowerCase().trim();
+
+
+const rs=topics.filter(t=>
+
+(
+t.title+
+" "+
+t.d+
+" "+
+t.tags+
+" "+
+t.summary+
+" "+
+t.sections
+.map(s=>
+s.title+" "+
+JSON.stringify(s.content)
+)
+.join(" ")
+)
+.toLowerCase()
+.includes(q)
+
+);
+
+
+$("#searchPage").innerHTML=`
+
+<h1>Search</h1>
+
+<div class="searchbar">
+
+<input
+id="s2"
+value="${q.replaceAll('"','&quot;')}"
+placeholder="Search topic…"
+>
+
+<button
+class="primary"
+id="sbtn">
+
+Search
+
+</button>
+
+</div>
+
+
+<div class="section">
+
+${
+rs.length
+?
+`
+<div class="topicgrid">
+
+${rs.map(topicCard).join("")}
+
+</div>
+`
+:
+`
+<div class="empty">
+
+No result.
+Try another symptom or topic.
+
+</div>
+`
+}
+
+</div>
+
+`;
+
+
+route("searchPage");
+
+
+$("#sbtn").onclick=()=>
+doSearch($("#s2").value);
+
+
+wireTopics();
+
+}
+
+
+function toggleTheme(){
+
+document.documentElement.classList.toggle("dark");
+
+localStorage.setItem(
+"medmy_theme",
+document.documentElement.classList.contains("dark")
+?
+"dark"
+:
+"light"
+);
+
+}
+
+
+if(
+localStorage.getItem("medmy_theme")==="dark"
+)
+document.documentElement.classList.add("dark");
+
+
+init();
 
 </script>
 
