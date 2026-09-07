@@ -1,2 +1,2 @@
-# Med_MY
-MedMY — Malaysian Clinical Companion
+# CliMate
+Ur study buddy — Malaysian Clinical Companion
